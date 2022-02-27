@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <title>UserDetailOfTask33.20</title>
+
+  <script>
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    var gUserID = null;
+    var gUser = {
+      firstname: "",
+      lastname: "",
+      subject: "",
+      country: "",
+      // customerType: "",
+      // registerStatus: "",
+    }
+    /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+    $(document).ready(function () {
+      onPageLoading();
+      // tạo sự kiện click cho btn Update
+      $("#btn-update").on("click", onBtnUpdateClick);
+      // tạo sự kiện click cho btn Quay lại
+      $("#btn-back").on("click", onBtnBackClick);
+    });
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    // Hàm xử lý sự kiện load trang
+    function onPageLoading() {
+      "use strict";
+      // B1: thu thập dữ liệu (gUserID)
+      var vUrl = new URL(window.location.href);
+      gUserID = vUrl.searchParams.get("id");
+      console.log("user ID: " + gUserID);
+
+      // B2: validate dữ liệu
+      if (gUserID === null) {
+        alert("userID not found");
+      } else {
+        // B3: call restAPI bằng jQuery ajax và xử lý sự kiện
+        sendRequestToGetUser();
+      }
+    }
+
+    // Hàm xử lý sự kiện btn Update user được click
+    function onBtnUpdateClick() {
+      // B1: thu thập dữ liệu
+      getDataOnForm(gUser);
+      // B2: validate dữ liệu
+      var vIsDataValid = validateData(gUser);
+      if (vIsDataValid) {
+        // B3: call ajax PUT restAPI bằng jQuery
+        sendRequestToUpdate();
+        console.log("button Update is clicked, user ID: " + gUserID);
+        // B4: xử lý sự kiện trê front-end
+
+      }
+    }
+
+    // Hàm xử lý sự kiện btn Quay lại được click
+    function onBtnBackClick() {
+      console.log("button Quay lại is clicked");
+      // quay lại trang nguồn Task 33.20
+      // window.location.href = "Task 33.20.html";
+    }
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    // Hàm thu thập dữ liệu
+    function getDataOnForm(paramUser) {
+      paramUser.firstname = $("#inp-firstname").val().trim();
+      paramUser.lastname = $("#inp-lastname").val().trim();
+      paramUser.subject = $("#inp-subject").val().trim();
+      paramUser.country = $("#inp-country").val().trim();
+    }
+
+    // Hàm validate
+    function validateData(paramUser) {
+      if (paramUser.firstname === "") {
+        alert("Firstname not found!");
+        return false;
+      }
+      if (paramUser.lastname === "") {
+        alert("Lastname not found!");
+        return false;
+      }
+      if (paramUser.subject === "") {
+        alert("Subject not found!");
+        return false;
+      }
+      if (paramUser.country === "") {
+        alert("Country not found!");
+        return false;
+      }
+      return true;
+    }
+
+    // Hàm send request to Update (PUT) User data
+    function sendRequestToUpdate() {
+      $.ajax({
+        url: "http://42.115.221.44:8080/devcamp-register-java-api/users/" + gUserID,
+        type: 'PUT',
+        contentType: 'application/json;charset=UTF-8',
+        dataType: 'json', // added data type
+        data: JSON.stringify(gUser),
+        success: function (responseObj) {
+          console.log(responseObj);
+        },
+        error: function (ajaxContext) {
+          alert(ajaxContext.responseText)
+        }
+      });
+    }
+
+    // Hàm send request to GET User data by Id
+    function sendRequestToGetUser() {
+      "use strict";
+      $.ajax({
+        url: "http://42.115.221.44:8080/devcamp-register-java-api/users/" + gUserID,
+        type: 'GET',
+        dataType: 'json', // added data type
+        success: function (responseObj) {
+          console.log(responseObj);
+          // B4: xử lý sự kiện
+          handleShowUserData(responseObj);
+        },
+        error: function (ajaxContext) {
+          alert(ajaxContext.responseText);
+        }
+      });
+    }
+
+    // Hàm xử lý sự kiện Hiển thị dữ liệu User lên form
+    function handleShowUserData(paramUserObj) {
+      "use strict";
+      $("#inp-firstname").val(paramUserObj.firstname);
+      $("#inp-lastname").val(paramUserObj.lastname);
+      $("#inp-subject").val(paramUserObj.subject);
+      $("#inp-country").val(paramUserObj.country);
+    }
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="col-sm-4 border border-info mt-5">
+      <div>
+        <h3>Chi tiết User</h3>
+      </div>
+      <div>
+        <div class="form-group row">
+          <div class="col-sm-4">
+            <label>Firstname</label>
+          </div>
+          <div class="col-sm-8">
+            <input id="inp-firstname" class="form-control" type="text">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-4">
+            <label>Lastname</label>
+          </div>
+          <div class="col-sm-8">
+            <input id="inp-lastname" class="form-control" type="text">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-4">
+            <label>Subject</label>
+          </div>
+          <div class="col-sm-8">
+            <input id="inp-subject" class="form-control" type="text">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-4">
+            <label>Country</label>
+          </div>
+          <div class="col-sm-8">
+            <input id="inp-country" class="form-control" type="text">
+          </div>
+        </div>
+      </div>
+      <div class="row form-group text-center">
+        <div class="col-sm-12">
+          <button id="btn-update" class="btn btn-success my-2">Update user</button>
+          <button id="btn-back" class="btn btn-success my-2">Quay lại</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

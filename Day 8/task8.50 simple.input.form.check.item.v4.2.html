@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <head>
+
+    <script>
+      "use strict";
+      /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+      /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+
+      /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+      // hàm thực thi khi ấn nút Kiểm tra số điện thoại được click
+      // code để tham khảo
+      function onCheckPhoneNumberClick() {
+        // 01 truy vấn ô text myInputPhoneNumberString và lấy ra value
+        var vElementInputPhoneNUmber = document.getElementById("myInputPhoneNumberString");
+        var vInputStr = vElementInputPhoneNUmber.value; // đọc text ở ô input
+        
+        // 02 kiểm tra xem số điện thoại nhập vào có phải số hay ko (isNaN)
+        // nếu không phải thì trả lời không phải là số
+        if (isNaN(vInputStr)) {   //if is Not a Number - nếu không phải là số
+          writeToHTMLLog(vInputStr + " không phải là số điện thoại")
+        }
+        // 03 nếu là số thì viết thông tin số diện thoại ra
+        else {  
+          writeToHTMLLog("số điện thoại điền vào là: " + vInputStr);
+        }
+      }
+
+      function onCheckEmailClick() {
+        var gFillEmailElement = document.getElementById("fill-email");
+        var gButtonEmailElement = document.getElementById("button-email");
+        console.log(gFillEmailElement.id);
+        console.log(gFillEmailElement.placeholder);
+        // 01 lấy value ở ô email input
+        var vInputEmail = gFillEmailElement.value; //đọc text ở ô input email
+
+        // 02 kiểm tra email nhập vào có ký tự @ hay không? thông báo trên console
+        if (vInputEmail.includes('@') == true) {
+          console.log('Có chứa @');
+          writeToHTMLLog('Email đã nhập là: ' + vInputEmail);
+        }
+        else {
+          console.log('Không chứa @');
+          writeToHTMLLog('Không phải là email');
+        }
+      }
+
+      // hàm thực thi khi ấn clear log
+      function onClearHTMLLogClick() {
+        var vElementInputParagraph = document.getElementById("innterHTMLLog");
+        vElementInputParagraph.innerHTML = ">";
+      }
+
+      /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+
+      //write to HTML Log instead of to console.log
+      function writeToHTMLLog(paramStrToWrite) {
+        var vElementInputParagraph = document.getElementById("innterHTMLLog");
+        vElementInputParagraph.innerHTML += paramStrToWrite + "<br>" + ">";
+      }
+
+    </script>
+
+  <body>
+    <div class="container jumbotron p-4">
+      <p id="cmt2dev">
+        Test Page for Javascript Tasks. Press F5 to run code.
+        Don't forget to Save your code before running. (Ctrl+S). </p>
+      <form id="testformphone">
+        <label id="labelinputphonenumber"> Số điện thoại (chỉ điền số) </label>
+        <div class="form-group">
+          <input class="form-control w-25" type="text" id="myInputPhoneNumberString" placeholder="So dien thoai ...">
+        </div>
+        <div class="form-group">
+          <input type="button" class="btn btn-primary w-25" onclick="onCheckPhoneNumberClick()"
+            value="Kiểm tra Số điện thoại !">
+        </div>
+      </form>
+      <form id="testformemail">
+        <label> email: (ví dụ hoant10@gmail.com) </label>
+        <div class="form-group">
+          <input id="fill-email" class="form-control w-25" type="text" placeholder="Email ...">
+        </div>
+        <div class="form-group">
+          <input id="button-email" type="button" class="btn btn-success w-25" onclick="onCheckEmailClick()" value="Kiểm tra Email !">
+        </div>
+      </form>
+      <hr>
+      <form id="clearlogform">
+        <input type="button" class="btn btn-warning w-25" onclick="onClearHTMLLogClick()" value="Clear HTML Log !">
+      </form>
+      <p id="innterHTMLLog"> > </p>
+    </div>
+  </body>
+
+</html>

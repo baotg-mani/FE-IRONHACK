@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- TODO 1: Nhúng thư viện boostrap -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+</head>
+<body>
+  
+<div class="container jumbotron">
+  <h1>My First Bootstrap Page - Fixed width container</h1>
+  <p>This part is inside a .container class. <span style="color:red;">Tất cả mọi nội dung đều trong .container class </span></p> 
+  <p>The .container class provides a responsive fixed width container. <span style="color:red;"> .Container class cho một ô chứa responsive, cố định width </span> </p> 
+  <p>Resize the browser window to see that its width (max-width) will change at different breakpoints.</p>
+  <img src="container.model.png" width="100%"/>
+</div>
+
+<div class="container-fluid jumbotron">
+  <h1>My First Bootstrap Page - Full width (fluid) container</h1>
+  <p>This part is inside a .container-fluid class.</p>
+  <p>The .container-fluid class provides a full width container, spanning the entire width of the viewport.</p>           
+  <img src="container.model.png"  width = "100%" />
+</div>
+
+
+
+<div class="jumbotron container">
+  <h1>My First Bootstrap Page - jumbotron container</h1>
+  <p>This part is inside a .jumbotron class.</p>
+  <p>The .jumbotron class provides a grey large box width container, spanning the entire width of the viewport.</p>           
+  <img src="container.model.png"  width = "100%" />
+</div>
+
+<!-- TODO 2: thử thẻ div bên dưới với class container -->
+<!-- TODO 3: thử thẻ div bên dưới với class container jumbotron -->
+<div>
+  <h1>My First Bootstrap Page - jumbotron container</h1>
+  <p>This part is inside a .jumbotron class.</p>
+  <p>The .jumbotron class provides a grey large box width container, spanning the entire width of the viewport.</p>           
+  <img src="container.model.png"  width = "100%" />
+</div>
+</body>
+</html>

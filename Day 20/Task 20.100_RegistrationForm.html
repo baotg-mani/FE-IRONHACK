@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 20.100</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container jumbotron">
+        <div class="form-row border-0">
+            <div class="col-sm-12 text-center">
+                <h4>Registration Form</h4>
+            </div>
+        </div>
+        <div class="form-row border-0">
+            <div class="col-sm-6 border-0">
+                <div class="form-row form-group border-0">
+                    <div class="col-sm-4 border-0">
+                        <label>First Name<span class="text-danger"> (*)</span></label>
+                    </div>
+                    <div class="col-sm-8 border-0">
+                        <input id="input-firstname" class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="form-row form-group border-0">
+                    <div class="col-sm-4 border-0">
+                        <label>Last name<span class="text-danger"> (*)</span></label>
+                    </div>
+                    <div class="col-sm-8 border-0">
+                        <input id="input-lastname" class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="form-row form-group border-0">
+                    <div class="col-sm-4 border-0">
+                        <label>Birthday<span class="text-danger"> (*)</span></label>
+                    </div>
+                    <div class="col-sm-8 border-0">
+                        <input id="input-birthday" class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="form-row form-group border-0">
+                    <div class="col-sm-4 border-0">
+                        <label>Gender<span class="text-danger"> (*)</span></label>
+                    </div>
+                    <div class="col-sm-8 border-0">
+                        <input value="Male" name="gender" type="radio"> Male 
+                        <input value="Female" name="gender" type="radio"> Female
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 border-0">
+                <div class="form-row form-group border-0">
+                    <div class="col-sm-4 border-0">
+                        <label>Passport<span class="text-danger"> (*)</span></label>
+                    </div>
+                    <div class="col-sm-8 border-0">
+                        <input id="input-passport" class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="form-row form-group border-0">
+                    <div class="col-sm-4 border-0">
+                        <label>Email</label>
+                    </div>
+                    <div class="col-sm-8 border-0">
+                        <input id="input-email" class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="form-row form-group border-0">
+                    <div class="col-sm-4 border-0">
+                        <label>Country<span class="text-danger"> (*)</span></label>
+                    </div>
+                    <div class="col-sm-8 border-0">
+                        <input id="input-country" class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="form-row form-group border-0">
+                    <div class="col-sm-4 border-0">
+                        <label>Region</label>
+                    </div>
+                    <div class="col-sm-8 border-0">
+                        <input id="input-region" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row form-group border-0">
+            <div class="col-sm-2 border-0">
+                <label>Subject:</label>
+            </div>
+            <div class="col-sm-10 border-0">
+                <textarea id="input-subject" class="form-control" rows="4"></textarea>
+            </div>
+        </div>
+        <div class="form-row border-0">
+            <div class="col-sm-12 text-right">
+                <button onclick="onBtnCheckDataClick()" class="btn btn-success">Check Data</button>
+                <button onclick="onBtnSendClick()" class="btn btn-success">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+        var gInputFirstnameElement = document.getElementById("input-firstname");
+        var gInputLastnameElement = document.getElementById("input-lastname");
+        var gInputBirthdayElement = document.getElementById("input-birthday");
+        var gInputPassportElement = document.getElementById("input-passport");
+        var gInputEmailElement = document.getElementById("input-email");
+        var gInputCountryElement = document.getElementById("input-country");
+        var gInputRegionElement = document.getElementById("input-region");
+        var gInputSubjectElement = document.getElementById("input-subject");
+        /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+
+        /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+        function onBtnCheckDataClick() {
+            "use strict";
+            // B1: thu thap du lieu
+
+            // B2: kiem tra 
+            var vIsDataValidate = validateData();
+            // B3: xu ly su kien
+            if(vIsDataValidate) {
+                console.log("Valid data!^^")
+            }
+        }
+
+        function onBtnSendClick() {
+            "use strict";
+            console.log("Firstname: " + gInputFirstnameElement.value);
+            console.log("Lastname: " + gInputLastnameElement.value);
+            console.log("Birthday: " + gInputBirthdayElement.value);
+            console.log("Gender: " + findGenderValue());
+            console.log("Passport: " + gInputPassportElement.value);
+            console.log("Email: " + gInputEmailElement.value);
+            console.log("Country: " + gInputCountryElement.value);
+            console.log("Region: " + gInputRegionElement.value);
+            console.log("Subject: " + gInputSubjectElement.value);
+        }
+        /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+        function validateData(){
+            "use strict";
+            if(gInputFirstnameElement.value == "") {
+                alert("Firstname not found!");
+                return false;
+            }
+            if(gInputLastnameElement.value == "") {
+                alert("Lastname not found!");
+                return false;
+            }
+            if(gInputBirthdayElement.value == "") {
+                alert("Birthday not found!");
+                return false;
+            }
+            if(findGenderValue() == null) {
+                alert("Gender not found!");
+                return false;
+            }
+            if(gInputPassportElement.value == "") {
+                alert("Passport not found!");
+                return false;
+            }
+            if(gInputCountryElement.value == "") {
+                alert("Country not found!");
+                return false;
+            }
+            return true;
+        }
+
+        // function tim ra value selected Gender:
+        "use strict";
+        function findGenderValue() {
+            var vSelectedGender = document.getElementsByName("gender");
+
+            for(var bI = 0; bI < vSelectedGender.length; bI ++) {
+                if(vSelectedGender[bI].checked) {
+                    return vSelectedGender[bI].value;
+                }
+            }
+        }
+        
+    </script>
+</body>
+</html>

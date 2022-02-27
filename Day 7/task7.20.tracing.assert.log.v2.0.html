@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    //function viết message ở ô input xuống paragraph ở dưới
+    //bạn hãy bỏ comment a40 (2 dòng ), a10 (1 dòng) để thử tác động lệnh console.assert và theo dõi bằng log
+    function onBtnWriteMessageClick() {
+      "use strict";
+      console.log("start onBtnWriteMessageClick...") // a40 - theo vết
+      var vElementInputText = document.getElementById("input-message");  //dùng DOM để truy cập element message
+      // assert (khẳng định) vElementInputText ko phải null
+      console.assert( vElementInputText !== null, "200: null vElementInputText found" );  //a10-theo vết, cảnh báo
+
+      // thử viết giá trị ra console.log để theo dõi
+      console.log("210: element Input Text" + vElementInputText.value); //a40 - theo vết
+      var vElementParagraphDisplay = document.getElementById("log-result-display");
+      vElementParagraphDisplay.innerHTML = vElementInputText.value;
+    }
+
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+
+  </script>
+
+  <body>
+    <div class="container jumbotron">
+      <form id="sample-form">
+        <div class="form-group">
+          <input type="text" id="input-message" name="inputmsg" placeholder="...">
+        </div>
+        <div class="form-group">
+          <input type="button" class="btn btn-primary" onclick="onBtnWriteMessageClick()"
+            value="A: Viết input text xuống dưới">
+        </div>
+      </form>
+      <p id="log-result-display" style="color:green"> ...input text come here... </p>
+    </div>
+  </body>
+
+</html>

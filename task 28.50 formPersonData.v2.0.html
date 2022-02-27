@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    "use strict";
+    $(document).ready(function () {
+      "use strict";
+      /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+      var gUser = {
+        firstName: "",
+        lastName: "",
+        age: ""
+      }
+      /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+
+      /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+      // xử lý sự kiện click btn Submit
+      $("#btn-submit-data").on("click", function () {
+        "use strict";
+        // B1: thu thập dữ liệu
+        getDataOnForm(gUser)
+        // B2: validate
+        var vIsDataValid = validateData(gUser);
+        if (vIsDataValid) {
+          // B3: làm việc trên frontend
+          // hiển thị dữ liệu trên form input rea console
+          console.log("Firstname: " + gUser.firstName);
+          console.log("Lastname: " + gUser.lastName);
+          console.log("Age: " + gUser.age);
+          // hiển thị thông tin hợp lệ ra màn hình
+          showValidData();
+        }
+      });
+
+      // xử lý sự kiện khi click btn Clear
+      $("#btn-clear-log").on("click", function() {
+        $("#p-html-log").html(">");
+      })
+
+      /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+      // Hàm thu thập dữ liệu
+      function getDataOnForm(paramUser) {
+        "use strict";
+        paramUser.firstName = $("#inp-first-name").val();
+        paramUser.lastName = $("#inp-last-name").val();
+        paramUser.age = $("#inp-age").val();
+
+      }
+       // Hàm kiểm tra input
+      function validateData(paramUser) {
+        "use strict";
+        if (paramUser.firstName === "") {
+          alert("Firstname not found!");
+          console.log("Dữ liệu FIRSTNAME không hợp lệ")
+          return false;
+        }
+        if (paramUser.lastName === "") {
+          alert("Lastname not found!");
+          console.log("Dữ liệu LASTNAME không hợp lệ")
+          return false;
+        }
+        if (paramUser.age == "" || paramUser.age <= 0 || paramUser.age >= 200) {
+          alert("Age not valid!");
+          console.log("Dữ liệu AGE không hợp lệ")
+          return false;
+        }
+        return true;
+      }
+
+      // Hàm hiển thị valid data vào vùng log 2 trên màn hình
+      function showValidData() {
+        "use strict";
+        $("#p-html-log").html("Firstname: " + gUser.firstName + "<br>");
+        $("#p-html-log").append("Lastname: " + gUser.lastName + "<br>");
+        $("#p-html-log").append("Age: " + gUser.age);
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <h2 style="text-align: center;">Personal Data Submit Form</h2>
+
+    <div class="jumbotron container">
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="input-first-name">First Name</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="text" id="inp-first-name" name="firstname" placeholder="Your first name ..."
+            class="form-control">
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="inp-last-name">Last Name</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="text" id="inp-last-name" name="lastname" placeholder="Your last name.." class="form-control">
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="age">Age</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="number" id="inp-age" name="age" placeholder="Your age ..." class="form-control">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12" style="text-align: right;">
+          <button type="button" id="btn-submit-data" class="btn btn-info">Submit Data</button>
+        </div>
+      </div>
+    </div>
+    <!-- HTML Log -->
+    <hr>
+    <div style="text-align: right;">
+      <button type="button" id="btn-clear-log" class="btn btn-info"> Clear HTML Log </button>
+    </div>
+    <p id="p-html-log"></p>
+  </div>
+</body>
+
+</html>

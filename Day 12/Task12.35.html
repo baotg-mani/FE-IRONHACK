@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> Task 12.35 </title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+  <!-- Bắt đầu vùng form màu xám -->
+  <div class="container jumbotron p-4 my-3">
+      <div class="row form-group">
+        <label id="label-ma-mon" class="col-md-2 col-form-label">First name<span class="text-danger">(*)</span></label>
+        <div class="col-md-4">
+          <input type="text" class="form-control" placeholder="Enter your firstname ..." id="input-firstname">
+        </div>
+      </div>
+      <div class="row form-group">
+        <label id="label-ten-mon" class="col-md-2 col-form-label">Last name<span class="text-danger">(*)</span></label>
+        <div class="col-md-4">
+          <input type="text" class="form-control" placeholder="Enter your lastname ..." id="input-lastname">
+        </div>
+      </div>
+      <div class="row form-group">
+        <label id="label-so-tin-chi" class="col-md-2 col-form-label">Age<span class="text-danger">(*)</span></label>
+        <div class="col-md-4">
+          <input type="text" class="form-control" placeholder="Enter your Age ..." id="input-age">
+        </div> 
+      </div>
+      <div class="row form-group">
+        <label id="label-ten-mon" class="col-md-2 col-form-label">Email<span class="text-danger">(*)</span></label>
+        <div class="col-md-4">
+          <input type="text" class="form-control" placeholder="Enter your Email ..." id="input-email">
+        </div>
+      </div>
+
+  </div>
+  <div class="container">
+    <button type="button" class="btn btn-info" id="btn-save-data" onclick="onBtnSaveDataClick()">Save data</button>
+  </div>
+
+  <!-- Kết thúc vùng form màu xám -->
+  
+  <div class="container">
+    <br><p>Ấn nút để insert row mới vào bảng</p>
+  
+    <table id="table-person" class="table table-bordered">
+      <thead>
+        <!-- phần head, dòng tiêu đề  của bảng -->
+        <tr>
+          <td> First Name </td>
+          <td> Last Name </td>
+          <td> Age </td>
+        </tr>
+        <thead>
+        <tbody>
+          <!-- phần dữ liệu của bảng -->
+          <tr>
+            <td>Joe</td>
+            <td>Doe</td>
+            <td>28</td>
+          </tr>
+          <tr>
+            <td>Dun</td>
+            <td>Zent</td>
+            <td>19</td>
+          </tr>
+      <tbody>
+    </table>
+    <button id="btn-send-data" type="button" class="btn btn-info" onclick="onBtnInsertNewRowToTableClick(gUser)">Thêm hàng mới vào bảng</button>
+  </div>
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+        // Khai báo Object User chứa dữ liệu
+        var gUser = {
+        firstname: "",
+        lastname: "",
+        age: 0,
+        email: ""
+      }
+
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    onPageLoading();
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    // Hàm xử lý sự kiện ấn nút Send
+    function onBtnSaveDataClick() {
+      "use strict";
+      console.log("Ấn nút Save data");
+      //1. Get data
+      getDataOnForm(gUser);
+      //2. Validate (kiểm tra, xác nhận giá trị dữ liệu)
+      var vIsValidData = validateData(gUser);
+      //3. Xử lý nghiệp vụ
+    }
+    // Hàm xử lý sự kiện load trang
+    function onPageLoading() {
+      var vInputFirstnameElement = document.getElementById("input-firstname");
+      var vInputLastnameElement = document.getElementById("input-lastname");
+      var vInputAgeElement = document.getElementById("input-age");
+      var vInputEmailElement = document.getElementById("input-email");
+      var vBtnSaveDataElement = document.getElementById("btn-save-data");
+      var vBtnSendDataElement = document.getElementById("btn-send-data");
+      // debugger;
+    }
+
+    // Hàm xử lý sự kiện thêm Hàng vào Bảng
+    function onBtnInsertNewRowToTableClick(paramUser) {
+      "use strict";
+      const vEND_OF_TABLE = -1;
+      var vPersonTable = document.getElementById("table-person");
+      //1. insert to the end of table, thêm row mới vào bảng( <tr> </tr>)
+      var vNewRow = vPersonTable.insertRow(vEND_OF_TABLE);
+      //2. them moi 03 cell (03 ô) (<td> </td> 
+      var vCellFirstName = vNewRow.insertCell(0);
+      var vCellLastName = vNewRow.insertCell(1);
+      var vCellAge = vNewRow.insertCell(2);
+      //3. gán giá trị cho các ô
+      vCellFirstName.innerHTML = paramUser.firstname;
+      vCellLastName.innerHTML = paramUser.lastname;
+      vCellAge.innerHTML = paramUser.age;
+    }
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    // Hàm thu nhập dữ liệu
+    function getDataOnForm(paramUser) {
+      "use strict";
+      // truy xuất dữ liệu
+      var vInputFirstnameElement = document.getElementById("input-firstname");
+      var vInputLastnameElement = document.getElementById("input-lastname");
+      var vInputAgeElement = document.getElementById("input-age");
+      var vInputEmailElement = document.getElementById("input-email");
+      // gán value vào các biến
+      paramUser.firstname = vInputFirstnameElement.value.trim();
+      paramUser.lastname = vInputLastnameElement.value.trim();
+      paramUser.age = parseInt(vInputAgeElement.value.trim());
+      paramUser.email = vInputEmailElement.value.trim();
+    }
+
+    // Hàm kiểm tra (validate) các trường dữ liệu trên form
+    function validateData(paramUser) {
+      "use strict";
+      if(paramUser.firstname === "") {
+        alert("Please enter your firstname!");
+        return false;
+      }
+      if(paramUser.lastname === "") {
+        alert("Please enter your lastname!");
+        return false;
+      }
+      if(paramUser.age == 0 || isNaN(paramUser.age)) {
+        alert("Please enter your age!");
+        return false;
+      }
+      if(paramUser.email === "") {
+        alert("Please enter your email!");
+        return false;
+      }
+      // kiểm tra range tuổi
+      if(paramUser.age < 0 || paramUser.age > 150) {
+        console.log(paramUser.age);
+        alert("Age input is not in provied range!");
+        return false;
+      }
+      // kiểm tra email có ký tự "@" hay không?
+      if(paramUser.email.includes("@") == false) {
+        console.log("Not an Email!");
+        alert("Invalid email!");
+        return false;
+      }
+      return true;
+    }
+  </script>
+
+</body>
+
+</html>

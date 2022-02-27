@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+
+<body>
+  <div class="container jumbotron">
+    <form id="sample-form">
+      <div class="form-group">
+        <label for="inputmsg">Input text</label>
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control w-50" id="input-message" name="inputmsg" placeholder="...">
+      </div>
+      <div class="form-group">
+        <input type="button" class="btn btn-primary" id="button-message" value="E: Viết thông điệp xuống dưới với throw and debugger">
+      </div>
+    </form>
+    <div>
+      <p id="log-result-display" style="color:green"> ...message come here... </p>
+    </div>
+  </div>
+
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+  
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    writeKeyInfoOfAllTheElements();
+  
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */ 
+    // Tdd list test: display all element, id value innerhtml when loading(f5)
+    // cần viết thông tin các element ra console khi load trang web
+  
+    function writeKeyInfoOfAllTheElements() {
+      console.log("Test");
+      // debugger;
+      var vElementInputMessage = document.getElementById("input-message");
+      console.log("element input text ID = " + vElementInputMessage.id);
+      console.log("element input text innerHTML = " + vElementInputMessage.innerHTML);
+  
+      var vElementMessageButton = document.getElementById("button-message");
+      console.log("element message button ID = " + vElementMessageButton.id);
+      console.log("element message button value = " + vElementMessageButton.value);
+  
+      var vElementLogResult = document.getElementById("log-result-display");
+      console.log("element message log result ID = " + vElementLogResult.id);
+      console.log("element message log result value = " + vElementLogResult.innerText);
+    }
+  
+  
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+  
+  </script>
+</body>
+
+</html>

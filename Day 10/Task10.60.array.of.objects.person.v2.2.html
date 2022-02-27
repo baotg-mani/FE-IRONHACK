@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task 10.60</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    const vPERSON_DB = [
+        { "firstName": "John", "lastName": "Doe", "age": 39, "citizenID": "A9127" },
+        { "firstName": "John", "lastName": "Smith", "age": 24, "citizenID": "B9625" },
+        { "firstName": "Lara", "lastName": "Croft", "age": 31, "citizenID": "D9142" },
+        { "firstName": "Fernadi", "lastName": "Miguel", "age": 18, "citizenID": "E9442" },
+        { "firstName": "Lee", "lastName": "Matheus", "age": 81, "citizenID": "G8129" },
+    ];
+
+    /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+    onPageLoading();
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    function onPageLoading() {
+        //đây là code chay thử của function getPersonByIndex
+        var vMyPersonOne = getPersonByIndex(0);
+        console.log("Person found by getPersonByIndex: ");
+        console.log("firstName: " + vMyPersonOne.firstName);
+        console.log("lastName: " + vMyPersonOne.lastName);
+        console.log("age: " + vMyPersonOne.age);
+        console.log("citizen ID" + vMyPersonOne.citizenID)
+
+        // viết code chạy thử hàm getPersonByCitizenID() dưới đây
+        var vCitizenID = "B9625";
+        var vMyPersonTwo = getPersonByCitizenID(vCitizenID);
+        if (vMyPersonTwo == null) {
+            console.log('not Found citizenId ' + vCitizenID);
+        }
+        else {
+            console.log("Person found by getPersonByCitizenID: ");
+        }
+        console.log("firstName: " + vMyPersonTwo.firstName);
+        console.log("lastName: " + vMyPersonTwo.lastName);
+        console.log("age: " + vMyPersonTwo.age);
+        console.log("citizen ID" + vMyPersonTwo.citizenID)
+
+    }
+
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    // đây là 01 function đã trả lại person bởi index.
+    function getPersonByIndex(paramIndexPerson) {
+        //if the input index not in the invalid range (index đưa vào không có trong array vPERSON_DB)
+        if (paramIndexPerson < 0 || paramIndexPerson > vPERSON_DB.length - 1) { 
+            return null; 
+        }
+        // nếu có thì return object ở vị trí đó
+        return vPERSON_DB[paramIndexPerson];
+    }
+
+    // bạn hãy viết function trả lại person theo citizenID 
+    function getPersonByCitizenID(paramCitizenID) {
+        var vIsFound = false;
+        var vPersonObj = null;
+        var vIndex = 0;
+        while(vIndex < vPERSON_DB.length - 1 && vIsFound == false) {
+            if(vPERSON_DB[vIndex].citizenID == paramCitizenID) {
+                vIsFound = true;
+                vPersonObj = vPERSON_DB[vIndex];
+            }
+            else {
+                vIndex++;
+            }
+        }
+        return vPersonObj;
+    }
+
+</script>
+
+<body class="bg bg-transparent">
+    <div class="jumbotron">
+        <h1> Test Page for Devcamp Javascrip Tasks </h1>
+        <p> Press F5 to run code. Don't forget to Save your code before running. (Ctrl+S). </p>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Lucky Dice History</h2>
+    <form>
+      <div class="form-group">
+        <button type="button" class="btn btn-primary" onclick="onCreateSampleDiceHistoryTableClick()">Dice History Table</button>
+      </div>
+    </form>
+    <div class="mt-5">
+      <table id="table-dice-history" class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Game</th>
+            <th>Dice</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    'use strict';
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    const gEND_OF_ROW_COL = -1;
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    //create table of sample dice history
+    // column 0: lan choi, column 1: dice
+    function onCreateSampleDiceHistoryTableClick() {
+      "use strict";
+      var vSampleDiceHistory = { dices: [-1], status: -1 };
+      const vJsonText =
+        `{
+            "dices":[6,5,5,1,4,5,5,2,2,6,6,2,4],
+            "status":"200"
+          }`;
+
+      vSampleDiceHistory = JSON.parse(vJsonText);
+      console.log(vSampleDiceHistory);
+      console.log("dices " + vSampleDiceHistory.dices);
+      //  start your code here
+      var vDiceHistoryTable = document.getElementById("table-dice-history");
+      // truy xuất được phần tử tbody trong table
+      var vTableBody = vDiceHistoryTable.getElementsByTagName("tbody")[0];
+
+      // xóa trắng các dòng trong bảng đi
+      vTableBody.innerHTML = "";
+      
+      // TODO: Add the data rows vào tbody, code bellow
+      for(var bI = 0; bI < vSampleDiceHistory.dices.length; bI ++) {
+        // them dong moi vao tbody
+        var bNewRow = vTableBody.insertRow(gEND_OF_ROW_COL);
+        // them 2 cells
+        var bGameCell = bNewRow.insertCell(0);
+        var bDiceCell = bNewRow.insertCell(1);
+        // dien du lieu cho 2 cells
+        bGameCell.innerHTML = bI + 1;
+        bDiceCell.innerHTML = vSampleDiceHistory.dices[bI];
+      }
+    }
+
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+  </script>
+</body>
+
+</html>

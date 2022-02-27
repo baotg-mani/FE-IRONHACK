@@ -1,0 +1,359 @@
+<!-- TASK 25.30-25.40-25.50 -->
+<!-- 25.30: TRANG NGUỒN
+    25.40(25.50): TRANG ĐÍCH -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <div class="container jumbotron">
+    <div class="col-12">
+      <div class="text-center mb-5">
+        <h1> Create Order </h1>
+      </div>
+      <form>
+        <div class="form-group row">
+          <label for="" class="col-sm-2 col-form-label">Cỡ Combo</label>
+          <div class="col-sm-4">
+            <select id="select-combo" class="form-control">
+              <option> Chọn cỡ Combo (Combo size)</option>
+              <option value="S"> Nhỏ</option>
+              <option value="M"> Vừa</option>
+              <option value="L"> Lớn</option>
+            </select>
+          </div>
+          <label for="" class="col-sm-2 col-form-label">Đồ uống</label>
+          <div class="col-sm-4">
+            <select class="form-control" id="select-drink">
+              <option>Chọn đồ uống</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Mã voucher</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Voucher ID (mã voucher)" id="input-voucher">
+          </div>
+          <!-- làm thêm select nữa vào đây -->
+          <label for="" class="col-sm-2 col-form-label">Pizza</label>
+          <div class="col-sm-4">
+            <select class="form-control" id="select-pizza">
+              <option>Chọn loại Pizza</option>
+              <option value="seafood">Seafood</option>
+              <option value="hawaii">HAWAII</option>
+              <option value="bacon">Bacon</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label" for="">Họ và tên</label>
+          <div class="col-sm-4">
+            <input type="email" class="form-control" placeholder="Họ và tên" id="input-fullname">
+          </div>
+          <label for="" class="col-sm-2 col-form-label">Email</label>
+          <div class="col-sm-4">
+            <input type="email" class="form-control" placeholder="Email" id="input-email">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Số điện thoại</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Số điện thoại" id="input-phone-number">
+          </div>
+          <label class="col-sm-2 col-form-label">Địa chỉ</label>
+          <div class="col-sm-4">
+            <input type="diaChi" class="form-control" placeholder="Địa chỉ" id="input-address">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Lời nhắn</label>
+          <textarea class="form-control h-75" placeholder="Lời nhắn" id="input-message"></textarea>
+        </div>
+        <div class="form-group">
+          <button type="button" onclick="onBtnCreateOrderClick()" class="btn btn-primary">Create Order</button>
+          <button type="button" onclick="onBtnShowOrderClick()" class="btn btn-secondary" id="btn-show-order">Show Order
+            Data in New
+            Form</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    const gREQUEST_STATUS_OK = 200;
+    const gREQUEST_READY_STATUS_FINISH_AND_OK = 4;
+    const gREQUEST_CREATE_SUCCESS = 201;
+    const gBASE_URL = "http://42.115.221.44:8080/devcamp-pizza365/orders";
+
+    var gOrderObj = {
+      kichCo: "",
+      duongKinh: "",
+      suon: "",
+      salad: "",
+      loaiPizza: "",
+      idVourcher: "",
+      idLoaiNuocUong: "",
+      soLuongNuoc: "",
+      hoTen: "",
+      thanhTien: "",
+      email: "",
+      soDienThoai: "",
+      diaChi: "",
+      loiNhan: ""
+    }
+
+    var gResponseOrderObj = {};
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    // Hàm xử lý sự kieenjj load trang
+    onPageLoading();
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    function onPageLoading() {
+      // load dữ liệu vào select car
+      loadDataDrinkList();
+    }
+
+    // Hàm xử lý sự kiện click btn Create Order
+    function onBtnCreateOrderClick() {
+      // B1: thu thập dữ liệu
+      getDataForm(gOrderObj);
+      // B2: validate dữ liệu
+      var vIsDataValidate = validateData(gOrderObj);
+      if (vIsDataValidate) {
+        onBtnCheckVoucherIdClick();
+        // B3: call rest API để tạo order
+        var vXmlHttpCreateOrder = new XMLHttpRequest();
+        callApiToGetNewOrder(gOrderObj, vXmlHttpCreateOrder);
+        // B4: xử lý responseText, hiển thị ra console
+        vXmlHttpCreateOrder.onreadystatechange =
+          function () {
+            if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_CREATE_SUCCESS) { // status 201 tao thanh cong
+              var vCreatedOrder = vXmlHttpCreateOrder.responseText;
+              console.log(vCreatedOrder);
+              gResponseOrderObj = JSON.parse(vCreatedOrder);
+
+            }
+          }
+      }
+    }
+
+    // Hàm xử lý sự kiện click vào Button Show order
+    function onBtnShowOrderClick() {
+      // B1: thu thập dữ liệu
+      var vBtnShowOrder = document.getElementById("btn-show-order"); // truy xuất btn
+      // gắn dữ liệu API trả về vào dataset của btn Show Order
+      vBtnShowOrder.setAttribute("data-id", gResponseOrderObj.id);
+      vBtnShowOrder.setAttribute("data-orderid", gResponseOrderObj.orderId);
+      vBtnShowOrder.setAttribute("data-kichco", gResponseOrderObj.kichCo);
+      vBtnShowOrder.setAttribute("data-duongkinh", gResponseOrderObj.duongKinh);
+      vBtnShowOrder.setAttribute("data-suon", gResponseOrderObj.suon);
+      vBtnShowOrder.setAttribute("data-salad", gResponseOrderObj.salad);
+      vBtnShowOrder.setAttribute("data-loaipizza", gResponseOrderObj.loaiPizza);
+      vBtnShowOrder.setAttribute("data-idvoucher", gResponseOrderObj.idVoucher);
+      vBtnShowOrder.setAttribute("data-thanhtien", gResponseOrderObj.thanhTien);
+      vBtnShowOrder.setAttribute("data-giamgia", gResponseOrderObj.giamGia);
+      vBtnShowOrder.setAttribute("data-drinkid", gResponseOrderObj.idLoaiNuocUong);
+      vBtnShowOrder.setAttribute("data-soluongnuoc", gResponseOrderObj.soLuongNuoc);
+      vBtnShowOrder.setAttribute("data-hoten", gResponseOrderObj.hoTen);
+      vBtnShowOrder.setAttribute("data-email", gResponseOrderObj.email);
+      vBtnShowOrder.setAttribute("data-sodienthoai", gResponseOrderObj.soDienThoai);
+      vBtnShowOrder.setAttribute("data-diachi", gResponseOrderObj.diaChi);
+      vBtnShowOrder.setAttribute("data-loinhan", gResponseOrderObj.loiNhan);
+      vBtnShowOrder.setAttribute("data-trangthai", gResponseOrderObj.trangThai);
+      vBtnShowOrder.setAttribute("data-ngaytao", gResponseOrderObj.ngayTao);
+      vBtnShowOrder.setAttribute("data-ngaycapnhat", gResponseOrderObj.ngayCapNhat);
+      // B2: validate
+      // B3: show ra console
+      console.log(vBtnShowOrder.dataset);
+
+      // lấy giá trị của dòng dataset
+      var vId = vBtnShowOrder.dataset.id;
+      var vOrderId = vBtnShowOrder.dataset.orderid;
+      var vKichCo = vBtnShowOrder.dataset.kichco;
+      var vDuongKinh = vBtnShowOrder.dataset.duongkinh;
+      var vSuon = vBtnShowOrder.dataset.suon;
+      var vSalad = vBtnShowOrder.dataset.salad;
+      var vLoaiPizza = vBtnShowOrder.dataset.loaipizza;
+      var vVoucherId = vBtnShowOrder.dataset.idvoucher;
+      var vThanhTien = vBtnShowOrder.dataset.thanhtien;
+      var vGiamGia = vBtnShowOrder.dataset.giamgia;
+      var vDrinkId = vBtnShowOrder.dataset.drinkid;
+      var vSoLuongNuoc = vBtnShowOrder.dataset.soluongnuoc;
+      var vHoTen = vBtnShowOrder.dataset.hoten;
+      var vEmail = vBtnShowOrder.dataset.email;
+      var vSoDienThoai = vBtnShowOrder.dataset.sodienthoai;
+      var vDiaChi = vBtnShowOrder.dataset.diachi;
+      var vLoiNhan = vBtnShowOrder.dataset.loinhan;
+      var vTrangThai = vBtnShowOrder.dataset.trangthai;
+      var vNgayTao = vBtnShowOrder.dataset.ngaytao;
+      var vNgayCapNhat = vBtnShowOrder.dataset.ngaycapnhat;
+
+      const vDETAIL_FORM_URL = "Task25.40.OrderDetails.html";
+      // tạo querystring
+      var vUrlSiteToOpen = vDETAIL_FORM_URL 
+        + "?id=" + vId
+        + "&orderid=" + vOrderId;
+        // + "&kichco=" + vKichCo
+        // + "&duongkinh=" + vDuongKinh
+        // + "&suon=" + vSuon
+        // + "&salad=" + vSalad
+        // + "&loaipizza=" + vLoaiPizza
+        // + "&idvoucher=" + vVoucherId
+        // + "&thanhtien=" + vThanhTien
+        // + "&giamgia=" + vGiamGia
+        // + "&drinkid=" + vDrinkId
+        // + "&soluongnuoc=" + vSoLuongNuoc
+        // + "&hoten=" + vHoTen
+        // + "&email=" + vEmail
+        // + "&sodienthoai=" + vSoDienThoai
+        // + "&diachi=" + vDiaChi
+        // + "&loinhan=" + vLoiNhan
+        // + "&trangthai=" + vTrangThai
+        // + "&ngaytao=" + vNgayTao
+        // + "&ngaycapnhat=" + vNgayCapNhat;
+      // gọi form detail
+      window.location.href = vUrlSiteToOpen
+    }
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    // Hàm thực hiện call api để load dữ liệu vào drink list
+    function loadDataDrinkList() {
+      var vXhttp = new XMLHttpRequest();
+      vXhttp.open("GET", "http://42.115.221.44:8080/devcamp-pizza365/drinks", true);
+      vXhttp.send();
+      vXhttp.onreadystatechange = function () {
+        if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
+          console.log(vXhttp.responseText); // ghi response text ra console.log
+          handleLoadDataToSelectDrink(vXhttp);
+        }
+      };
+    }
+
+    // handle data load to select drink
+    function handleLoadDataToSelectDrink(paramXhttp) {
+      var vArrayDrinkList = JSON.parse(paramXhttp.responseText);
+      console.log("array drink list = " + vArrayDrinkList.length);
+      //load data to drink select
+      var vElementSelectDrink = document.getElementById("select-drink");
+      for (var bIterator = 0; bIterator < vArrayDrinkList.length; bIterator++) {
+        var vDrinkOptionElement = document.createElement("option");
+        vDrinkOptionElement.value = vArrayDrinkList[bIterator].maNuocUong;
+        vDrinkOptionElement.text = vArrayDrinkList[bIterator].tenNuocUong;
+        vElementSelectDrink.appendChild(vDrinkOptionElement);
+      }
+    }
+
+    // Hàm thu thập dữ liệu từ Form
+    function getDataForm(paramOrderObj) {
+      // truy xuất các phần tử nhập trừ form
+      var vVoucherIdElement = document.getElementById("input-voucher");
+      var vFullnameElement = document.getElementById("input-fullname");
+      var vPhoneNumberElement = document.getElementById("input-phone-number");
+      var vEmailElement = document.getElementById("input-email");
+      var vAddressElement = document.getElementById("input-address");
+      var vMessageElement = document.getElementById("input-message");
+      var vSelectDrinkElement = document.getElementById("select-drink");
+      var vSelectComboElement = document.getElementById("select-combo");
+      var vSelectPizzaElement = document.getElementById("select-pizza");
+      // gán dữ liệu vào đối tượng
+      paramOrderObj.idVourcher = vVoucherIdElement.value.trim();
+      paramOrderObj.hoTen = vFullnameElement.value.trim();
+      paramOrderObj.soDienThoai = vPhoneNumberElement.value.trim();
+      paramOrderObj.email = vEmailElement.value.trim();
+      paramOrderObj.diaChi = vAddressElement.value.trim();
+      paramOrderObj.loiNhan = vMessageElement.value.trim();
+      paramOrderObj.idLoaiNuocUong = vSelectDrinkElement.options[vSelectDrinkElement.selectedIndex].value;
+      paramOrderObj.loaiPizza = vSelectPizzaElement.options[vSelectPizzaElement.selectedIndex].text;
+
+      paramOrderObj.kichCo = vSelectComboElement.options[vSelectComboElement.selectedIndex].value;
+      if (paramOrderObj.kichCo == "S") {
+        paramOrderObj.duongKinh = "20";
+        paramOrderObj.suon = 2;
+        paramOrderObj.salad = "200";
+        paramOrderObj.soLuongNuoc = 2;
+        paramOrderObj.thanhTien = 150000;
+      }
+      if (paramOrderObj.kichCo == "M") {
+        paramOrderObj.duongKinh = "25";
+        paramOrderObj.suon = 4;
+        paramOrderObj.salad = "300";
+        paramOrderObj.soLuongNuoc = 4;
+        paramOrderObj.thanhTien = 200000;
+      }
+      if (paramOrderObj.kichCo == "L") {
+        paramOrderObj.duongKinh = "30";
+        paramOrderObj.suon = 8;
+        paramOrderObj.salad = "500";
+        paramOrderObj.soLuongNuoc = 4;
+        paramOrderObj.thanhTien = 250000;
+      }
+    }
+
+    // Hàm validate kiểm tra dữ liệu nhập hợp lệ hay không
+    function validateData(paramOrderObj) {
+
+      if (paramOrderObj.idVoucher === "") {
+        alert("Cần điền Mã Voucher.");
+        return false;
+      }
+      if (paramOrderObj.hoTen === "") {
+        alert("Cần điền Họ tên.");
+        return false;
+      }
+      if (paramOrderObj.soDienThoai === "") {
+        alert("Cần điền số liên hệ.");
+        return false;
+      }
+      if (paramOrderObj.email === "") {
+        alert("Cần điền email.");
+        return false;
+      }
+      if (paramOrderObj.diaChi === "") {
+        alert("Cần điền địa chỉ.");
+        return false;
+      }
+      if (paramOrderObj.loiNhan === "") {
+        alert("Cần điền lời nhắn.");
+        return false;
+      }
+      return true;
+    }
+
+    // Hàm gọi rest API để create order
+    function callApiToGetNewOrder(paramOrderObj, paramXmlHttpCreateOrder) {
+      paramXmlHttpCreateOrder.open("POST", gBASE_URL, true);
+      paramXmlHttpCreateOrder.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      paramXmlHttpCreateOrder.send(JSON.stringify(paramOrderObj));
+    }
+
+    // 
+    function onBtnCheckVoucherIdClick() {
+      "use strict";
+      // nếu mã giảm giấ đã nhập, tạo xmlHttp  request và gửi về server
+      var vXmlHttp = new XMLHttpRequest();
+      vXmlHttp.open("GET", "http://42.115.221.44:8080/devcamp-voucher-api/voucher_detail/" + gOrderObj.idVourcher, false);
+      vXmlHttp.send(null);
+      var statusCode = vXmlHttp.status;
+      if (statusCode == gREQUEST_STATUS_OK) { // restFullAPI successful
+        // nhận lại response dạng JSON ở xmlHttp.responseText và chuyển thành object
+        console.log(vXmlHttp.responseText);
+      }
+      else {
+        // không nhận lại được data do vấn đề gì đó: khả năng mã voucher ko dúng
+        console.log("Không tìm thấy voucher " + vXmlHttp.responseText);
+      }
+    }
+  </script>
+
+
+</body>
+
+</html>

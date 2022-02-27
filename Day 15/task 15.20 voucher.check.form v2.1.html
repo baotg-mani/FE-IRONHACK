@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="jumbotron container">
+    <form id="voucher-form">
+      <div class="form-group">
+        <h3 class="text-center">Kiểm tra mã giảm giá</h3>
+      </div>
+      <div class="form-group">
+        <label for="input-voucher-code">Mã giảm giá</label>
+        <input type="text" id="input-voucher-code" name="voucher" class="form-control" aria-describedby="voucherHelp"
+          placeholder="Nhập mã giảm giá..">
+        <small id="voucherHelp" class="form-text text-muted">Hãy nhập mã giảm giá để có thể tiết kiệm lên đến
+          70%.</small>
+      </div>
+      <div class="form-group">
+        <button onclick="onCheckVoucherClick()" type="button" class="btn btn-primary">Kiểm tra</button>
+      </div>
+    </form>
+    <div id="p-result-check"></div>
+  </div>
+
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    function onCheckVoucherClick() {
+      "use strict";
+      // lấy giá trị nhập trên form, mã voucher
+      var vVoucherCodeElement = document.getElementById("input-voucher-code");
+      var vVoucherCode = vVoucherCodeElement.value;
+      // nếu voucher được nhập, tạo xmlHttp  request và gửi mã voucher về server
+      var vXmlHttp = new XMLHttpRequest(); // đây là cú pháp để tạo mới 1 object request, cần viết chính xác
+      vXmlHttp.open("GET", "http://42.115.221.44:8080/devcamp-voucher-api/vouchers/" + vVoucherCode, false);
+      vXmlHttp.send();
+      // xử lý response nhận về
+
+      var vVoucherResponse = JSON.parse(vXmlHttp.responseText);
+      var vDiscount = vVoucherResponse.discount;
+      // hiển thị response text ra console:
+      console.log(vXmlHttp.responseText);
+      debugger;
+      // xử lý dữ liệu bằng javascript
+      var vResultCheckElement = document.getElementById("p-result-check");
+      if (vDiscount == -1) {  //nếu phần trăm giảm giá  là -1 (do server trả)
+        vResultCheckElement.innerHTML = "Không tồn tại mã giảm giá";
+      }
+      else {
+        vResultCheckElement.innerHTML = "Mã giảm giá " + vDiscount + "%";
+      }
+    }
+
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+
+  </script>
+
+</body>
+
+</html>

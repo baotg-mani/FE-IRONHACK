@@ -1,0 +1,107 @@
+<!-- Task 5.20 5.50 5.80a -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 7.80a</title>
+
+</head>
+
+<body>
+    <link rel="stylesheet" href="task _5.30_baotg/main.css">
+    <div></div>
+    <h1 id="h1-title">Chào mừng đến với Devcamp120 !</h1>
+    <img id="img-programing" src="image/developer.jpg" style="width: 60%"> <br>
+    <label id="lbl-message">Message cho bạn 12 tháng tới</label>
+    <input id="input-message" placeholder="Message to you..."> <br>
+    <button id="btn-send-message" onclick="onBtnSendMessageClick()">Gửi thông điệp</button>
+    <p id="p-message" style="color: blue; display: none;">Message to you</p>
+    <img id="img-like" src="image/like_fb.png" style="width: 10%; display: none;">
+    </div>
+</body>
+<script>
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+    /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    // Hàm xử lý sự kiện Click
+    function onBtnSendMessageClick() {
+        "use strict";
+        // debugger;
+
+        console.log("Send message to me");
+        // truy xuất được ô text
+        var vInputMessageElement = document.getElementById("input-message");
+
+        // lấy được giá trị của ô text lưu vào một biến
+        var vMessageToMe = vInputMessageElement.value;
+        // khẳng định biến vMessageToMe khác null và sẽ có cảnh báo nếu xảy ra
+        console.assert(vMessageToMe !== null, 'null vMessageToMe found!')
+
+        // hiển thị value vào console
+        console.log(vMessageToMe);
+
+        // gán value vào thẻ p màu xanh
+        var vMessageElement = document.getElementById("p-message");
+        vMessageElement.innerHTML = vMessageToMe;
+        // hiển thị thẻ p màu xanh ra
+        vMessageElement.style.display = 'block';
+
+        // truy xuất ảnh bàn tay
+        var vImgLikeElement = document.getElementById("img-like");
+
+        // hiển thị ảnh bàn tay ra
+        vImgLikeElement.style.display = 'block';
+    }
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+
+    // Hàm được thực thi khi trang được load.
+    function onPageLoading() {
+        "use strict";
+        debugger;
+        // Truy xuất các phần tử
+        var vH1TitleElement = document.getElementById("h1-title");
+        //  khẳng định biến != null, sẽ stop ngay nếu việc đó xảy ra.
+        if (!vH1TitleElement) { throw ('Error: vH1TitleElement not found!'); }
+        var vImgProgramingElement = document.getElementById("img-programing");
+        var vLabelMessageElement = document.getElementById("lbl-message");
+        var vInputMessageElement = document.getElementById("input-message");
+        var vButtonMessageElement = document.getElementById("btn-send-message");
+        var vMessageElement = document.getElementById("p-message");
+        var vImgLikeElement = document.getElementById("img-like");
+
+        // Lấy và hiển thị các giá trị vào console
+        console.log(vH1TitleElement.id);
+        console.log(vH1TitleElement.innerHTML);
+
+        console.log(vImgProgramingElement.id);
+        console.log(vImgProgramingElement.src);
+
+        console.log(vLabelMessageElement.id);
+        console.log(vLabelMessageElement.innerHTML);
+
+        console.log(vInputMessageElement.id);
+        console.log(vInputMessageElement.placeholder);
+
+        console.log(vButtonMessageElement.id);
+        console.log(vButtonMessageElement.innerHTML);
+
+        console.log(vMessageElement.id);
+        console.log(vMessageElement.innerHTML);
+
+        console.log(vImgLikeElement.id);
+        console.log(vImgLikeElement.src);
+
+    }
+
+    onPageLoading();
+
+    
+</script>
+
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body class="bg bg-light">
+    <div class="container jumbotron">
+        <h1> Test Page for Devcamp Javascrip Tasks </h1>
+        <p> Press F5 to run code. Don't forget to Save your code before running. (Ctrl+S). </p>
+    </div>
+</body>
+<script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    // vouchersdb: database of vouchers
+    // voucherid: vehicle identification number
+    const gVOUCHER_DB = [
+        { campaign: "NewYear2021", percentageDiscount: 10, voucherId: "ABC10X" },
+        { campaign: "CovidSupport", percentageDiscount: 20, voucherId: "DNE20N" },
+        { campaign: "NewYear2021", percentageDiscount: 20, voucherId: "ABC20D" },
+        { campaign: "CovidSupport", percentageDiscount: 30, voucherId: "DNE30E" },
+        { campaign: "CovidSupport", percentageDiscount: 50, voucherId: "DNE50M" }
+    ];
+
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    // gọi hàm khi load trang
+    onPageLoading();
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+
+    // hàm xử lý sự kiện khi load trang
+    function onPageLoading() {
+        "use strict";
+        // bạn hãy tham khảo code để test GetVoucherByIndex
+        var vVoucherA = getVoucherByIndex(1);
+        console.log("voucher found by GetVoucherByIndex, index = " + 1);
+        console.log(vVoucherA.percentageDiscount);
+        console.log(vVoucherA.campaign);
+
+        //đây là code chay thử của function getvoucherByvoucherid
+        // ban hãy viết ra console.log 1 số đặc tính
+        console.log(getVoucherByVoucherId("DNE50M"));        
+    }
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    // Hàm trả về voucher theo index voucher trong mảng
+    // Input: index của voucher trong mảng
+    // Output: trả về voucher tương ứng với index
+    function getVoucherByIndex(paramIndexOfVoucher) {
+        "use strict";
+        //if the input index not in the invalid range (index đưa vào không có trong array voucherdb)
+        if (paramIndexOfVoucher < 0 || paramIndexOfVoucher > gVOUCHER_DB.length - 1) {
+             return null; 
+        }
+        return gVOUCHER_DB[paramIndexOfVoucher];
+    }
+
+    // Hàm trả về voucher theo voucher id
+    // Input: truyền vào voucherid
+    // Output: trả về voucher tương ứng với voucherid hoặc null nếu không tìm thấy
+    function getVoucherByVoucherId(paramInputVoucherId) {
+        "use strict";
+        /*
+        for (var bI = 0; bI < gVOUCHER_DB.length; bI ++) {
+            console.log(gVOUCHER_DB[bI].voucherId);
+            if (gVOUCHER_DB[bI].voucherId == paramInputVoucherId) {
+                return gVOUCHER_DB[bI];
+            }
+        }
+        return null;
+        */
+       var vVoucher = null;
+       var vFound = false;
+       var vIndex = 0;
+       while (!vFound && vIndex < gVOUCHER_DB.length) {
+           console.log(gVOUCHER_DB[vIndex].voucherId);
+           if (gVOUCHER_DB[vIndex].voucherId === paramInputVoucherId) {
+                vVoucher = gVOUCHER_DB[vIndex];
+                vFound = true;
+           } else {
+               vIndex ++;
+           }
+       }
+
+       return vVoucher;
+    }
+
+
+</script>
+
+</html>

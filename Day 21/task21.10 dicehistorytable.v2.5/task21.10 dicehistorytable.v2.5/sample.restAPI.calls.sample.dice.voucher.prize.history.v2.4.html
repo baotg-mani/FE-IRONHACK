@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<!-- file html dùng để thử tác động của javascript vào các thành phần trang web-->
+<script>
+    'use strict';
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    const gREQUEST_STATUS_OK = 200;
+    const gREQUEST_READY_STATUS_FINISH_AND_OK = 4;
+    const gBASE_URL = "http://42.115.221.44:8080/devcamp-lucky-dice";
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    //gọi mẫu lấy prize history
+    function onBtnPrizeHistoryClick() {
+        "use strict";
+        //base url
+        var vUserNameTest = "ngado20";
+        // create a request
+        var vXmlHttpPrizeHistory = new XMLHttpRequest();
+        vXmlHttpPrizeHistory.open("GET", gBASE_URL + "/prize-history?username=" + vUserNameTest, true);
+        vXmlHttpPrizeHistory.send();
+        vXmlHttpPrizeHistory.onreadystatechange =
+            function () {
+                if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
+                    var vPrizeHistory = vXmlHttpPrizeHistory.responseText;
+                    console.log(vPrizeHistory);
+                }
+            }
+    }
+
+    //gọi mẫu lấy voucher history
+    function onBtnVoucherHistoryClick() {
+        "use strict";
+        //base url
+        var vUserNameTest = "ngado20";
+        var vXmlHttpVoucherHistory = new XMLHttpRequest();
+        vXmlHttpVoucherHistory.open("GET", gBASE_URL + "/voucher-history?username=" + vUserNameTest, true);
+        vXmlHttpVoucherHistory.send();
+        vXmlHttpVoucherHistory.onreadystatechange =
+            function () {
+                if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
+                    var vVoucherHistory = vXmlHttpVoucherHistory.responseText;
+                    console.log(vVoucherHistory);
+                }
+            }
+    }
+
+    //gọi mẫu lấy dice history
+    function onBtnDiceHistoryClick() {
+        "use strict";
+        //base url
+        var vUserNameTest = "ngado20";
+
+        var vXmlHttpDiceHistory = new XMLHttpRequest();
+        vXmlHttpDiceHistory.open("GET", gBASE_URL + "/dice-history?username=" + vUserNameTest, true);
+        vXmlHttpDiceHistory.send();
+        vXmlHttpDiceHistory.onreadystatechange =
+            function () {
+                if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
+                    console.log(vXmlHttpDiceHistory.responseText);
+                }
+            }
+    }
+/*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+
+</script>
+
+<body>
+    <div class="container">
+        <div class="form-group">
+            <p id="cmt2dev">Test Page for Javascrip Tasks. F5 to run code. </p>
+        </div>
+        <div class="form-group">
+            <form id="singleForm">
+                <input type="button" class="btn btn-info" onclick="onBtnPrizeHistoryClick()"
+                    value="Call get api prize history!">
+                <input type="button" class="btn btn-warning" onclick="onBtnVoucherHistoryClick()"
+                    value="Call get api voucher history!">
+                <input type="button" class="btn btn-success" onclick="onBtnDiceHistoryClick()"
+                    value="Call get api dice history!">
+            </form>
+        </div>
+        <div class="row form-group">
+            <ul>
+                <li>get api prize history: lấy lịch sử phần thưởng của user</li>
+                <li>get api voucher history: lấy lịch sử voucher của user</li>
+                <li>get api dice history: lấy lịch sử ném của user</li>
+            </ul>
+        </div>
+        <div class="form-group">
+
+            <p id="testP" class="h4">Demo gọi 01 post API!</p>
+            <p> Input: username, firstname, lastname</p>
+        </div>
+    </div>
+</body>
+
+</html>

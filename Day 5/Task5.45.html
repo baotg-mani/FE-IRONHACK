@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <!-- LINK CSS EXTERNAL -->
+    <link rel="stylesheet" href="task _5.30_baotg/main.css">
+  </head>
+
+  <body>
+    <h2>Responsive Form - Form mẫu </h2>
+    <p>Thử kéo các cỡ bạn sẽ thấy các item điều chỉnh theo</p>
+
+    <div class="container">
+      <form>
+        <div class="row">
+          <div class="col-25">
+            <label for="fname">First Name</label>
+          </div>
+          <div class="col-75">
+            <input id="inp-first-name" type="text" name="firstname" placeholder="Your name..">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-25">
+            <label for="lname">Last Name</label>
+          </div>
+          <div class="col-75">
+            <input id="inp-last-name" type="text" name="lastname" placeholder="Your last name..">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-25">
+            <label for="country">Country</label>
+          </div>
+          <div class="col-75">
+            <select id="select-country-name" name="country">
+              <option value="australia">Australia</option>
+              <option value="canada">Canada</option>
+              <option value="usa">USA</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-25">
+            <label for="subject">Subject</label>
+          </div>
+          <div class="col-75">
+            <textarea id="txtarea-subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <input id="btn-send-data" class="button" type="button" value="send data" onclick="getMyProfile()">
+        </div>
+      </form>
+    </div>
+
+    <script>
+      ;
+      // hàm xử lý việc load trang
+
+/*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+/*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+
+/*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+      function onPageLoading(){
+        "use strict";
+        //B1: Truy xuất các phần tử html
+        var vFirstNameElement = document.getElementById("inp-first-name");
+        var vLastNameElement = document.getElementById("inp-last-name");
+        var vCountryElement = document.getElementById("select-country-name");
+        var vSubjectElement = document.getElementById("txtarea-subject");
+        var vButtonElement = document.getElementById("btn-send-data");
+
+        //B2: Lấy và ghi ra id, placeholder của các phần tử len console
+        console.log(vFirstNameElement.id);
+        console.log(vFirstNameElement.placeholder);
+
+        console.log(vLastNameElement.id);
+        console.log(vLastNameElement.placeholder);
+
+        console.log(vCountryElement.id);
+        console.log(vCountryElement.ariaValueNow);
+
+        console.log(vSubjectElement.id);
+        console.log(vSubjectElement.placeholder);
+
+        console.log(vButtonElement.id);
+        console.log(vButtonElement.value);
+      } 
+      // Hàm xử ý sự kiện send click và hiện value ra màn hình console
+      function getMyProfile(){
+        "use strict";
+        var vFirstNameElement = document.getElementById("inp-first-name");
+        var vLastNameElement = document.getElementById("inp-last-name");
+        var vCountryElement = document.getElementById("select-country-name");
+        var vSubjectElement = document.getElementById("txtarea-subject");
+        var vButtonElement = document.getElementById("btn-send-data");
+
+        console.log(vFirstNameElement.name + " read data from " + vFirstNameElement.id);
+        console.log(vLastNameElement.name + " read data from " + vLastNameElement.id);
+        console.log(vCountryElement.name + " read data from " + vCountryElement.id);
+        console.log(vSubjectElement.name + " read data from " + vSubjectElement.id);
+        
+        // thêm chức năng hiện ra value trên console sau khi nhập các giá trị và ấn button
+        var vFirstNameToMe = vFirstNameElement.value;
+        var vLastNameToMe = vLastNameElement.value;
+        var vYourCounttry = vCountryElement.value;
+        var vMessageToMe = vSubjectElement.value;
+
+        console.log(vFirstNameToMe);
+        console.log(vLastNameToMe);
+        console.log(vYourCounttry);
+        console.log(vMessageToMe);  
+      }
+      /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+      onPageLoading();
+    </script>
+  </body>
+</html>

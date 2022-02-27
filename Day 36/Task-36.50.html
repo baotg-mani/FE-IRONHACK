@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- Import Datatable sau jquery -->
+  <!-- Import them style bootstrap cho datatable -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+
+
+</head>
+
+<body>
+
+  <div class="container">
+    <h2 style="text-align: center;">Danh sách đăng ký</h2>
+
+    <table id="user-table" class="table table-bordered table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Mã người dùng</th>
+          <th>Firstname</th>
+          <th>Lastname</th>
+          <th>Country</th>
+          <th>Subject</th>
+          <th>Customer Type</th>
+          <th>Register Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+  ​
+  <script>
+    "use strict";
+    $(document).ready(function () {
+      /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+      var gUserObject = [];
+      var gUserName = ["id", "firstname", "lastname", "country", "subject", "customerType", "registerStatus", "action"];
+      const gID_COL = 0;
+      const gFIRSTNAME_COL = 1;
+      const gLASTNAME_COL = 2;
+      const gCOUNTRY_COL = 3;
+      const gSUBJECT_COL = 4;
+      const gCUSTOMER_TYPE_COL = 5;
+      const gREGISTER_STATUS_COL = 6;
+      const gACTION_COL = 7;
+      /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+      onPageLoading();
+      $(document).on("click", ".detail_user", function() {
+        onBtnDetailClick(this);
+      });
+
+      /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+      function onPageLoading() {
+        "use strict";
+        // call restAPI to get Users data
+        sendRequestToGetUsers();
+        // load DataTable sẵn sàng
+        // $('#user-table').DataTable({
+        // });
+      }
+
+      /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+      // Hàm call restAPI để nhận dữ liệu Users
+      function sendRequestToGetUsers() {
+        "use strict";
+        $.ajax({
+          url: "http://42.115.221.44:8080/devcamp-register-java-api/users",
+          type: "GET",
+          dataType: "json",
+          success: function(responseObj) {
+            // debugger;
+            // console.log(Object.entries(responseObj));
+            console.log(responseObj);
+            // hàm xử lý sự kiện load dữ liệu ra bảng
+            loadUsersToTable(responseObj);
+          }
+        });
+      }
+      
+      // Hàm xử lý load User datas ra Table
+      function loadUsersToTable(paramResponse) {
+        "use strict";
+        gUserObject = paramResponse;
+        // var vTable = $('#user-table').DataTable();
+        // vTable.rows.add(paramResponse);
+        // vTable.draw();
+        $('#user-table').DataTable({
+          data: gUserObject,
+          columns: [
+            { data: gUserName[gID_COL] },
+            { data: gUserName[gFIRSTNAME_COL] },
+            { data: gUserName[gLASTNAME_COL] },
+            { data: gUserName[gCOUNTRY_COL] },
+            { data: gUserName[gSUBJECT_COL] },
+            { data: gUserName[gCUSTOMER_TYPE_COL] },
+            { data: gUserName[gREGISTER_STATUS_COL] },
+            { data: gUserName[gACTION_COL] }
+          ],
+          columnDefs: [
+            {
+              targets: gACTION_COL,
+              className: "text-center",
+              defaultContent: "<button class='btn btn-primary detail_user'> Chi tiết </button>"
+            }
+          ]
+        });
+      }
+
+      // Hàm xử lý sự kiện click btn Chi tiểt
+      function onBtnDetailClick(paramBtnElement) {
+        "use strict";
+        var vRowSelected = $(paramBtnElement).closest("tr");
+        var vTable = $("#user-table").DataTable();
+        var vDataRow = vTable.row(vRowSelected).data();
+
+        console.log(vDataRow);
+        console.log("Mã người dùng: " + vDataRow.id);
+        console.log("Firstname: " + vDataRow.firstname);
+        console.log("Lastname: " + vDataRow.lastname);
+        console.log("Country: " + vDataRow.country);
+        console.log("Subject: " + vDataRow.subject);
+        console.log("Customer type: " + vDataRow.customerType);
+        console.log("Register status: " + vDataRow.registerStatus);
+      }
+    });
+  </script>
+</body>
+
+</html>
+​

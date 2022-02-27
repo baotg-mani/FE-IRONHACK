@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="jumbotron container">
+    <form id="voucher-form">
+      <div class="form-group">
+        <h3 class="text-center">Sample form: đăng kí visa</h3>
+      </div>
+      <div class="form-group">
+        <label  >First Name</label>
+        <input id="input-firstname" type="text" name="firstname" class="form-control" placeholder="Your name..">
+      </div>
+      <div class="form-group">
+        <label  >Last Name</label>
+        <input id="input-lastname" type="text"  name="lastname" class="form-control" placeholder="Your last name..">
+      </div>
+      <div class="form-group">
+        <label  >Country</label>
+        <select id="select-country" class="form-control" name="country">
+          <option value="australia">Australia</option>
+          <option value="canada">Canada</option>
+          <option value="usa">USA</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label  >Subject</label>
+        <textarea id="textarea-subject" name="subject" class="form-control" placeholder="Write something.." style="height:50px"></textarea>
+      </div>
+      <div class="form-group">
+        <button onclick="onBtnSubmitClick()" id="btn-submit" class="btn btn-primary" type="button">Submit Registration Data</button>
+      </div>
+    </form>
+    <div id="p-result-check" class="bg-warning">
+      some result come here - kết quả có thể ghi ra đây
+    </div>
+  </div>
+
+<script>
+
+  //viết code của bạn ở đây
+/*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+const gREQUEST_STATUS_FINISH_AND_OK = 200;
+/*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+onPageLoading();
+/*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+function onPageLoading() {
+  var vFirstnameElement = document.getElementById("input-firstname");
+  var vLastnameElement = document.getElementById("input-lastname");
+  var vSelectCountryElement = document.getElementById("select-country");
+  var vSubjectElement = document.getElementById("textarea-subject");
+  var vBtnSubmitElement = document.getElementById("btn-submit");
+  console.log(vFirstnameElement.id);
+  console.log(vLastnameElement.id);
+  console.log(vSelectCountryElement.id);
+  console.log(vSubjectElement.id);
+  console.log(vBtnSubmitElement.id);
+}
+
+function onBtnSubmitClick() {
+  "use strcit";
+  // Khai báo đối tượng chứa dữ kiệu đầu vào
+  var vRegistrationObj = {
+    firstname: "",
+    lastname: "",
+    country: "",
+    subject: ""
+  };
+  // B1: Đọc/thu dữ liệu trên form
+  getUserData(vRegistrationObj);
+  // B2: Validate dữ liệu, xem dữ liệu có hợp lệ hay không, thì mới thực hiện B3 và B4
+  var vIsDataValidate = validateData(vRegistrationObj);
+  if(vIsDataValidate) {
+    console.log(vRegistrationObj.firstname);
+    console.log(vRegistrationObj.lastname);
+    console.log(vRegistrationObj.country);
+    console.log(vRegistrationObj.subject);
+    var vXmlHttp = new XMLHttpRequest();
+  // B3: Gọi server, gửi request tới server
+  sendRequestToGetRegistrationData(vRegistrationObj, vXmlHttp);
+  // B4: Xử lý trên fron-end, khi server thực hiện xong request thì phản hồi về
+  handleRegistrationDataResponse(vXmlHttp);
+  }
+}
+
+/*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+// hàm thu thập dữ liệu trên form
+function getUserData(paramUserObj) {
+  var vFirstnameElement = document.getElementById("input-firstname");
+  var vLastnameElement = document.getElementById("input-lastname");
+  var vSelectCountryElement = document.getElementById("select-country");
+  var vSubjectElement = document.getElementById("textarea-subject");
+  paramUserObj.firstname = vFirstnameElement.value.trim();
+  paramUserObj.lastname = vLastnameElement.value.trim();
+  paramUserObj.country = vSelectCountryElement.value;
+  paramUserObj.subject = vSubjectElement.value.trim();
+}
+// hàm này dùng để validate dữ liệu đầu vào
+// return true nếu hợp lệ và ngược lại
+function validateData(paramUserObj) { 
+  if(paramUserObj.firstname === "") { // kt firstname
+    alert("Firstname chưa được nhập");
+    return false;
+  }
+  return true; 
+  if(paramUserObj.lastname === "") { // kt lastname
+    alert("Lastname chưa được nhập");
+    return false;
+  }
+  return true;
+  if(paramUserObj.subject === "") { // kt subject
+    alert("Subject chưa được nhập");
+    return false;
+  }
+  return true;
+}
+// hàm thực hiện việc gửi request để kiểm tra thông tin đăng ký
+function sendRequestToGetRegistrationData(paramUserObj, paramXmlHttp) {
+  paramXmlHttp.open("GET", "http://42.115.221.44:8080/devcamp-register-java-api/rest-api?" + "firstname=" + paramUserObj.firstname + "&" + "lastname=" + paramUserObj.lastname + "&" + "country=" + paramUserObj.country + "&" + "subject=" + paramUserObj.subject, false);
+  paramXmlHttp.send();
+}
+// hàm thực hiên việc sử lý trên front-end khi server phản hồi về
+function handleRegistrationDataResponse(paramXmlHttp) {
+  var vRegistrationResponse = paramXmlHttp.responseText;
+  console.log(vRegistrationResponse);
+  // nhận về response và xử lý
+  var vResultCheckElement = document.getElementById("p-result-check");
+  var vStatusCode = paramXmlHttp.status; // thuộc tính .status ở dạng số, để kiểm tra request có thực hiện thành công hay không
+  // nếu trạng thái trả về thành công!
+  if (vStatusCode == gREQUEST_STATUS_FINISH_AND_OK) {
+    // nhận lại response dạng JSON ở xmlHttp.responseText và chuyển thành object
+    var bRegistrationResponse = JSON.parse(paramXmlHttp.responseText);
+    vResultCheckElement.innerHTML =  "Đăng ký thành công!" + "<br>Thông tin đăng ký trả về: " + bRegistrationResponse.firstname + " " + bRegistrationResponse.lastname + "<br>" + "Country: " + bRegistrationResponse.country + ", Subject: " + bRegistrationResponse.subject + "<br>" + "customerType: " + bRegistrationResponse.customerType + ", registerStatus: " + bRegistrationResponse.registerStatus ;
+  }
+  else {
+    vResultCheckElement.innerHTML = "Đăng ký thất bại!";
+  }
+}
+  // mô tả API bạn có thể tìm ở file Txt đi kèm trong thư mục
+</script>
+
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+    <title>Task 29.160</title>
+
+    <script>
+        /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+        /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+        // xử lý các sự kiện trên trang
+        $(document).ready(function() {
+            // sự kiện click btn Basic
+            $("#basic-btn").on("click", onBasicBtnClick);
+
+            // sự kiện click btn Pro
+            $("#pro-btn").on("click", onProBtnClick);
+
+            // sự kiện click btn Premium
+            $("#premium-btn").on("click", onPremiumBtnClick);
+        })
+        /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+        function onBasicBtnClick() {
+            console.log("BASIC plan:");
+            console.log("Loren: 20");
+            console.log("Ipsum: 15");
+            console.log("Dolor: 5");
+            console.log("Sit: 2");
+            console.log("Amet: endless");
+            console.log("Payment: 19$ per month");
+        }
+
+        function onProBtnClick() {
+            console.log("PRO plan:");
+            console.log("Loren: 50");
+            console.log("Ipsum: 25");
+            console.log("Dolor: 10");
+            console.log("Sit: 5");
+            console.log("Amet: endless");
+            console.log("Payment: 29$ per month");
+        }
+
+        function onPremiumBtnClick() {
+            console.log("PREMIUM plan:");
+            console.log("Loren: 100");
+            console.log("Ipsum: 50");
+            console.log("Dolor: 25");
+            console.log("Sit: 10");
+            console.log("Amet: endless");
+            console.log("Payment: 49$ per month");
+        }
+        /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+        
+    </script>
+</head>
+
+<body>
+    <div id="plans" class="container row">
+        <!-- Title what we offer -->
+        <div class="col-sm-12 text-center p-4 mt-4">
+            <h2><b class="p-1 border-bottom">Pricing</b></h2>
+            <p><span class="p-2">Choose a payment plan that works for you</span></p>
+        </div>
+        <!-- Content what we offer -->
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="panel panel-default text-center border rounded">
+                        <div class="panel-heading bg-light text-dark text-center border-bottom">
+                            <h3>Basic</h3>
+                        </div>
+                        <div class="panel-body text-center">
+                            <label class="mt-3"><b>20 </b>Lorem</label><br>
+                            <label class=""><b>15 </b>Ipsum</label><br>
+                            <label class=""><b>5 </b>Dolor</label><br>
+                            <label class=""><b>2 </b>Sit</label><br>
+                            <label class="mb-4"><b>Endless </b>Amet</label>
+                        </div>
+                        <div class="panel-footer bg-light text-center border-top">
+                            <h4 class="mt-4"><b>19$</b></h4>per month<br>
+                            <button class="mt-1 mb-1 btn btn-primary" id="basic-btn">Sign Up</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="panel panel-default text-center border rounded">
+                        <div class="panel-heading bg-light text-dark text-center border-bottom">
+                            <h3>Pro</h3>
+                        </div>
+                        <div class="panel-body text-center">
+                            <label class="mt-3"><b>50 </b>Lorem</label><br>
+                            <label class=""><b>25 </b>Ipsum</label><br>
+                            <label class=""><b>10 </b>Dolor</label><br>
+                            <label class=""><b>5 </b>Sit</label><br>
+                            <label class="mb-4"><b>Endless </b>Amet</label>
+                        </div>
+                        <div class="panel-footer bg-light text-center border-top">
+                            <h4 class="mt-4"><b>29$</b></h4>per month<br>
+                            <button class="mt-1 mb-1 btn btn-primary" id="pro-btn">Sign Up</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="panel panel-default text-center border rounded">
+                        <div class="panel-heading bg-light text-dark text-center border-bottom">
+                            <h3>Premium</h3>
+                        </div>
+                        <div class="panel-body text-center">
+                            <label class="mt-3"><b>100 </b>Lorem</label><br>
+                            <label class=""><b>50 </b>Ipsum</label><br>
+                            <label class=""><b>25 </b>Dolor</label><br>
+                            <label class=""><b>10 </b>Sit</label><br>
+                            <label class="mb-4"><b>Endless </b>Amet</label>
+                        </div>
+                        <div class="panel-footer bg-light text-center border-top">
+                            <h4 class="mt-4"><b>49$</b></h4>per month<br>
+                            <button class="mt-1 mb-1 btn btn-primary" id="premium-btn">Sign Up</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

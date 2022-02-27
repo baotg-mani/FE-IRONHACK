@@ -1,0 +1,364 @@
+<!-- LƯU Ý:
+orderList.html và orderDetail là 2 trang dành cho Nhân viên cửa hàng xem.
+Sau khi nhân được đơn đặt hàng từ phía Khách -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>OrderDetail</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <div class="mt-2 container bg-light rounded">
+    <div>
+      <h4>Order Detail!!!</h4>
+    </div>
+    <div class="form-group">
+      <label for="">Order ID (mã đơn hàng)</label>
+      <div>
+        <input id="input-orderid" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div>
+      <div class="form-group">
+        <label for="">Cỡ combo</label>
+        <div>
+          <select class="form-control" name="" id="select-combo">
+            <option value="">Chọn cỡ combo</option>
+            <option value="">S</option>
+            <option value="">M</option>
+            <option value="">L</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Đường kính pizza</label>
+      <div>
+        <input id="input-duongkinh" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Sườn nướng (miếng)</label>
+      <div>
+        <input id="input-suon" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Đồ uống</label>
+      <div>
+        <select class="form-control" name="" id="select-drink">
+          <option value="">Chọn đồ uống</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Số lượng nước uống</label>
+      <div>
+        <input id="input-soluongnuoc" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Voucher ID (mã voucher)</label>
+      <div>
+        <input id="input-voucherid" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Loại pizza (pizza type)</label>
+      <div>
+        <input id="input-pizza-type" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Salad (g)</label>
+      <div>
+        <input id="input-salad" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Thành tiền</label>
+      <div>
+        <input id="input-payment" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Giảm giá (discount)</label>
+      <div>
+        <input id="input-discount" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Họ và tên</label>
+      <div>
+        <input id="input-fullname" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Email</label>
+      <div>
+        <input id="input-email" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Số điện thoại</label>
+      <div>
+        <input id="input-phonenumber" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Địa chỉ</label>
+      <div>
+        <input id="input-address" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Lời nhắn</label>
+      <div>
+        <input id="input-message" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Trạng thái đơn hàng</label>
+      <div>
+        <input id="input-trangthai" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Ngày tạo đơn</label>
+      <div>
+        <input id="input-ngaytaodon" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Ngày cập nhật</label>
+      <div>
+        <input id="input-ngaycapnhat" class="form-control" type="text">
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-primary" onclick="onBtnConfirmClick()">Confirm</button>
+    <button type="button" class="btn btn-primary" onclick="onBtnCancelClick()">Cancel</button>
+  </div>
+  <script>
+
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    const gBASE_URL = "http://42.115.221.44:8080/devcamp-pizza365/orders";
+    var gQueryString = {
+      id: "",
+      orderId: ""
+    }
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    onPageLoading();
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    function onPageLoading() {
+      "use strict";
+      // B1: thu thập dữ liệu
+      getDataFromQueryStr();
+      // B2: validate dữ liệu
+      if (gQueryString.id === null || gQueryString.orderId === null) {
+        alert("Thiếu giá trị. Kiểm tra id và orderId");
+      } else {
+        // B3: call restAPI
+        $.ajax({
+          url: gBASE_URL + "/" + gQueryString.orderId,
+          type: "GET",
+          dataType: "json",
+          success: function (vResponseObj) {
+            console.log(vResponseObj);
+            // B4: Xử lý trên front-end khi request xử lý xong và trả về response thành công
+            loadDrinkListToSelect();
+            // Hiển thị data lên form
+            handleShowDataToForm(vResponseObj);
+          },
+          error: function (ajaxContext) {
+            alert(ajaxContext.responseText);
+          }
+        });
+      }
+    }
+
+    // // Hàm xử lý sự kiện Button Confirm được Click:
+    function onBtnConfirmClick() {
+      "use strict";
+      console.log("Button Confirm is clicked. ID: " + gQueryString.id);
+      // khai báo đối tượng trangThai
+      var vObjRequest = {
+        trangThai: "confirmed"
+      }
+      // B1: thu thập dữ liệu
+      // B2: validate dữ liệu
+      // B3: call restAPI update
+      $.ajax({
+        url: gBASE_URL + "/" + gQueryString.id,
+        type: "PUT",
+        dataType: "json",
+        data: JSON.stringify(vObjRequest),
+        contentType: "application/json;charset=UTF-8",
+        success: function (vResponseObj) {
+          console.log(vResponseObj);
+          // B4: Xử lý trên front-end khi request xử lý xong và trả về response thành công
+          // Hiển thị data lên form
+          handleShowDataToForm(vResponseObj);
+          window.location.href = "Task-35.10.OrderList.html";
+        },
+        error: function (ajaxContext) {
+          alert(ajaxContext.responseText);
+        }
+      });
+    }
+
+    // Hàm xử lý sự kiện Button Cancel được Click:
+    function onBtnCancelClick() {
+      "use strict";
+      console.log("Button Cancel is clicked. ID: " + gQueryString.id);
+      // khai báo đối tượng trangThai
+      var vObjRequest = {
+        trangThai: "cancel"
+      }
+      // B1: thu thập dữ liệu
+      // B2: validate dữ liệu
+      // B3: call restAPI update
+      $.ajax({
+        url: gBASE_URL + "/" + gQueryString.id,
+        type: "PUT",
+        dataType: "json",
+        data: JSON.stringify(vObjRequest),
+        contentType: "application/json;charset=UTF-8",
+        success: function (vResponseObj) {
+          console.log(vResponseObj);
+          // B4: Xử lý trên front-end khi request xử lý xong và trả về response thành công
+          // Hiển thị data lên form
+          handleShowDataToForm(vResponseObj);
+          window.location.href = "Task-35.10.OrderList.html";
+        },
+        error: function (ajaxContext) {
+          alert(ajaxContext.responseText);
+        }
+      });
+    }
+
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    function getDataFromQueryStr() {
+      "use strict";
+      // get data from Querystring
+      var vUrlString = window.location.href;
+      var vUrl = new URL(vUrlString);
+      // lấy ra parameter id và orderId
+      gQueryString.id = vUrl.searchParams.get("id");
+      gQueryString.orderId = vUrl.searchParams.get("orderId");
+      // show id và orderId ra console
+      console.log(gQueryString.id);
+      console.log(gQueryString.orderId);
+    }
+
+    // Hàm xử lý response và đưa data lên form hiển thị
+    function handleShowDataToForm(paramRes) {
+      "use strict";
+      // truy xuất element input select
+      var vOrderIdElement = $("#input-orderid");
+      var vSelectComboElement = $("#select-combo");
+      var vDuongKinhElement = $("#input-duongkinh");
+      var vSuonElement = $("#input-suon");
+      var vSelectDrinkElement = $("#select-drink");
+      var vSoLuongNuocElement = $("#input-soluongnuoc");
+      var vVoucherIdElement = $("#input-voucherid");
+      var vPizzaTypeElement = $("#input-pizza-type");
+      var vSaladElement = $("#input-salad");
+      var vPaymentElement = $("#input-payment");
+      var vGiamGiaElement = $("#input-discount");
+      var vHoTenElement = $("#input-fullname");
+      var vEmailElement = $("#input-email");
+      var vPhoneNumberElement = $("#input-phonenumber");
+      var vAddressElement = $("#input-address");
+      var vMessageElement = $("#input-message");
+      var vStatusElement = $("#input-trangthai");
+      var vCreatedDayElement = $("#input-ngaytaodon");
+      var vUpdatedDayElement = $("#input-ngaycapnhat");
+
+      // hiển thị vào form
+      vOrderIdElement.val(paramRes.orderId);
+      vSelectComboElement.find(":selected").text(paramRes.kichCo);
+      vDuongKinhElement.val(paramRes.duongKinh);
+      vSuonElement.val(paramRes.suon);
+      vSelectDrinkElement.find(":selected").text(paramRes.idLoaiNuocUong);
+      vSoLuongNuocElement.val(paramRes.soLuongNuoc);
+      vVoucherIdElement.val(paramRes.idVourcher);
+      vPizzaTypeElement.val(paramRes.loaiPizza);
+      vSaladElement.val(paramRes.salad);
+      vPaymentElement.val(paramRes.thanhTien);
+      vGiamGiaElement.val(paramRes.giamGia);
+      vHoTenElement.val(paramRes.hoTen);
+      vEmailElement.val(paramRes.email);
+      vPhoneNumberElement.val(paramRes.soDienThoai);
+      vAddressElement.val(paramRes.diaChi);
+      vMessageElement.val(paramRes.loiNhan);
+      vStatusElement.val(paramRes.trangThai);
+      vCreatedDayElement.val(paramRes.ngayTao);
+      vUpdatedDayElement.val(paramRes.ngayCapNhat);
+    }
+
+    // Hàm load liệt kê đồ uống vào select
+    function loadDrinkListToSelect() {
+      "use strict";
+      // B1: thu thập dữ liệu
+      // B2: validate
+      // B3: call rest API drink list
+      $.ajax({
+          url: "http://42.115.221.44:8080/devcamp-pizza365/drinks",
+          type: "GET",
+          dataType: "json",
+          success: function (vDrinkListObj) {
+            // console.log(vResponseObj);
+            // B4: Xử lý trên front-end khi request xử lý xong và trả về response thành công
+            handleShowDrinkListToSelect(vDrinkListObj);
+          },
+          error: function (ajaxContext) {
+            alert(ajaxContext.responseText);
+          }
+        });
+    }
+
+    // Hàm xử lý sự kiện đổ dữ liệu vào select drink
+    function handleShowDrinkListToSelect(paramDrinkListObj) {
+      "use strict";
+      // truy xuất vào thẻ select drink
+      var vSelectDrinkElement = document.getElementById("select-drink");
+      // thêm element option và thêm dữ liệu vào trong đó
+      for (var bI = 0; bI < paramDrinkListObj.length; bI++) {
+        var bDrinkOptionElement = document.createElement("option");
+        bDrinkOptionElement.value = paramDrinkListObj[bI].maNuocUong;
+        bDrinkOptionElement.text = paramDrinkListObj[bI].tenNuocUong;
+        vSelectDrinkElement.appendChild(bDrinkOptionElement);
+      }
+    }
+
+  </script>
+</body>
+
+</html>

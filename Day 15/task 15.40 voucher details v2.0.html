@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container jumbotron">
+    <form id="voucher-form">
+      <div class="form-group">
+        <h3 class="text-center">Kiểm tra mã giảm giá</h3>
+      </div>
+
+      <div class="form-group">
+        <label for="input-voucher-code">Mã giảm giá</label>
+        <input type="email" id="input-voucher-code" name="voucher" class="form-control" aria-describedby="voucherHelp"
+          placeholder="Nhập mã giảm giá..">
+        <small id="voucherHelp" class="form-text text-muted">hãy nhập mã giảm giá để có thể tiết kiệm lên đến 70%.</small>
+      </div>
+      <div class="form-group">
+        <button onclick="onVoucherCheckClick()" type="button" class="btn btn-primary">Kiểm tra</button>
+      </div>
+    </form>
+    <div id="p-result-check" style=" word-break: break-all;"></div>
+  </div>
+
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    // trạng thái của server trả về, 200 = tìm thấy thành công!
+    const gREQUEST_STATUS_FINISH_AND_OK = 200;
+    
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    function onVoucherCheckClick1() {
+      "use strict"
+      // lấy giá trị nhập trên form
+      var vElementVoucherCode = document.getElementById("input-voucher-code");
+      var vVoucherCode = vElementVoucherCode.value;
+      // tạo ra đối tượng request và gửi đi
+      var vXmlHttp = new XMLHttpRequest();
+      vXmlHttp.open("GET", "http://42.115.221.44:8080/devcamp-voucher-api/voucher_detail/" + vVoucherCode, false);
+      vXmlHttp.send();
+      
+      // nhận về response và xử lý
+      var vResultCheckElement = document.getElementById("p-result-check");
+      var vStatusCode = vXmlHttp.status; // thuộc tính .status ở dạng số, để kiểm tra request có thực hiện thành công hay không
+      // nếu trạng thái trả về thành công!
+      if (vStatusCode == gREQUEST_STATUS_FINISH_AND_OK) {
+        // nhận lại response dạng JSON ở xmlHttp.responseText và chuyển thành object
+        var bVoucherResponse = JSON.parse(vXmlHttp.responseText);
+        vResultCheckElement.innerHTML = JSON.stringify(bVoucherResponse);
+      }
+      else {
+        vResultCheckElement.innerHTML = "Không tìm thấy mã giảm giá";
+      }
+    }
+
+    function onVoucherCheckClick() {
+      "use strcit";
+      // Khai báo đối tượng chứa dữ kiệu đầu vào
+      var vVoucherObj = {
+        voucherCode: ""
+      };
+      // B1: Đọc/thu dữ liệu trên form
+      getVoucherCode(vVoucherObj);
+      // B2: Validate dữ liệu, xem dữ liệu có hợp lệ hay không, thì mới thực hiện B3 và B4
+      var vIsDataValidate = validateData(vVoucherObj);
+      if(vIsDataValidate) {
+        console.log(vVoucherObj.voucherCode);
+        var vXmlHttp = new XMLHttpRequest();
+      // B3: Gọi server, gửi request tới server
+      sendRequestToGetVoucherDiscount(vVoucherObj, vXmlHttp);
+      // B4: Xử lý trên fron-end, khi server thực hiện xong request thì phản hồi về
+      handleVoucherResponse(vXmlHttp);
+      }
+    }
+
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    // hàm thu thập dữ liệu trên form
+    function getVoucherCode(paramVoucherObj) {
+      var vElementVoucherCode = document.getElementById("input-voucher-code");
+      paramVoucherObj.voucherCode = vElementVoucherCode.value.trim();
+      
+    }
+    // hàm này dùng để validate dữ liệu đầu vào
+    // return true nếu hợp lệ và ngược lại
+    function validateData(paramVoucherObj) {
+      if(paramVoucherObj.voucherCode === "") {
+        alert("Voucher code chưa được nhập");
+        return false;
+      }
+      return true;
+    }
+    // hàm thực hiện việc gửi request để kiểm tra mã giảm giá
+    function sendRequestToGetVoucherDiscount(paramVoucherObj, paramXmlHttp) {
+      paramXmlHttp.open("GET", "http://42.115.221.44:8080/devcamp-voucher-api/voucher_detail/" + paramVoucherObj.voucherCode, false);
+      paramXmlHttp.send();
+    }
+    // hàm thực hiên việc sử lý trên front-end khi server phản hồi về
+    function handleVoucherResponse(paramXmlHttp) {
+      var vVoucherResponse = paramXmlHttp.responseText;
+      console.log(vVoucherResponse);
+      // nhận về response và xử lý
+      var vResultCheckElement = document.getElementById("p-result-check");
+      var vStatusCode = paramXmlHttp.status; // thuộc tính .status ở dạng số, để kiểm tra request có thực hiện thành công hay không
+      // nếu trạng thái trả về thành công!
+      if (vStatusCode == gREQUEST_STATUS_FINISH_AND_OK) {
+        // nhận lại response dạng JSON ở xmlHttp.responseText và chuyển thành object
+        var bVoucherResponse = JSON.parse(paramXmlHttp.responseText);
+        vResultCheckElement.innerHTML = "Phần trăm giảm giá: " + bVoucherResponse.phanTramGiamGia + "%";
+      }
+      else {
+        vResultCheckElement.innerHTML = "Không tìm thấy mã giảm giá";
+      }
+    }
+  </script>
+
+</body>
+
+</html>

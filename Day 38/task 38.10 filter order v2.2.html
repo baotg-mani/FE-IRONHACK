@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- Import DataTable Library -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
+  <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+  <style>
+    .pointer {
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="text-center mt-2 mb-2">
+      <h2>F120 - Quản trị Order</h2>
+    </div>
+    <div class="jumbotron container">
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="voucherCodeInput">Loại Pizza</label>
+        </div>
+        <div class="col-sm-6">
+          <select id="gPizzaTypeSelect" class="form-control">
+
+          </select>
+        </div>
+        <div class="col-sm-3">
+          <button id="btn-filter-order" class="btn btn-info">Lọc dữ liệu</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <table class="table table-bordered table-striped table-hover" id="order-table">
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Mã order</th>
+            <th>Loại Pizza</th>
+            <th>Tên khách hàng</th>
+            <th>Ngày đặt hàng</th>
+            <th>Trạng thái</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+
+    ​
+    <script>
+      "use strict";
+      /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+      const gORDER_COLUMNS = ["stt", "orderCode", "gPizzaTypeId", "customerName", "date", "status", "action"];
+
+      const gCOL_STT = 0;
+      const gCOL_ORDER_CODE = 1;
+      const gCOL_PIZZA_TYPE = 2;
+      const gCOL_CUSTOMER_NAME = 3;
+      const gCOL_DATE = 4;
+      const gCOL_STATUS = 5;
+      const gCOL_ACTION = 6;
+      // mảng orders
+      var gOrderObjects = [
+        {
+          "id": 2,
+          "orderCode": "12456",
+          "gPizzaTypeId": 20,
+          "customerName": "Do Van Linh",
+          "date": "13/01/2021",
+          "status": "completed"
+        },
+        {
+          "id": 3,
+          "orderCode": "22456",
+          "gPizzaTypeId": 10,
+          "customerName": "Huynh Van Nam",
+          "date": "13/01/2021",
+          "status": "new"
+        },
+        {
+          "id": 4,
+          "orderCode": "22986",
+          "gPizzaTypeId": 15,
+          "customerName": "Do Thi Lan",
+          "date": "14/01/2021",
+          "status": "completed"
+        },
+        {
+          "id": 5,
+          "orderCode": "42086",
+          "gPizzaTypeId": 10,
+          "customerName": "Dinh Chau Ngoc",
+          "date": "14/01/2021",
+          "status": "completed"
+        },
+        {
+          "id": 6,
+          "orderCode": "56086",
+          "gPizzaTypeId": 15,
+          "customerName": "Dang Tien Minh",
+          "date": "15/01/2021",
+          "status": "new"
+        },
+        {
+          "id": 7,
+          "orderCode": "90081",
+          "gPizzaTypeId": 20,
+          "customerName": "Do Hong Quan",
+          "date": "15/01/2021",
+          "status": "inprogress"
+        },
+        {
+          "id": 8,
+          "orderCode": "67012",
+          "gPizzaTypeId": 15,
+          "customerName": "Bui Thanh Phuoc",
+          "date": "15/01/2021",
+          "status": "inprogress"
+        }
+      ];
+      // mảng pizza Type
+      var gPizzaType = [
+        {
+          typeId: 10,
+          typeName: "Hải Sản"
+        },
+        {
+          typeId: 15,
+          typeName: "Bò bít tết"
+        },
+        {
+          typeId: 20,
+          typeName: "Thịt gà"
+        }
+      ];
+
+      var gSTT = 1;
+
+      var gOrderTable = $("#order-table").DataTable({
+        columns: [
+          { data: gORDER_COLUMNS[gCOL_STT] },
+          { data: gORDER_COLUMNS[gCOL_ORDER_CODE] },
+          { data: gORDER_COLUMNS[gCOL_PIZZA_TYPE] },
+          { data: gORDER_COLUMNS[gCOL_CUSTOMER_NAME] },
+          { data: gORDER_COLUMNS[gCOL_DATE] },
+          { data: gORDER_COLUMNS[gCOL_STATUS] },
+          { data: gORDER_COLUMNS[gCOL_ACTION] }
+        ],
+        columnDefs: [
+          {
+            targets: gCOL_STT,
+            render: function () {
+              return gSTT++;
+            }
+          },
+          {
+            targets: gCOL_ACTION,
+            defaultContent: `
+          <i class="fas fa-edit pointer" data-toggle="tooltip" data-placement="top" title="Edit order"></i>
+          <i class="fas fa-trash-alt pointer" data-toggle="tooltip" data-placement="top" title="Delete order"></i>
+        `
+          },
+          {
+            targets: gCOL_PIZZA_TYPE,
+            render: function (paramPizzaTypeId) {
+              return getPizzaNameByTypeId(paramPizzaTypeId);
+            }
+          }
+        ]
+      });
+
+      /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+      onPageLoading();
+
+      $("#btn-filter-order").on("click", function () {
+        onBtnFilterOrderClick();
+      });
+      /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+      // hàm thực hiện khi tải trang
+      function onPageLoading() {
+        loadOrdersToTable(gOrderObjects);
+        loadDataToPizzaTypeSelect();
+      }
+
+      // hàm xử lý sự kiện filter order
+      function onBtnFilterOrderClick() {
+        // khai báo đối tượng chứa dữ liệu filter
+        var vFilterFormData = {
+          pizzaType: -1
+        };
+        // B1: thu thập dữ liệu để filter
+        getFilterFormData(vFilterFormData);
+        // B2: validate (ko cần)
+        // B3: xử  lý filter
+        filterOrders(vFilterFormData);
+      }
+      /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+      // hàm trả về pizzaTypeName dựa vào typeId
+      function getPizzaNameByTypeId(paramTypeId) {
+        var vPizzaTypeName = "";
+        var vIndex = 0;
+        var vIsTypeFound = false;
+        while (!vIsTypeFound && vIndex < gPizzaType.length) {
+          if (gPizzaType[vIndex].typeId === paramTypeId) {
+            vIsTypeFound = true;
+            vPizzaTypeName = gPizzaType[vIndex].typeName;
+          }
+          else {
+            vIndex++;
+          }
+        }
+        return vPizzaTypeName;
+      }
+
+      // hàm load dữ liệu vào orders table
+      function loadOrdersToTable(paramOrdersArr) {
+        gSTT = 1;
+        gOrderTable.clear();
+        gOrderTable.rows.add(paramOrdersArr);
+        gOrderTable.draw();
+      }
+
+      // hàm load dữ liệu vào select pizza type
+      function loadDataToPizzaTypeSelect() {
+        var vPizzaTypeSelect = $("#gPizzaTypeSelect");
+
+        $("<option/>", {
+          text: "--- Chọn tất cả ---",
+          value: 0
+        }).appendTo(vPizzaTypeSelect);
+
+        for (let bI = 0; bI < gPizzaType.length; bI++) {
+          var bPizzaTypeOption = $("<option/>", {
+            text: gPizzaType[bI].typeName,
+            value: gPizzaType[bI].typeId
+          }).appendTo(vPizzaTypeSelect);
+        }
+      }
+
+      // hàm thu thập dữ liệu để lọc
+      function getFilterFormData(paramFilterFormObj) {
+        paramFilterFormObj.pizzaType = parseInt($("#gPizzaTypeSelect").val(), 10);
+      }
+
+      // hàm thực hiện lọc và hiển thị lên table
+      function filterOrders(paramFilterFormObj) {
+        var vOrdersResult = [];
+        // thực hiện việc lọc
+        vOrdersResult = gOrderObjects.filter(function (paramOrder) {
+          return (paramFilterFormObj.pizzaType === 0 || paramOrder.gPizzaTypeId === paramFilterFormObj.pizzaType);
+        });
+        // load dữ liệu trả về lên table
+        loadOrdersToTable(vOrdersResult);
+      }
+
+    </script>
+</body>
+
+</html>

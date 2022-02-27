@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Import Fontawesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Import Datatable sau jquery -->
+  <!-- Import them style bootstrap cho datatable -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Menu bar -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <nav class="navbar navbar-expand-md navbar-light bg-warning margin-center fixed-top">
+          <div class="collapse navbar-collapse">
+            <ul class="navbar-nav nav-fill w-100">
+              <li class="nav-item active navItem">
+                <a class="nav-link">Trang chủ</a>
+              </li>
+              <li class="nav-item navItem">
+                <a class="nav-link">Combo</a>
+              </li>
+              <li class="nav-item navItem">
+                <a class="nav-link">Loại pizza</a>
+              </li>
+              <li class="nav-item navItem">
+                <a class="nav-link">Gửi đơn hàng</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="container content text">
+    <!-- Title row home -->
+    <div class="col-sm-12 text-left">
+      <h1 class="text-warning"><b>Pizza 365</b>
+        <h5 class="font-italic text-warning">Truly Italian!</h5>
+      </h1>
+    </div>
+
+    <!-- Carousel -->
+    <div class="col-sm-12">
+      <div class="carousel slide">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img class="d-block w-100" src="Mockup_Images_Pizza365.v1.9/1.jpg" alt="First slide">
+            </div>
+            <div class="carousel-item">
+              <img class="d-block w-100" src="Mockup_Images_Pizza365.v1.9/2.jpg" alt="Second slide">
+            </div>
+            <div class="carousel-item">
+              <img class="d-block w-100" src="Mockup_Images_Pizza365.v1.9/3.jpg" alt="Third slide">
+            </div>
+            <div class="carousel-item">
+              <img class="d-block w-100" src="Mockup_Images_Pizza365.v1.9/4.jpg" alt="Fourth slide">
+            </div>
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Title what we offer -->
+    <div class="col-sm-12 p-4 mt-4 text-center">
+      <h2 class="p-2 text-warning "><b class="border-bottom border-warning">Tại sao lại là Pizza 365</b></h2>
+    </div>
+    <!-- Content what we offer -->
+    <div class="col-sm-12">
+      <div class="row">
+        <div class="col-sm-3 p-4 border border-warning daDang">
+          <h3 class="p-2">Đa dạng</h3>
+          <p class="p-2">Số lượng pizza đa dạng, có đầy đủ các loại pizza đang hot nhất hiện nay.
+          </p>
+        </div>
+        <div class="col-sm-3 p-4 border border-warning chatLuong">
+          <h3 class="p-2">Chất lượng</h3>
+          <p class="p-2">Nguyên liệu sạch 100% rõ nguồn gốc, quy trình chế biến đảm bảo vệ sinh an toàn thực phẩm.
+          </p>
+        </div>
+        <div class="col-sm-3 p-4 border border-warning huongVi">
+          <h3 class="p-2">Hương vị</h3>
+          <p class="p-2">Đảm bảo hương vị ngon, độc, lạ mà bạn chỉ có thể trải nghiệm ở Pizza 365.
+        </div>
+        <div class="col-sm-3 p-4 bg-warning border border-warning">
+          <h3 class="p-2">Dịch vụ</h3>
+          <p class="p-2">Nhân viên thân thiện, nhà hàng hiện đại. Dich vụ giao hàng nhanh chất lượng, tân tiến.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div id="plans" class="row">
+      <!-- Title what we offer -->
+      <div class="col-sm-12 text-center text-warning p-4 mt-4">
+        <h2><b class="p-1 border-bottom border-warning">Chọn size pizza</b></h2>
+        <p><span class="p-2">Chọn combo pizza phù hợp với nhu cầu của bạn</span></p>
+      </div>
+      <!-- Content what we offer -->
+      <div class="col-sm-12">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="card">
+              <div class="card-header text-center bgOrange">
+                <h3>S (small)</h3>
+              </div>
+              <div class="card-body text-center">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">Đường kính: <b>20cm</b></li>
+                  <li class="list-group-item">Sườn nướng: <b>2</b></li>
+                  <li class="list-group-item">Salad: <b>200g</b></li>
+                  <li class="list-group-item">Nước ngọt: <b>2</b></li>
+                  <li class="list-group-item">
+                    <h1><b>150.000</b></h1>VNĐ
+                  </li>
+                </ul>
+              </div>
+              <div class="card-footer text-center">
+                <button class="btn bgOrange font-weight-bold" id="size-s">Chọn</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="card">
+              <div class="card-header bg-warning text-white text-center">
+                <h3>M (medium)</h3>
+              </div>
+              <div class="card-body text-center">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">Đường kính: <b>25cm</b></li>
+                  <li class="list-group-item">Sườn nướng: <b>4</b></li>
+                  <li class="list-group-item">Salad: <b>300g</b></li>
+                  <li class="list-group-item">Nước ngọt: <b>3</b></li>
+                  <li class="list-group-item">
+                    <h1><b>200.000</b></h1>VNĐ
+                  </li>
+                </ul>
+              </div>
+              <div class="card-footer text-center">
+                <button class="btn bgOrange font-weight-bold" id="size-m">Chọn</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="card">
+              <div class="card-header text-center bgOrange">
+                <h3>L (large)</h3>
+              </div>
+              <div class="card-body text-center">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">Đường kính: <b>30cm</b></li>
+                  <li class="list-group-item">Sườn nướng: <b>8</b></li>
+                  <li class="list-group-item">Salad: <b>500g</b></li>
+                  <li class="list-group-item">Nước ngọt: <b>4</b></li>
+                  <li class="list-group-item">
+                    <h1><b>250.000</b></h1>VNĐ
+                  </li>
+                </ul>
+              </div>
+              <div class="card-footer text-center">
+                <button class="btn bgOrange font-weight-bold" id="size-l">Chọn</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="about" class="row">
+      <!-- Title Who We Are -->
+      <div class="col-sm-12 text-center p-4 mt-4">
+        <h2><b class="p-2 text-warning border-bottom border-warning">Chọn loại Pizza</b></h2>
+      </div>
+
+      <!-- Content Who We Are -->
+      <div class="col-sm-12">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="card w-100" style="width: 18rem;">
+              <img src="Mockup_Images_Pizza365.v1.9/seafood.jpg" class="card-img-top">
+              <div class="card-body">
+                <h4>OCEAN MANIA</h4>
+                <p>PIZZA HẢI SẢN XỐT MAYONNAISE</p>
+                <p>Xốt Cà Chua, Phô Mai Mozzarella, Tôm, Mực, Thanh Cua, Hành Tây.
+                </p>
+                <p><button class="btn bgOrange w-100 font-weight-bold" id="hawaii-btn">Chọn</button>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="card w-100" style="width: 18rem;">
+              <img src="Mockup_Images_Pizza365.v1.9/hawaiian.jpg" class="card-img-top">
+              <div class="card-body">
+                <h4>HAWAIIAN</h4>
+                <p>PIZZA DĂM BÔNG DỨA KIỂU HAWAII</p>
+                <p>Xốt Cà Chua, Phô Mai Mozzarella, Thịt Dăm Bông, Thơm.
+                </p>
+                <p><button class="btn bgOrange w-100 font-weight-bold" id="seafood-btn">Chọn</button>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="card w-100" style="width: 18rem;">
+              <img src="Mockup_Images_Pizza365.v1.9/bacon.jpg" class="card-img-top">
+              <div class="card-body">
+                <h4>CHEESY CHICKEN BACON</h4>
+                <p>PIZZA GÀ PHÔ MAI THỊT HEO XÔNG KHÓI</p>
+                <p>Xốt Phô Mai, Thịt Gà, Thịt Heo Muối, Phô Mai Mozzarella, Cà Chua.
+                </p>
+                <p><button class="btn bgOrange w-100 font-weight-bold" id="bacon-btn">Chọn</button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Select Drinks-->
+      <div class="col-sm-12 text-center mt-4">
+        <h2><b class="p-2 text-warning border-bottom border-warning">Chọn đồ uống</b></h2>
+        <select class="mt-4 form-control" name="" id="select-drink">
+          <option value="">Tất cả loại nước uống</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div id="contact" class="row">
+      <!-- Title Contact Us -->
+      <div class="col-sm-12 text-center p-4 mt-4">
+        <h2><b class="p-2 text-warning border-bottom border-warning">Gửi đơn hàng</b></h2>
+      </div>
+
+      <!-- Content Contact Us -->
+      <div class="col-sm-12">
+        <div class="row">
+          <div class="col-sm-12 p-2">
+            <div class="form-group">
+              <label for="fullname">Họ và tên</label>
+              <input type="text" class="form-control" id="inp-fullname" placeholder="Họ và tên">
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="text" class="form-control" id="inp-email" placeholder="Email">
+            </div>
+            <div class="form-group">
+              <label for="dien-thoai">Điện thoại</label>
+              <input type="text" class="form-control" id="inp-dien-thoai" placeholder="Điện thoại">
+            </div>
+            <div class="form-group">
+              <label for="dia-chi">Địa chỉ</label>
+              <input type="text" class="form-control" id="inp-dia-chi" placeholder="Địa chỉ">
+            </div>
+            <div class="form-group">
+              <label for="loi-nhan">Lời nhắn</label>
+              <input type="text" class="form-control" id="inp-loi-nhan" placeholder="Lời nhắn">
+            </div>
+            <div class="form-group">
+              <label for="voucher-id">Mã giảm giá (voucher ID)</label>
+              <input type="text" class="form-control" id="inp-voucherid" placeholder="Mã giảm giá">
+            </div>
+            <button type="button" class="btn bgOrange w-100 font-weight-bold">Gửi đơn</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- vùng hiển thị thông tin đơn hàng(order) -->
+      <div id="div-container-order" class="container bg-info jumbotron" style="display: none;">
+        <div id="div-order-infor" class="text-white p-3">...</div>
+        <div class="p-2">
+          <button type="button" class="btn container bg-warning p-2 jumbotron">Xác
+            nhận</button>
+        </div>
+      </div>
+      <!-- vùng hiển thị orderID và Lời cảm ơn -->
+      <div id="div-order-id" class="jumbotron bg-warning border w-100 p-2  text-center" style="display: none">
+        <label class="font-weight-bold">Cảm ơn bạn đã đặt hàng tại Pizza 365. Mã đơn hàng của bạn là:</label>
+        <div class="row form-group">
+          <div class="col-sm-4">
+            Mã đơn hàng:
+          </div>
+          <div id="order-id" class="col-sm-6 border border-dark">
+            ...
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-warning text-center">
+    <div class="container">
+      <h5 class="pt-4 font-weight-bold">Footer</h5>
+      <button class="btn btnFooter"><i class="fas fa-arrow-up"></i>To the top</button>
+      <section class="text-center my-2">
+        <a class="text-dark p1-1" href="#!"><i class="fab fa-facebook-square"></i></a>
+        <a class="text-dark pl-1" href="#!"><i class="fab fa-instagram"></i></a>
+        <a class="text-dark pl-1" href="#!"><i class="fab fa-snapchat"></i></a>
+        <a class="text-dark pl-1" href="#!"><i class="fab fa-pinterest-p"></i></a>
+        <a class="text-dark pl-1" href="#!"><i class="fab fa-twitter"></i></a>
+        <a class="text-dark pl-1" href="#!"><i class="fab fa-linkedin"></i></a>
+      </section>
+      <h6 class="pb-5">Powered by DEVCAMP<i class="fas fa-linkedin"></i></h6>
+    </div>
+  </footer>
+</body>
+
+</html>

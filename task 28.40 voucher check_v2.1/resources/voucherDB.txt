@@ -1,0 +1,402 @@
+[
+    {
+        "id": 1,
+        "maVoucher": "16512",
+        "phanTramGiamGia": "10",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 2,
+        "maVoucher": "12354",
+        "phanTramGiamGia": "10",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 3,
+        "maVoucher": "12332",
+        "phanTramGiamGia": "10",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 4,
+        "maVoucher": "12332",
+        "phanTramGiamGia": "10",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 5,
+        "maVoucher": "95531",
+        "phanTramGiamGia": "10",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 6,
+        "maVoucher": "81432",
+        "phanTramGiamGia": "10",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 7,
+        "maVoucher": "15746",
+        "phanTramGiamGia": "10",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 8,
+        "maVoucher": "76241",
+        "phanTramGiamGia": "10",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 9,
+        "maVoucher": "64562",
+        "phanTramGiamGia": "10",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 10,
+        "maVoucher": "25896",
+        "phanTramGiamGia": "10",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 11,
+        "maVoucher": "87654",
+        "phanTramGiamGia": "20",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 12,
+        "maVoucher": "86423",
+        "phanTramGiamGia": "20",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 13,
+        "maVoucher": "46253",
+        "phanTramGiamGia": "20",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 14,
+        "maVoucher": "46211",
+        "phanTramGiamGia": "20",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 15,
+        "maVoucher": "36594",
+        "phanTramGiamGia": "20",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 16,
+        "maVoucher": "24864",
+        "phanTramGiamGia": "20",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 17,
+        "maVoucher": "23156",
+        "phanTramGiamGia": "20",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 18,
+        "maVoucher": "13946",
+        "phanTramGiamGia": "20",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 19,
+        "maVoucher": "34962",
+        "phanTramGiamGia": "20",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 20,
+        "maVoucher": "26491",
+        "phanTramGiamGia": "20",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 21,
+        "maVoucher": "94634",
+        "phanTramGiamGia": "30",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 22,
+        "maVoucher": "87643",
+        "phanTramGiamGia": "30",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 23,
+        "maVoucher": "61353",
+        "phanTramGiamGia": "30",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 24,
+        "maVoucher": "64532",
+        "phanTramGiamGia": "30",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 25,
+        "maVoucher": "89436",
+        "phanTramGiamGia": "30",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 26,
+        "maVoucher": "73256",
+        "phanTramGiamGia": "30",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 27,
+        "maVoucher": "21561",
+        "phanTramGiamGia": "30",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 28,
+        "maVoucher": "35468",
+        "phanTramGiamGia": "30",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 29,
+        "maVoucher": "32486",
+        "phanTramGiamGia": "30",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 30,
+        "maVoucher": "96462",
+        "phanTramGiamGia": "40",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 31,
+        "maVoucher": "41356",
+        "phanTramGiamGia": "40",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 32,
+        "maVoucher": "76164",
+        "phanTramGiamGia": "40",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 33,
+        "maVoucher": "72156",
+        "phanTramGiamGia": "40",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 34,
+        "maVoucher": "46594",
+        "phanTramGiamGia": "40",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 35,
+        "maVoucher": "35469",
+        "phanTramGiamGia": "40",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 36,
+        "maVoucher": "34546",
+        "phanTramGiamGia": "40",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 37,
+        "maVoucher": "34862",
+        "phanTramGiamGia": "40",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 38,
+        "maVoucher": "14652",
+        "phanTramGiamGia": "40",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 39,
+        "maVoucher": "40685",
+        "phanTramGiamGia": "40",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 40,
+        "maVoucher": "92061",
+        "phanTramGiamGia": "50",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 41,
+        "maVoucher": "70056",
+        "phanTramGiamGia": "50",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 42,
+        "maVoucher": "41603",
+        "phanTramGiamGia": "50",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 43,
+        "maVoucher": "80320",
+        "phanTramGiamGia": "50",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 44,
+        "maVoucher": "40381",
+        "phanTramGiamGia": "50",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 45,
+        "maVoucher": "44306",
+        "phanTramGiamGia": "50",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 46,
+        "maVoucher": "10641",
+        "phanTramGiamGia": "50",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 47,
+        "maVoucher": "70651",
+        "phanTramGiamGia": "50",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 48,
+        "maVoucher": "80325",
+        "phanTramGiamGia": "50",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 49,
+        "maVoucher": "50516",
+        "phanTramGiamGia": "50",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    },
+    {
+        "id": 50,
+        "maVoucher": "10056",
+        "phanTramGiamGia": "50",
+        "ghiChu": null,
+        "ngayTao": 1614361849000,
+        "ngayCapNhat": 1614361849000
+    }
+]

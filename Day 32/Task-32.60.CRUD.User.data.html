@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <title>Task 32.60</title>
+
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    var gUserObjects = [
+      {
+        firstname: "Bảo",
+        lastname: "Trần Gia",
+        age: "25",
+        email: "tranbao@devcamp.vn"
+      },
+      {
+        firstname: "John",
+        lastname: "Doe",
+        age: "30",
+        email: "johndoe@devcamp.vn"
+      },
+      {
+        firstname: "Hoàng",
+        lastname: "Nguyễn",
+        age: "27",
+        email: "Hoangnguyen@devcamp.vn"
+      }
+    ];
+    var gIdCurrentRow = "";
+    var gIndex = null;
+    /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+    $(document).ready(function () {
+      onPageLoading();
+      // tạo sự kiện click cho btn Send Data
+      $("#btn-save-data").on("click", onBtnSaveDataClick);
+      // tạo sự kiện click cho btn Edit
+      $("#user-table").on("click", ".edits", function () {
+        console.log("Edit button is clicked");
+        onBtnEditClick(this);
+      });
+      // tạo sự kiện click cho btn Delete
+      $("#user-table").on("click", ".deletes", function () {
+        console.log("Delete buttonid clicked");
+        onBtnDeleteClick(this);
+      })
+    });
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    // Hàm xử lý dự kiện load trang
+    function onPageLoading() {
+      // load dữ liệu từ biến mảng gUserObjects vào bảng
+      loadDataToTable();
+    }
+
+    // Hàm xử lý sự kiện Click btn Save Data
+    function onBtnSaveDataClick() {
+      "use strict";
+      // console.log("clicked");
+      // khai báo biến lưu trữ dữ liệu nhập trên form
+      var vUserObj = {
+        firstname: "",
+        lastname: "",
+        age: "",
+        email: ""
+      }
+      // B1: thu thập dữ liệu
+      getDataOnForm(vUserObj);
+      // B2: validate dữ liệu
+      var vIsDataValid = validateData(vUserObj);
+      // debugger;
+      if (vIsDataValid) {
+        // B3: xử lý sự kiện thêm dữ liệu mới vào bảng
+        // CHÚ Ý: phần rành riêng cho tính năng edit (thỏa mãn điều kiện gắn cờ mới chạy)
+        if ($("#btn-save-data").data("action") == "edit") {
+          updateUserData(vUserObj);
+          console.log(gUserObjects);
+          loadDataToTable();
+          return;
+        }
+        // add dữ liệu vào mảng gUserObjects
+        gUserObjects.push(vUserObj);
+        console.log(gUserObjects); // array sau khi add thêm 1 phần tử
+        loadDataToTable(); // load lại bảng với phần tử mới
+      }
+    }
+
+    // Hàm xử lý sự kiện btn Edit click
+    function onBtnEditClick(paramEditElement) {
+      "use strict";
+      // dữ liệu được load lên form tương ứng
+      $("#inp-firstname").val($(paramEditElement).data("firstname"));
+      $("#inp-lastname").val($(paramEditElement).data("lastname"));
+      $("#inp-age").val($(paramEditElement).data("age"));
+      $("#inp-email").val($(paramEditElement).data("email"));
+      // gắn cờ 'edit' cho button Save Data (để nhận biết)
+      $("#btn-save-data").attr("data-action", "edit");
+
+      gIndex = $(paramEditElement).data("index");
+      console.log("gIndex = " + gIndex);
+
+    }
+
+    // Hàm xử lý sự kiện btn Delete click
+    function onBtnDeleteClick(paramDeleteElement) {
+      "use strict";
+      gIndex = $(paramDeleteElement).data("index");
+      if (confirm("Are you sure?")) {
+        gUserObjects.splice(gIndex, 1); // xóa phần tử mà đã được click btn Delete tương ứng
+        loadDataToTable(); // load lại trang
+      }
+      return false;
+    }
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    // Hàm update dữ liệu người dùng sau khi Edit
+    function updateUserData(paramUserObj) {
+      // thay thế (chèn) phần tử dữ liệu user update vào vị trí phần tử cũ trên array
+      gUserObjects.splice(gIndex, 1, paramUserObj);
+    }
+
+    // Hàm thu thập dữ liệu trên form
+    function getDataOnForm(paramUserObj) {
+      paramUserObj.firstname = $("#inp-firstname").val().trim();
+      paramUserObj.lastname = $("#inp-lastname").val().trim();
+      paramUserObj.age = $("#inp-age").val().trim();
+      paramUserObj.email = $("#inp-email").val().trim();
+    }
+
+    // Hàm validate dữ liệu nhập từ form
+    function validateData(paramUserObj) {
+      "use strict";
+      if (paramUserObj.firstname === "") {
+        alert("Firstname not found!");
+        return false;
+      }
+      if (paramUserObj.lastname === "") {
+        alert("Latname not found!");
+        return false;
+      }
+      if (paramUserObj.age === "" || paramUserObj.age < 15 || paramUserObj.age > 200) {
+        alert("Invalid age!");
+        return false;
+      }
+      if (!validateEmail(paramUserObj.email) || paramUserObj.email === "") {
+        alert("Invalid email");
+        return false;
+      }
+      return true;
+    }
+
+    // Hàm validate Email
+    function validateEmail(paramEmail) {
+      "use strict";
+      var vEmailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+      return vEmailReg.test(paramEmail);
+    }
+
+    // Hàm load dữ liệu vào bảng
+    function loadDataToTable() {
+      "use strict";
+      // xóa trắng bảng tbody
+      $("#user-table tbody").empty();
+      // thêm dữ liệu vào bảng
+      for (var bI = 0; bI < gUserObjects.length; bI++) {
+        $("#user-table tbody").append(
+          `<tr id="row-${bI + 1}">
+            <td>${bI + 1}</td>
+            <td> ${gUserObjects[bI].firstname} </td>
+            <td> ${gUserObjects[bI].lastname} </td>
+            <td> ${gUserObjects[bI].age} </td>
+            <td> ${gUserObjects[bI].email} </td>
+            <td>
+              <button class="btn edits" 
+              data-firstname="${gUserObjects[bI].firstname}" 
+              data-lastname="${gUserObjects[bI].lastname}" 
+              data-age="${gUserObjects[bI].age}" 
+              data-email="${gUserObjects[bI].email}" 
+              data-index="${bI}"><i class="fas fa-pen-square fa-lg" style="color: gray;"></i></button>
+              <button class="btn deletes"><i class="fas fa-trash-alt fa-lg" style="color: red;" 
+              data-index="${bI}"></i></button>            
+            </td>
+          </tr>`);
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="text-center mt-5">
+      <div class="col-sm-12">
+        <h3>F100 - QUẢN TRỊ NGƯỜI DÙNG</h3>
+      </div>
+    </div>
+
+    <div class="row mt-4 border border-dark bg-light rounded">
+      <div class="col-sm-6 mt-2">
+        <div class="row form-group">
+          <div class="col-sm-4">
+            <label>Firstname<span class="text-danger">(*)</span></label>
+          </div>
+          <div class="col-sm-8">
+            <input class="form-control" id="inp-firstname" type="text">
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-sm-4">
+            <label>Age<span class="text-danger">(*)</span></label>
+          </div>
+          <div class="col-sm-8">
+            <input class="form-control" id="inp-age" type="text">
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 mt-2">
+        <div class="row form-group">
+          <div class="col-sm-4">
+            <label>Lastname<span class="text-danger">(*)</span></label>
+          </div>
+          <div class="col-sm-8">
+            <input class="form-control" id="inp-lastname" type="text">
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-sm-4">
+            <label>Email<span class="text-danger">(*)</span></label>
+          </div>
+          <div class="col-sm-8">
+            <input class="form-control" id="inp-email" type="text">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-12 text-right mt-3">
+      <button class="btn btn-success" id="btn-save-data">Save data</button>
+    </div>
+  </div>
+
+  <table id="user-table" class="table table-bordered table-striped table-hover mt-3 text-center">
+    <thead class="bg-primary">
+      <tr>
+        <th>#</th>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Age</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Bảo</td>
+        <td>Trần Gia</td>
+        <td>25</td>
+        <td>tranbao@devcamp.vn</td>
+        <td>
+          <button"><i class="fas fa-pen-square fa-lg" style="color: gray;"></i></button>
+            <button"><i class="fas fa-trash-alt fa-lg" style="color: red;"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+
+</html>

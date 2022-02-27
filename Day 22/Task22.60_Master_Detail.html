@@ -1,0 +1,162 @@
+<!-- Bài tập Master-detail -->
+<!-- Task 22.60: trang nguồn -->
+<!-- Task 22.70-22.80: trang đích -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Task 22.60</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h2 class="text-center">Danh sách người dùng đăng ký</h2>
+        <table id="user-table" class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Mã người dùng</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Country</th>
+                    <th>Subject</th>
+                    <th>Customer Type</th>
+                    <th>Register Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+        const gREQUEST_STATUS_OK = 200;
+        const gREQUEST_READY_STATUS_FINISH_AND_OK = 4;
+        const gBASE_URL = "http://42.115.221.44:8080/devcamp-register-java-api/users"
+
+        const gEND_ROW_TABLE = -1;
+        const gCOL_USER_ID = 0;
+        const gCOL_FIRSTNAME = 1;
+        const gCOL_LASTNAME = 2;
+        const gCOL_COUNTRY = 3;
+        const gCOL_SUBJECT = 4;
+        const gCOL_CUSTOMER_TYPE = 5;
+        const gCOL_REGISTER_STATUS = 6;
+        const gCOL_ACTIONS = 7;
+        /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+        onPageLoading();
+        /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+        function onPageLoading() {
+            // Lấy dữ liệu qua API
+            var vXmlHttp = new XMLHttpRequest();
+            vXmlHttp.onreadystatechange = function () {
+                if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
+                    // console.log("responseText = " + vXmlHttp.responseText);
+                    var vUserDataList = JSON.parse(vXmlHttp.responseText);
+
+                    showDataOnTable(vUserDataList);
+                    addEventClickToDetailButton();
+                }
+            };
+            vXmlHttp.open("GET", gBASE_URL, true);
+            vXmlHttp.send();
+            // thêm sự kiện Click vào các nút Detail button
+            
+        }
+
+        // Hàm xử lý sự kiện detail button click
+        function onBtnUserDetailClick(paramDetailButton) {
+            // lấy giá trị của dòng dataset
+            var vUserId = paramDetailButton.dataset.userid;
+            var vFirstname = paramDetailButton.dataset.firstname;
+            var vLastName = paramDetailButton.dataset.lastname;
+            var vCountry = paramDetailButton.dataset.country;
+            var vSubject = paramDetailButton.dataset.subject;
+
+            console.log("Thông tin user: ");
+            console.log("User id: " + vUserId);
+            console.log("Firstname: " + vFirstname);
+            console.log("Lastname: " + vLastName);
+            console.log("Country: " + vCountry);
+            console.log("Subject: " + vSubject);
+
+            // gọi và truyền data qua form User Details
+            const vDETAIL_FORM_URL = "Task.22.70.html"
+            var vUrlSiteToOpen = vDETAIL_FORM_URL +
+                "?id=" + vUserId;
+            window.location.href = vUrlSiteToOpen;
+            
+        }
+
+        /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+        function showDataOnTable(paramUserDataList) {
+            var vTable = document.getElementById("user-table");
+            var vTableBody = vTable.getElementsByTagName("tbody")[0];
+
+            for (var bI = 0; bI < paramUserDataList.length; bI++) {
+                var bUserData = paramUserDataList[bI];
+                // tạo dòng mưới cho bẳng và ghi vào các giá trị 
+                var bNewRow = vTableBody.insertRow(gEND_ROW_TABLE);
+
+                var bCellUserId = bNewRow.insertCell(gCOL_USER_ID);
+                var bCellFirstname = bNewRow.insertCell(gCOL_FIRSTNAME);
+                var bCellLastname = bNewRow.insertCell(gCOL_LASTNAME);
+                var bCellCountry = bNewRow.insertCell(gCOL_COUNTRY);
+                var bCellSubject = bNewRow.insertCell(gCOL_SUBJECT);
+                var bCellCustomerType = bNewRow.insertCell(gCOL_CUSTOMER_TYPE);
+                var bCellRegisterStatus = bNewRow.insertCell(gCOL_REGISTER_STATUS);
+                var bCellActions = bNewRow.insertCell(gCOL_ACTIONS);
+
+                bCellUserId.innerHTML = bUserData.id;
+                bCellFirstname.innerHTML = bUserData.firstname;
+                bCellLastname.innerHTML = bUserData.lastname;
+                bCellCountry.innerHTML = bUserData.country;
+                bCellSubject.innerHTML = bUserData.subject;
+                bCellCustomerType.innerHTML = bUserData.customerType;
+                bCellRegisterStatus.innerHTML = bUserData.registerStatus;
+
+                // Tạo ra thành phần HTML button chi tiết
+                var bDetailButton = document.createElement("button");
+                bDetailButton.textContent = "Chi tiết";
+                bDetailButton.className = "btn btn-info user-detail"; /* user-detail là class
+                 name ta tự tạo thêm cho riêng các nút detail 
+                 để tiếp sau gán sự kiện cho class này */
+                // gắn dữ liệu của dòng vào dataset của detail button
+                bDetailButton.setAttribute("data-userid", bUserData.id);
+                bDetailButton.setAttribute("data-firstname", bUserData.firstname);
+                bDetailButton.setAttribute("data-lastname", bUserData.lastname);
+                bDetailButton.setAttribute("data-country", bUserData.country);
+                bDetailButton.setAttribute("data-subject", bUserData.subject);
+                // Gắn (append) nút html Chi tiết ở trên vào ô action
+                bCellActions.appendChild(bDetailButton);
+            }
+        }
+
+        // khởi tạo hàm gắn sự kiện click cho các nút detail
+        function addEventClickToDetailButton() {
+            // truy xuất được tất cả các nút trên detail
+            var vDetailButtons = document.getElementsByClassName("user-detail");
+            // gắn được sự kiện click cho các nút
+            for(var bI = 0; bI < vDetailButtons.length; bI ++) {
+                vDetailButtons[bI].addEventListener("click", function () {
+                    onBtnUserDetailClick(this); // ở đây phải để this thì mới không bị lỗi "cannot reading dataset"
+                });
+            }
+        }
+
+    </script>
+</body>
+
+</html>

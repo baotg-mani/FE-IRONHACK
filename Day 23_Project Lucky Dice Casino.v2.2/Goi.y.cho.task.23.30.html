@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<title> Bootstrap template- Pizza 365 project</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- font -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<body> 
+  <!-- Content -->
+  <div class="container" > 
+    <div id="plans" class="row">
+      <!-- Title what we offer -->
+      <div class="col-sm-12 text-center p-4 mt-4">
+        <h2><b class="p-1 border-bottom">Pricing Plans</b></h2>
+        <p><span class="p-2">Choose a pricing plan that fits your needs.</span></p>
+      </div>
+      <!-- Content what we offer -->
+      <div class="col-sm-12">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="card">
+              <div class="card-header bg-dark text-white text-center">
+                <h3>Basic</h3>
+              </div>
+              <div class="card-body text-center">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><b>10GB</b> Storage</li>
+                  <li class="list-group-item"><b>10</b> Emails</li>
+                  <li class="list-group-item"><b>25</b> Domains</li>
+                  <li class="list-group-item"><b>Endless</b> Support</li>
+                  <li class="list-group-item">
+                    <h1><b>$ 10</b></h1> per month
+                  </li>
+                </ul>
+              </div>
+              <div class="card-footer text-center">
+                <button id="sizeS" class="btn btn-success" onclick="onBtnSizeSClick()">Sign Up</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="card">
+              <div class="card-header bg-secondary text-white text-center">
+                <h3>Pro</h3>
+              </div>
+              <div class="card-body text-center">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><b>25GB</b> Storage</li>
+                  <li class="list-group-item"><b>25</b> Emails</li>
+                  <li class="list-group-item"><b>25</b> Domains</li>
+                  <li class="list-group-item"><b>Endless</b> Support</li>
+                  <li class="list-group-item">
+                    <h1><b>$ 25</b></h1> per month
+                  </li>
+                </ul>
+              </div>
+              <div class="card-footer text-center">
+                <button id="sizeM" class="btn btn-warning" onclick="onBtnSizeMClick()">Sign Up</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="card">
+              <div class="card-header bg-dark text-white text-center">
+                <h3>Premium</h3>
+              </div>
+              <div class="card-body text-center">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><b>50GB</b> Storage</li>
+                  <li class="list-group-item"><b>50</b> Emails</li>
+                  <li class="list-group-item"><b>50</b> Domains</li>
+                  <li class="list-group-item"><b>Endless</b> Support</li>
+                  <li class="list-group-item">
+                    <h1><b>$ 50</b></h1> per month
+                  </li>
+                </ul>
+              </div>
+              <div class="card-footer text-center">
+                <button id="sizeL" class="btn btn-success" onclick="onBtnSizeLClick()">Sign Up</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+  </div>
+  <script>
+    "use strict";
+    // bạn có thê dùng để lưu trữ combo được chọn, mỗi khi khách chọn bạn lại đổi giá trị properties của nó
+    var gSelectedMenuStructure = {
+      menuName: "...",    // S, M, L
+      duongKinhCM: 0,
+      suongNuong: 0,
+      saladGr: 0,
+      drink: 0,
+      priceVND: 0
+    }
+    // bạn có thể dùng để lưu loại pizza đươc chọn, mỗi khi khách chọn, bạn lại đổi giá trị cho nó
+    var gSelectedPizzaType = "..."
+
+    //set trạng thái của 03 nút trong menu (tại price pannel) 
+    function setMenuButtonsColor(paramSelectedMenuName) {
+      "use strict";
+      //truy vấn 03 nút
+      console.log("selected menu .. = " + paramSelectedMenuName); //tracking
+      var vSelectSizeMButton = document.getElementById("sizeM");
+      var vSelectSizeLButton = document.getElementById("sizeL");
+      var vSelectSizeSButton = document.getElementById("sizeS");
+      // set classname cho 03 nút này, tùy và lựa chon là gì
+      if (paramSelectedMenuName == "M") {
+        vSelectSizeMButton.className = "btn btn-warning"; //oragge
+        vSelectSizeLButton.className = "btn btn-success";
+        vSelectSizeSButton.className = "btn btn-success";
+      }
+      else if (paramSelectedMenuName == "L") {
+        vSelectSizeMButton.className = "btn btn-success";
+        vSelectSizeLButton.className = "btn btn-warning"; //orange
+        vSelectSizeSButton.className = "btn btn-success";
+
+      } else if (paramSelectedMenuName == "S") {
+        vSelectSizeMButton.className = "btn btn-success";
+        vSelectSizeLButton.className = "btn btn-success";
+        vSelectSizeSButton.className = "btn btn-warning"; //orange
+      }
+    }
+
+    //selected the size M
+    function onBtnSizeMClick() {
+      "use strict";
+      // map lựa chọn vào gSelectedMenuStructure, chỗ này còn rất nhiều properties tôi chưa gán
+      gSelectedMenuStructure.menuName = "M";
+
+      //set trạng thái của nut - set the buttons style 
+      setMenuButtonsColor(gSelectedMenuStructure.menuName);
+      // đay là ví dụ để bạn đẩy view đến 01 element khác (focus vào vùng đó)
+      document.getElementById("about").scrollIntoView();
+    }
+
+    function onBtnSizeLClick() {
+      "use strict";
+      // map lựa chọn vào gSelectedMenuStructure  //chỗ này còn nhiều properties tôi chưa gán
+      gSelectedMenuStructure.menuName = "L";
+      //set trạng thái của nut - set the buttons style 
+      setMenuButtonsColor(gSelectedMenuStructure.menuName);
+      // đay là ví dụ để bạn đẩy view đến 01 element khác (focus vào vùng đó)
+      document.getElementById("about").scrollIntoView();
+    }
+
+    function onBtnSizeSClick() {
+      "use strict";
+      // map lựa chọn vào gSelectedMenuStructure
+      gSelectedMenuStructure.menuName = "S"; //chỗ này còn nhiều dòng code nữa, nhiều properties tôi chưa gán
+
+      //set trạng thái của nut - set the buttons style 
+      setMenuButtonsColor(gSelectedMenuStructure.menuName);
+      // đay là ví dụ để bạn đẩy view đến 01 element khác (focus vào vùng đó)
+      document.getElementById("about").scrollIntoView();
+    }
+  </script>
+</body>
+
+</html>

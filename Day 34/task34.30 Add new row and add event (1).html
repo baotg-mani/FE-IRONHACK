@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> Task 34.30</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <div class="container text-center mt-4 mb-4">
+    <h2>F100 - Quản trị người dùng</h2>
+</div>
+<div class="container">
+  <table class="table table-striped table-bordered table-hover" id="userTable">
+    <thead>
+       <tr>
+           <td>Username</td>
+           <td>First name</td>
+           <td>Last name</td>
+           <td>Email</td>
+           <td>Age</td>
+       </tr>
+   </thead>
+   <tbody>
+   <tr>
+     <td>quannv</td>
+     <td>Ngo Van</td>
+     <td>Quan</td>
+     <td>quan@gmail.com</td>
+     <td>18</td>
+    </tr>
+    <tr>
+      <td>longdh</td>
+      <td>Do Hoang</td>
+      <td>Long</td>
+      <td>long@gmail.com</td>
+      <td>19</td>
+    </tr>
+    <tr>
+      <td>hiendt</td>
+      <td>Do Thi</td>
+      <td>Hien</td>
+      <td>hien@gmail.com</td>
+      <td>29</td>
+    </tr>
+    <tr>
+      <td>lanht</td>
+      <td>Ho Thi</td>
+      <td>Lan</td>
+      <td>lan@gmail.com</td>
+      <td>27</td>
+    </tr>
+  </tbody>
+  </table>
+    <div class="form-group">
+      <button class="btn btn-primary" id="btn-add-new-row">Thêm dòng</button>
+    </div>
+</div>
+</body>
+​<script>
+  "use strict";
+  /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+  /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+  $("#btn-add-new-row").on("click", onBtnAddNewRowClick);
+  $("#userTable").on("click", onBtnAddEventRowClick);
+
+  /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+  // hàm xử lý sự kiện thêm dòng mới
+  function onBtnAddNewRowClick() {
+    var vUserTable = $("#userTable");
+    var bNewRow = $("<tr/>").appendTo(vUserTable);
+    $("<td/>", {
+          html: "namtt"
+      }).appendTo(bNewRow);
+
+      $("<td/>", {
+          html: "Trần Trọng"
+      }).appendTo(bNewRow);
+
+      $("<td/>", {
+          html: "Nam"
+      }).appendTo(bNewRow);
+
+      $("<td/>", {
+          html: "namtt@gmail.com"
+      }).appendTo(bNewRow);
+
+      $("<td/>", {
+          html: 23
+      }).appendTo(bNewRow);
+  }
+  
+  function onBtnAddEventRowClick() {
+    $(document).on("click", "#userTable tbody tr", function () {
+      var vUsername = $(this).find("td:first-child").text();
+      alert(vUsername);
+    });
+  }
+  /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+
+</script>
+</html>

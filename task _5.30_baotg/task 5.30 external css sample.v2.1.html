@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <!-- LINK CSS EXTERNAL -->
+  <link rel="stylesheet" href="main.css">
+
+  <!-- <style>
+
+</style> -->
+</head>
+
+<body>
+
+
+
+  <h2>Responsive Form - Form mẫu </h2>
+  <p>Thử kéo các cỡ bạn sẽ thấy các item điều chỉnh theo</p>
+
+  <div class="container">
+    <form>
+      <div class="row">
+        <div class="col-25">
+          <label for="fname">First Name</label>
+        </div>
+        <div class="col-75">
+          <input id="inp-first-name" type="text" name="firstname" placeholder="Your name..">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="lname">Last Name</label>
+        </div>
+        <div class="col-75">
+          <input id="inp-last-name" type="text" name="lastname" placeholder="Your last name..">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="country">Country</label>
+        </div>
+        <div class="col-75">
+          <select id="select-country-name" name="country">
+            <option value="australia">Australia</option>
+            <option value="canada">Canada</option>
+            <option value="usa">USA</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="subject">Subject</label>
+        </div>
+        <div class="col-75">
+          <textarea id="txtarea-subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <input id="btn-send-data" class="button" type="button" value="send data" onclick="callIAm()">
+      </div>
+    </form>
+  </div>
+<script>
+  // hàm xử lý việc load trang
+  function onPageLoading(){
+    //B1: Truy xuất các phần tử html
+    var fnElement = document.getElementById("inp-first-name");
+    var lnElement = document.getElementById("inp-last-name");
+    var ctElement = document.getElementById("select-country-name");
+    var sjElement = document.getElementById("txtarea-subject");
+    var btnElement = document.getElementById("btn-send-data");
+
+    //B2: Lấy và ghi ra id, placeholder của các phần tử len console
+    console.log(fnElement.id);
+    console.log(fnElement.placeholder);
+
+    console.log(lnElement.id);
+    console.log(lnElement.placeholder);
+
+    console.log(ctElement.id);
+    console.log(ctElement.ariaValueNow);
+
+    console.log(sjElement.id);
+    console.log(sjElement.placeholder);
+
+    console.log(btnElement.id);
+    console.log(btnElement.value);
+
+  } onPageLoading();
+
+  // Hàm xử ý sự kiện send click và hiện value ra màn hình console
+  function callIAm(){
+    var fnElement = document.getElementById("inp-first-name");
+    var lnElement = document.getElementById("inp-last-name");
+    var ctElement = document.getElementById("select-country-name");
+    var sjElement = document.getElementById("txtarea-subject");
+    var btnElement = document.getElementById("btn-send-data");
+
+    console.log(fnElement.name + " read data from " + fnElement.id);
+    console.log(lnElement.name + " read data from " + lnElement.id);
+    console.log(ctElement.name + " read data from " + ctElement.id);
+    console.log(sjElement.name + " read data from " + sjElement.id);
+    
+    // thêm luôn chức năng hiện ra value trên console sau khi nhập các giá trị và ấn button
+    var fstNameToMe = fnElement.value;
+    var lstNameToMe = lnElement.value;
+    var yourCounttry = ctElement.value;
+    var messageToMe = sjElement.value;
+
+    console.log(fstNameToMe);
+    console.log(lstNameToMe);
+    console.log(yourCounttry);
+    console.log(messageToMe);
+   
+  }
+
+</script>
+</body>
+
+</html>

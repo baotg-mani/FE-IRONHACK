@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task 14.40</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container jumbotron">
+        <h2>Chuyển dữ liệu từ JSON string, vào object</h2>
+        <p id="p-json-person-john"></p>
+    </div>
+<script>
+// code mẫu
+
+// 1.định nghĩa JSON string
+var gJSONPersonString = `{"name":"John Doe", "age":31, "city":"New York"}`;
+
+// 2.parsing, chuyển JSON string thành Object
+var gPerson = JSON.parse(gJSONPersonString);
+
+//3. viết myPerson.name ra web
+var gDemoJsonPersonElement = document.getElementById("p-json-person-john");
+gDemoJsonPersonElement.innerHTML = gPerson.name;
+</script>
+
+
+</body>
+</html>

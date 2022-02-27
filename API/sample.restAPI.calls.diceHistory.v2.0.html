@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 14.5</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<!-- file html dùng để thử tác động của javascript vào các thành phần trang web-->
+<script>
+    const gREQUEST_STATUS_OK = 200;
+    const gREQUEST_READY_STATUS_FINISH_AND_OK = 4;
+    //gọi mẫu lấy dic history
+    function myOnClickDiceHistory() {
+        //base url
+        const vBASE_URL = "http://42.115.221.44:8080/devcamp-lucky-dice";
+        var vUserNameTest = "linhdh";
+
+        var vXmlHttpDiceHistory = new XMLHttpRequest();
+        vXmlHttpDiceHistory.open("GET", vBASE_URL + "/dice-history?username=" + vUserNameTest, true);
+        vXmlHttpDiceHistory.send();
+        vXmlHttpDiceHistory.onreadystatechange =
+            function () {
+                if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
+                    console.log(vXmlHttpDiceHistory.responseText);
+                }
+            }
+    }
+
+</script>
+
+<body>
+    <div class="container jumbotron">
+        <p id="cmt2dev">Test Page for Javascrip Tasks. F5 to run code. </p>
+        <form id="singleForm">
+            <input type="button" class="btn btn-primary" onclick="myOnClickDiceHistory()" value="Call get api dice history!">
+        </form>
+        <p id="testP" style="font-size:larger;">Demo gọi 01 post API!</p>
+        <p> Input: username, firstname, lastname</p>
+    </div>
+</body>
+
+</html>

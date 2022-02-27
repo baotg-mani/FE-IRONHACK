@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Import DataTable Library -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
+  <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+  <title>diceHistory_task38.30</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="text-center">
+      <h2>F200 - LỊCH SỬ QUAY DICE</h2>
+    </div>
+    <div class="border jumbotron">
+      <label><b>Thông tin người chơi:</b></label>
+      <div class="row mt-3">
+        <div class="col-sm-4 row">
+          <div class="col-sm-4">
+            <label>Username</label>
+          </div>
+          <div class="col-sm-8">
+            <input class="form-control" type="text" name="" id="">
+          </div>
+        </div>
+        <div class="col-sm-4 row">
+          <div class="col-sm-4">
+            <label>Firstname</label>
+          </div>
+          <div class="col-sm-8">
+            <input class="form-control" type="text" name="" id="">
+          </div>
+        </div>
+        <div class="col-sm-4 row">
+          <div class="col-sm-4">
+            <label>Lastname</label>
+          </div>
+          <div class="col-sm-8">
+            <input class="form-control" type="text" name="" id="">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <table id="dice-history-table" class="table table-bordered table-striped table-hover">
+        <thead class="bg-primary">
+          <tr>
+            <th>Lần chơi</th>
+            <th>Kết quả</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    var gUserDataObj = {
+      username: "",
+      firstname: "",
+      lastname: ""
+    }
+
+    var gStt = 1;
+
+    var gColName = ["sort", "dices"];
+    const gCOL_SORT = 0;
+    const gCOL_RESULT = 1;
+
+    // khởi tạo DataTable
+    var gHistoryTable = $("#dice-history-table").DataTable({
+      // data: paramResObj.dices,
+      searching: false,
+      paging: false,
+      ordering: false,
+      columns: [
+        { data: gColName[gCOL_SORT] },
+        { data: gColName[gCOL_RESULT] }
+      ],
+      columnDefs: [
+        {
+          targets: gCOL_SORT,
+          render: function () {
+            return gStt++;
+          }
+        }
+      ]
+    });
+
+    var gDices = [];
+
+    /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+    onPageLoading();
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    // Hàm xử lý sự kiện load trang
+    function onPageLoading() {
+      // B1: thu thập dữ liệu
+      getDataFromQueryStr();
+      console.log(gUserDataObj);
+      // B2: validate dữ liệu
+      var vIsDataValid = validateData(gUserDataObj);
+      if (vIsDataValid) {
+        // B3: call rextAPI by jQuery AJAX
+        const vBASE_URL = "http://42.115.221.44:8080/devcamp-lucky-dice";
+        $.ajax({
+          url: vBASE_URL + "/dice-history?username=" + gUserDataObj.username,
+          type: "GET",
+          dataType: "json",
+          // data: 
+          // contentType: 
+          success: function (res) {
+            console.log(res);
+            // B4: xử lý xự kiện front-end
+            handleShowDataToTable(res);
+          },
+          error: function (ajaxContext) {
+            alert(ajaxContext.response);
+          }
+        });
+      }
+    }
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    // Hàm xử lý sự kiện hiển thị history data lên table
+    function handleShowDataToTable(paramResObj) {
+      for (let bI = 0; bI < paramResObj.dices.length; bI++) {
+        gDices[bI] = {
+          "dices": paramResObj.dices[bI]
+        };
+      }
+      console.log(gDices);
+      gHistoryTable.clear();
+      gHistoryTable.rows.add(gDices);
+      gHistoryTable.draw();
+
+      $("#dice-history-table_info").each(function () {
+        var vText = $(this).text();
+        $(this).text(
+          vText
+            .replace("Showing", "Sắp xếp")
+            .replace("to", "đến")
+            .replace("of", "của")
+            .replace("entries", "kết quả")
+        );
+      });
+    }
+
+    // Hàm thu thập dữ liệu từ querystring
+    function getDataFromQueryStr() {
+      "use strict";
+      var vUrl = new URL(window.location.href);
+      gUserDataObj.username = vUrl.searchParams.get("username");
+      gUserDataObj.firstname = vUrl.searchParams.get("firstname");
+      gUserDataObj.lastname = vUrl.searchParams.get("lastname");
+    }
+
+    // Hàm kiểm tra dữ liệu 
+    function validateData(paramUserDataObj) {
+      if (paramUserDataObj.username === "") {
+        alert("querystring thiếu param");
+        return false;
+      }
+      if (paramUserDataObj.firstname === "") {
+        alert("querystring thiếu param");
+        return false;
+      }
+      if (paramUserDataObj.lastname === "") {
+        alert("querystring thiếu param");
+        return false;
+      }
+      return true;
+    }
+  </script>
+</body>
+
+</html>

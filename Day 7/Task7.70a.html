@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title style="font-weight: bold;">Task 7.70a</title>
+</head>
+<body>
+    <p id="hello-paragraph" style="font-weight: bold; font-family: Arial">Hello Devcamp120 2021!</p>
+    <label style="font-family: Arial;">New color</label> 
+    <select id="select-color" style="font-family: Arial;" id="select-color">
+        <option id="null-option" value=""></option>
+        <option id="red-option" value="Red">Red</option>
+        <option id="blue-option" value="Blue">Blue</option>
+        <option id="green-option" value="Green">Green</option>
+    </select> <br> <br>
+    <button id="trigger-color" onclick="onTriggerButtonClick()" style="font-family: Arial; background-color: lightgreen;">change color</button>
+
+    <script>
+        "use strict";
+        /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+        /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+        var gHelloParagElement = document.getElementById("hello-paragraph");
+        var gSelectColorElement = document.getElementById("select-color");
+        var gTriggerButtonElement = document.getElementById("trigger-color");
+
+        var vNullOption = document.getElementById("null-option");
+        var vRedOption = document.getElementById("red-option");
+        var vBlueOption = document.getElementById("blue-option");
+        var vGreenOption = document.getElementById("green-option");
+
+
+        /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+        // Hàm chức tạo chức năng khi Click button.
+        function onTriggerButtonClick() {
+            "use strict";
+            console.log('Nút change color đã được ấn.');
+            console.log('Value: ' + vNullOption.value + ' ,Text: ' + vNullOption.innerHTML);
+            console.log('Value: ' + vRedOption.value + ' ,Text: ' + vRedOption.innerHTML);
+            console.log('Value: ' + vBlueOption.value + ' ,Text: ' + vBlueOption.innerHTML);
+            console.log('Value: ' + vGreenOption.value + ' ,Text: ' + vGreenOption.innerHTML);
+            //gán giá trị màu của option vào thuộc tính màu của thẻ P để đổi màu sau khi Click
+            gHelloParagElement.style.color = gSelectColorElement.value;
+            //cảnh báo alert khi để ô select là Trắng(không chọn)
+            if(gSelectColorElement.value == "") {
+                alert("Hãy chọn màu rồi ấn nút!"); }
+
+        }     
+        
+
+        /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+        // Hàm hiện log lên console khi load trang.
+        function onPageLoad() {
+            "use strict";
+            console.log(gHelloParagElement.id);
+            console.log(gHelloParagElement.innerHTML);
+
+            console.log(gSelectColorElement.id);
+            console.log(gSelectColorElement.innerHTML);
+
+            console.log(gTriggerButtonElement.id);
+            console.log(gTriggerButtonElement.innerHTML);
+            
+        }
+        onPageLoad();
+    </script>
+</body>
+</html>

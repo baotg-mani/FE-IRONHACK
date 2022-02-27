@@ -1,0 +1,149 @@
+<!-- Tiếp Task 32.50 -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Task 32.50</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="col-sm-12">
+    </div>
+    <div class="text-center my-4">
+      <h2>Danh sách người dùng đăng ký</h2>
+    </div>
+
+    <table id="user-table" class="table table-bordered table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Mã người dùng</th>
+          <th>Firstname</th>
+          <th>Lastname</th>
+          <th>Country</th>
+          <th>Subject</th>
+          <th>Customer Type</th>
+          <th>Register Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>13528</td>
+          <td>John</td>
+          <td>Doe</td>
+          <td>Viet Nam</td>
+          <td>Test1</td>
+          <td>Gold</td>
+          <td>accepted</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    </div>
+  </div>
+  ​
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    $(document).ready(function () {
+      onPageLoading();
+    });
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    // Ham xu ly su kien load trang
+    function onPageLoading() {
+      // xóa trắng bảng tbody
+      $("#user-table tbody").empty();
+      // load dữ liệu vào bảng
+      loadDataToTable();
+      // gán sự kiện click vào element mà được Phân Quyền có class là "details" - (Button Chi tiết)
+      $("#user-table tbody").on("click", ".details", function () {
+        console.log("Nút chi tiết được click.");
+        // hiển thị dữ liệu dataset của user tương ứng ra console
+        onBtnDetailClickI(this);
+      })
+
+    }
+
+    // Hàm xử lý sự kiện btn Detail clicked
+    function onBtnDetailClickI(paramElement) {
+      // hiển thị dữ liệu của user tương ứng với btn Chi tiết được clicked
+      var vId = $(paramElement).data("userid");
+      var vFisrtname = $(paramElement).data("firstname");
+      var vLastname = $(paramElement).data("lastname");
+      var vCountry = $(paramElement).data("country");
+      var vSubject = $(paramElement).data("subject");
+      var vCustomerType = $(paramElement).data("customer-type");
+      var vRegisterStatus = $(paramElement).data("register-tatus");
+      console.log("id: " + vId);
+      console.log("firstname: " + vFisrtname);
+      console.log("lastname: " + vLastname);
+      console.log("country: " + vCountry);
+      console.log("subject: " + vSubject);
+      console.log("customer type: " + vCustomerType);
+      console.log("register status: " + vRegisterStatus);
+      // gọi và truyền userId qua form User Detail
+      var vUrlSiteToOpen = "UserDetail.html" + 
+      "?id=" + vId;
+      window.location.href = vUrlSiteToOpen;
+    }
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    function loadDataToTable() {
+      // get all Users data
+      "use strict";
+      $.ajax({
+        url: "http://42.115.221.44:8080/devcamp-register-java-api/users",
+        type: "GET",
+        dataType: "json",
+        success: function (res) {
+          console.log(res);
+          // show all user data to table
+          showUsersToTable(res);
+        },
+        error: function (ajaxContext) {
+          alert(ajaxContext.responseText);
+        }
+      });
+    }
+
+    // Hàm hiển thị thông tin Users ra bảng
+    function showUsersToTable(paramAllUsers) {
+      // debugger;
+      // insert new row with data to table
+      for (var bI = 0; bI < paramAllUsers.length; bI++) {
+        var vNewRow = "";
+        vNewRow = vNewRow +
+          '<tr>' +
+          '<td>' + paramAllUsers[bI].id + '</td>' +
+          '<td>' + paramAllUsers[bI].firstname + '</td>' +
+          '<td>' + paramAllUsers[bI].lastname + '</td>' +
+          '<td>' + paramAllUsers[bI].country + '</td>' +
+          '<td>' + paramAllUsers[bI].subject + '</td>' +
+          '<td>' + paramAllUsers[bI].customerType + '</td>' +
+          '<td>' + paramAllUsers[bI].registerStatus + '</td>' +
+          '<td><button class="btn btn-primary details" data-userid=' + paramAllUsers[bI].id
+          + " data-firstname=" + paramAllUsers[bI].firstname
+          + " data-lastname=" + paramAllUsers[bI].lastname
+          + " data-country=" + paramAllUsers[bI].country
+          + " data-subject=" + paramAllUsers[bI].subject
+          + " data-customer-type=" + paramAllUsers[bI].customerType
+          + " data-register-status=" + paramAllUsers[bI].registerStatus
+          + '>Chi tiết</button></td></tr>';
+        // thêm Row vừa tạo vào bảng phần tbody
+        $("#user-table tbody").append(vNewRow);
+      }
+    }
+  </script>
+</body>
+
+</html>
+​

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> jquery chain examples</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        /*class để thử */
+        .text-bordered {
+            border: 2px solid red;
+        }
+
+        .text-line-through {
+            text-decoration: line-through;
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        "use strict";
+        /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+        /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+
+        /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+        $(document).ready(function () {
+            //button 1: ví dụ về chainning - nhiều action được gọi liên tục trong 01 jquery chain
+            $("#btn-change-text").click(function () {
+                $("#para-p1")                       //truy vấn element #para-p1 by ID
+                    .css("color", "green")          // action SET 1: thay màu thành green
+                    .css("font-style", "italic")    // action SET 2: thay font thành italic
+                    .addClass("text-bordered")      // action SET 3: add thêm class text bordered
+                    .css("font-weight", "bold")     // hãy set css để text thành bold (font-weight property)               
+                    .addClass("text-line-through"); // hãy add thêm class text-line-through
+            });
+
+            /*
+           *  button 2: cũng là 01 chain, nhưng ở cuối có method GET
+           *  KHÔNG để vừa có SET và có GET trong cùng 1 chain như sau, đây chỉ là ví dụ.
+           *  TODO: Hãy comment ý nghĩa của các dòng lệnh ở các chỗ <<COMMENT VÀO ĐÂY>>
+           */
+            $("#btn-change-text-alert").click(function () {
+                var vInnerText = $("#para-p1")  //select hay truy vấn element by ID
+                    .css("color", "blue")   //action SET 1:  đổi thành màu xanh
+                    .css("font-style", "normal") //action SET 2:  đổi font
+                    .removeClass("text-bordered")  //action SET 3:  bỏ class text-bordered
+                    .html();               //action GET 4: lấy giá trị html
+                alert(vInnerText);             //alert giá trị lấy được
+            });
+
+            /*
+           *  BUTTON 3: 
+           * sau Get thì không thể sử dụng action Set được nữa, vì đã được trả lại là 01 literal, 
+           * không phải jquery element
+           * nếu đổi action get (.html()) thành element cuối cùng của chain thì sẽ hết lỗi
+           */
+            $("#btn-change-text-hide-error").click(function () {
+                $("#para-p1")                   // truy vấn element bằng ID
+                    .css("color", "blue")   //action SET 1: thay dổi thuộc tính color thành blue
+                    .css("font-style", "normal") //action SET 2: thay đổi thuộc tính font-style thành normal
+                    .removeClass("text-bordered")  //action SET 3: bỏ class text-bordered
+                    .hide()  //action SET 5: ẩn nội dung   
+                    .html(); //action GET 4: lấy giá trị html
+            });
+
+            /*
+            *  BUTTON 4: 
+            * sau Get thì không thể sử dụng action Set được nữa, 
+            * vì đã được trả lại là 01 literal, không phải jquery element
+            * */
+            $("#btn-change-text-hide").click(function () {
+
+                var v$Par1 = $("#para-p1");  //JQUERY SELECT BY ID => jquery element
+                var v$Par2 = v$Par1.css("color", "blue"); //SET ACTION => jquery element
+                var v$Par3 = v$Par2.css("font-style", "normal"); //jquery element
+                var v$Par4 = v$Par3.removeClass("text-bordered"); //jquery element
+                var v$Par5 = v$Par4.hide(); // jquery element
+                var vHtml = v$Par4.html();   //GET action => literal string, là đoạn văn đơn giản (literal)
+
+                var vIsEqual = (v$Par1 === v$Par5);        //so sánh giữa v$Par1 và v$Par5     
+                // debugger;  //HÃY CHỤP ẢNH THEO DÕI GIÁ TRỊ CÁC VARIABLE (06) NÀY Ở DEBUG WATCH
+            });
+            /*
+            * button 5: viết lại code ở 4 bằng 01 chain
+            */
+            $("#btn-chain-hide").click(function () {
+                var vChain = $("#para-p1")
+                    .css("color", "blue")
+                    .css("font-style", "normal")
+                    .removeClass("text-bordered")
+                    .hide()
+                    .html();
+            });
+
+            /*
+            * button 6: hãy thay đổi text của p1 thành "Hello Jquery Chain !!!" và Show ra
+            * (button 4 & button 5, ẩn p1 đi, button 6 hãy show ra)
+            */
+            $("#btn-change-text-show").click(function () {
+                var vBtn6 = $("#para-p1")
+                    .css("color", "red")
+                    .css("font-style", "italic")
+                    .css("font-size", "40px")
+                    .addClass("bg-warning")
+                    .html("Hello Jquery Chain !!!");
+                vBtn6.show();
+            });
+        });
+            /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-group">
+            <p id="para-p1">Bạn có thể chạy nhiều Action, với cùng một jquery element bằng Chaining!</p>
+            <button type="button" class="btn btn-warning" id="btn-change-text">(1) Change the text</button>
+            <button type="button" class="btn btn-info" id="btn-change-text-alert"> (2) Change the text, then
+                alert</button>
+            <button type="button" class="btn btn-success" id="btn-change-text-hide-error"> (3) Change the text, then
+                hide (có lỗi, bật console lên)</button>
+            <button type="button" class="btn btn-danger" id="btn-change-text-hide"> (4) Change the text, then hide
+            </button>
+            <button type="button" class="btn btn-danger" id="btn-chain-hide"> (5) Change the text, then hide
+            </button>
+            <button type="button" class="btn btn-danger" id="btn-change-text-show"> (6) Change the text, then show
+            </button>
+        </div>
+    </div>
+</body>
+
+</html>

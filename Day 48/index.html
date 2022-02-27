@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Task 48.10</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+
+  <!-- Select2 -->
+  <link rel="stylesheet" href="plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+
+  <!-- Toastr -->
+  <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+
+  <!-- Tempodominus (contain Date Time picker) -->
+  <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+
+</head>
+
+
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="#" class="nav-link">Quản lý bảng điểm</a>
+        </li>
+      </ul>
+
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+
+        <!-- Messages Dropdown Menu -->
+        <li class="nav-item dropdown">
+          <a class="nav-link" data-toggle="dropdown" href="#">
+            <i class="far fa-comments"></i>
+            <span class="badge badge-danger navbar-badge">3</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <a href="#" class="dropdown-item">
+              <!-- Message Start -->
+              <div class="media">
+                <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                <div class="media-body">
+                  <h3 class="dropdown-item-title">
+                    Brad Diesel
+                    <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
+                  </h3>
+                  <p class="text-sm">Call me whenever you can...</p>
+                  <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                </div>
+              </div>
+              <!-- Message End -->
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <!-- Message Start -->
+              <div class="media">
+                <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                <div class="media-body">
+                  <h3 class="dropdown-item-title">
+                    John Pierce
+                    <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
+                  </h3>
+                  <p class="text-sm">I got your message bro</p>
+                  <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                </div>
+              </div>
+              <!-- Message End -->
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <!-- Message Start -->
+              <div class="media">
+                <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                <div class="media-body">
+                  <h3 class="dropdown-item-title">
+                    Nora Silvester
+                    <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
+                  </h3>
+                  <p class="text-sm">The subject goes here</p>
+                  <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                </div>
+              </div>
+              <!-- Message End -->
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+          </div>
+        </li>
+        <!-- Notifications Dropdown Menu -->
+        <li class="nav-item dropdown">
+          <a class="nav-link" data-toggle="dropdown" href="#">
+            <i class="far fa-bell"></i>
+            <span class="badge badge-warning navbar-badge">15</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <span class="dropdown-item dropdown-header">15 Notifications</span>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-envelope mr-2"></i> 4 new messages
+              <span class="float-right text-muted text-sm">3 mins</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-users mr-2"></i> 8 friend requests
+              <span class="float-right text-muted text-sm">12 hours</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-file mr-2"></i> 3 new reports
+              <span class="float-right text-muted text-sm">2 days</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <!-- Brand Logo -->
+      <a href="#" class="brand-link">
+        <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+          style="opacity: .8">
+        <span class="brand-text font-weight-light">DEVCAMP120</span>
+      </a>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+          <div class="image">
+            <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          </div>
+          <div class="info">
+            <a href="#" class="d-block">BaoTG</a>
+          </div>
+        </div>
+
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+            <li class="nav-item menu-open">
+              <a href="#" class="nav-link active">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                  Dashboard
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="./index.html" class="nav-link active">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Quản lý bảng điểm</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="./index2.html" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Quản lý danh sách user đăng ký</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="pages/widgets.html" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+      </div>
+      <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0">Quản lý bảng điểm</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Quản lý bảng điểm</li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+
+          <div class="jumbotron container">
+            <div class="row form-group">
+              <div class="col-sm-6 font-weight-bold">
+                Lọc bảng điểm:
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-2 text-center align-self-center">
+                <label for="studentSelect">Sinh viên</label>
+              </div>
+              <div class="col-sm-3">
+                <select id="select-student-filter" class="form-control select2" style="width: 100%;">
+                </select>
+              </div>
+              <div class="col-sm-2 text-center align-self-center">
+                <label for="subjectSelect">Môn học</label>
+              </div>
+              <div class="col-sm-3">
+                <select id="select-subject-filter" class="form-control select2" style="width: 100%;">
+                </select>
+              </div>
+              <div class="col-sm-2">
+                <button id="btn-filter-data" class="btn btn-success">Lọc dữ liệu</button>
+              </div>
+            </div>
+          </div>
+
+          <button id="add-new" class="btn btn-success mb-2"><i class="fas fa-folder-plus mr-1"></i> Thêm</button>
+
+          <table class="table table-bordered table-striped table-hover" id="grade-table">
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>Sinh viên</th>
+                <th>Môn học</th>
+                <th>Điểm</th>
+                <th>Ngày thi</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+          </table>
+
+          <!-- Modal add New student  -->
+          <div id="modal-student" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Add new student</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Thêm dữ liệu học sinh mới vào danh sách học sinh.</p>
+                  <div class="row form-group">
+                    <div class="col-sm-4">
+                      <label for="">Username</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <input id="inp-username" class="form-control" type="text" placeholder="enter username...">
+                    </div>
+                  </div>
+                  <div class="row form-group">
+                    <div class="col-sm-4">
+                      <label for="">User Code</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <input id="inp-studentcode" class="form-control" type="text" placeholder="enter user code...">
+                    </div>
+                  </div>
+                  <div class="row form-group">
+                    <div class="col-sm-4">
+                      <label for="">Firstname</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <input id="inp-firstname" class="form-control" type="text" placeholder="enter firstname...">
+                    </div>
+                  </div>
+                  <div class="row form-group">
+                    <div class="col-sm-4">
+                      <label for="">Lastname</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <input id="inp-lastname" class="form-control" type="text" placeholder="enter lastname...">
+                    </div>
+                  </div>
+                  <div class="row form-group">
+                    <div class="col-sm-4">
+                      <label for="">Birthday</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <!-- Date -->
+                      <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                        <input id="inp-birthday" type="text" class="form-control datetimepicker-input"
+                          data-target="#reservationdate" placeholder="choose your birthday..." />
+                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row form-group">
+                    <div class="col-sm-4">
+                      <label for="">Email</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <input id="inp-email" class="form-control" type="text" placeholder="enter email...">
+                    </div>
+                  </div>
+                  <div class="row form-group">
+                    <div class="col-sm-4">
+                      <label for="">Student Year</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <input id="inp-studyyear" class="form-control" type="text" placeholder="enter student year...">
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button id="save-student" type="button" class="btn btn-primary">Save</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Skip</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal add New subject -->
+          <div id="modal-subject" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Add new subject</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Thêm dữ liệu môn học mới vào danh sách môn học.</p>
+
+                  <div class="row form-group">
+                    <div class="col-sm-4">
+                      <label for="">Subject code</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <input id="inp-subject-code" class="form-control" type="text" placeholder="enter subject code...">
+                    </div>
+                  </div>
+                  <div class="row form-group">
+                    <div class="col-sm-4">
+                      <label for="">Subject name</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <input id="inp-subject-name" class="form-control" type="text" placeholder="enter subject name...">
+                    </div>
+                  </div>
+                  <div class="row form-group">
+                    <div class="col-sm-4">
+                      <label for="">Credit</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <input id="inp-credit" class="form-control" type="text" placeholder="enter credit...">
+                    </div>
+                  </div>
+
+                </div>
+                <div class="modal-footer">
+                  <button id="save-subject" type="button" class="btn btn-primary">Save</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Skip</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal thêm điểm -->
+          <div id="modal-grade" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Add new grade</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <div class="modal-body">
+                  <p>Thêm dữ liệu vào bảng điểm.</p>
+                  <div class="row form-group">
+                    <div class="col-sm-6 row">
+                      <div class="col-sm-4 align-self-center">
+                        <label>Sinh viên</label>
+                      </div>
+                      <div class="col-sm-8">
+                        <select id="select-student-modal" class="form-control select2" style="width: 100%;">
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 row">
+                      <div class="col-sm-4 align-self-center">
+                        <label>Môn học</label>
+                      </div>
+                      <div class="col-sm-8">
+                        <select id="select-subject-modal" class="form-control select2" style="width: 100%;">
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12 row form-group">
+                      <div class="col-sm-2 align-self-center">
+                        <label for="">Điểm</label>
+                      </div>
+                      <div class="col-sm-10">
+                        <input id="inp-grade" class="form-control" type="text" placeholder="enter grade...">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12 row">
+                      <div class="col-sm-2 align-self-center">
+                        <label for="">Ngày thi</label>
+                      </div>
+                      <div class="col-sm-10">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                          </div>
+                          <input id="inp-examdate" type="text" class="form-control datemask"
+                            data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button id="btn-save-grade" type="button" class="btn btn-primary">Save</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal Delete -->
+          <div id="modal-delete" class="modal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Delete ?</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-footer">
+                  <button id="btn-confirm-delete" type="button" class="btn btn-primary">Confirm</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+      <strong>Copyright &copy; 2014-2021 DEVCAMP120</strong>
+      All rights reserved.
+      <div class="float-right d-none d-sm-inline-block">
+        <b>Version</b> 1.0.0
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- jQuery -->
+  <script src="plugins/jquery/jquery.min.js"></script>
+
+  <!-- Bootstrap js -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- Moment js -->
+  <script src="plugins/moment/moment.min.js"></script>
+
+  <!-- Tempusdominus-bootstrap js (contain Date time Picker) -->
+  <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+
+  <!-- Toastr -->
+  <script src="plugins/toastr/toastr.min.js"></script>
+
+  <!-- AdminLTE App -->
+  <script src="dist/js/adminlte.js"></script>
+
+  <!-- Select2 -->
+  <script src="plugins/select2/js/select2.full.min.js"></script>
+
+  <!-- InputMask -->
+  <!-- <script src="plugins/moment/moment.min.js"></script> -->
+  <script src="plugins/inputmask/jquery.inputmask.min.js"></script>
+
+  <!-- DataTable -->
+  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+
+  <script>
+    //Date picker
+    $('#reservationdate').datetimepicker({
+      format: 'DD/MM/YYYY',
+    });
+
+    //Initialize Select2 Elements
+    $('.select2').select2();
+
+    //Datemask dd/mm/yyyy
+    $('.datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' });
+  </script>
+
+  <!-- JS Table Data -->
+  <script src="main.js"></script>
+
+</body>

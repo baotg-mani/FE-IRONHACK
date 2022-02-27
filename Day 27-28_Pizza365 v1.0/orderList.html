@@ -1,0 +1,163 @@
+<!-- LƯU Ý:
+orderList.html và orderDetail là 2 trang dành cho Nhân viên cửa hàng xem.
+Sau khi nhân được đơn đặt hàng từ phía Khách -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OrderList</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="text-center">Danh sách đơn hàng</h2>
+        <table class="table text-center table-striped table-hover" id="table-order">
+          <thead>
+            <tr>
+              <th scope="col">Order ID</th>
+              <th scope="col">Kích cỡ combo</th>
+              <th scope="col">Loại pizza</th>
+              <th scope="col">Nước uống</th>
+              <th scope="col">Thành tiền</th>
+              <th scope="col">Họ và tên</th>
+              <th scope="col">Số điện thoại</th>
+              <th scope="col">Trạng thái</th>
+              <th scope="col">Chi tiết</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    const gREQUEST_STATUS_OK = 200;
+    const gREQUEST_READY_STATUS_FINISH_AND_OK = 4;
+
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    onPageLoading();
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    // Hàm thực hiện khi load trang
+    function onPageLoading() {
+      getAllOrders();
+    }
+
+    // Hàm xử lý sự kiện Button Chi tiết Click
+    function onBtnUserDetailClick(paramDetailButton) {
+      "use strict";
+      console.log("id: " + paramDetailButton.dataset.id);
+      console.log("orderId: " + paramDetailButton.dataset.orderid);
+      // lưu giá trị id và orderId của dataset btn vào biến
+      var vId = paramDetailButton.dataset.id;
+      var vOrderId = paramDetailButton.dataset.orderid;
+
+      const vDETAIL_FORM_URL = "orderDetail.html";
+      // tạo querystring
+      var vUrlSiteToOpen = vDETAIL_FORM_URL +
+        "?id=" + vId +
+        "&orderId=" + vOrderId;
+      window.location.href = vUrlSiteToOpen;
+    }
+
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    // Hàm thực hiện việc load all orders từ server và load vào table
+    function getAllOrders() {
+      "use strict";
+      /*
+      Chia để trị - 04 bước cố gắng thành 04 functions riêng biệt
+      */
+      // B1: Thu thập dữ liệu (trong bài này bước này ko cần)
+      // B2: Validate dữ liệu (trong bài này bước này ko cần)
+      // B3: Thực hiện việc gọi API từ server Server
+      var vXmlHttpGetAllOrders = new XMLHttpRequest();
+      callApiToGetAllOrders(vXmlHttpGetAllOrders);
+
+      // B4: Xử lý trên front-end khi request xử lý xong và trả về response thành công
+      vXmlHttpGetAllOrders.onreadystatechange = function () {
+        if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
+          // console.log(this.responseText);
+          var vResponseObj = JSON.parse(this.responseText);
+
+          // Hàm xử lý việc load dữ liệu ra bảng
+          loadOrderToTable(vResponseObj);
+
+        }
+      }
+    }
+
+    // hàm gọi api để lấy all orders
+    function callApiToGetAllOrders(paramXMLHttpGetAllOrders) {
+      "use strict";
+      const vBASE_URL = "http://42.115.221.44:8080/devcamp-pizza365/orders";
+      paramXMLHttpGetAllOrders.open("GET", vBASE_URL, true);
+      paramXMLHttpGetAllOrders.send();
+    }
+
+    // input: xml http request đã đươc trả lời
+    // ouptut/end: dữ liệu hiên thi trên bảng
+    function loadOrderToTable(paramResponseObj) {
+      "use strict";
+      //CODE Ở ĐÂY ĐỂ LOAD DATA VÀO TABLE:
+      // truy xuất vào bảng và tbody
+      var vTableElement = document.getElementById("table-order");
+      var vTbody = vTableElement.getElementsByTagName("tbody")[0];
+
+      for (var bI = 0; bI < paramResponseObj.length; bI++) {
+        // tạo dòng mới
+        var bNewRow = vTbody.insertRow(-1);
+        // tạo ô chứa dữ liệu cells
+        var bOrderIdCell = bNewRow.insertCell(0);
+        var bComboCell = bNewRow.insertCell(1);
+        var bPizzaCell = bNewRow.insertCell(2);
+        var bDrinkCell = bNewRow.insertCell(3);
+        var bPaymentCell = bNewRow.insertCell(4);
+        var bHoTenCell = bNewRow.insertCell(5);
+        var bSdtCell = bNewRow.insertCell(6);
+        var bSttCell = bNewRow.insertCell(7);
+        var bDetailCell = bNewRow.insertCell(8);
+        // gán giá trị vào cells
+        bOrderIdCell.innerHTML = paramResponseObj[bI].orderId;
+        bComboCell.innerHTML = paramResponseObj[bI].kichCo;
+        bPizzaCell.innerHTML = paramResponseObj[bI].loaiPizza;
+        bDrinkCell.innerHTML = paramResponseObj[bI].idLoaiNuocUong;
+        bPaymentCell.innerHTML = paramResponseObj[bI].thanhTien;
+        bHoTenCell.innerHTML = paramResponseObj[bI].hoTen;
+        bSdtCell.innerHTML = paramResponseObj[bI].soDienThoai;
+        bSttCell.innerHTML = paramResponseObj[bI].trangThai;
+        // tạo button Chi tiết
+        var bDetailButton = document.createElement("button");
+        bDetailButton.textContent = "Chi tiết";
+        bDetailButton.className = "btn btn-info user-detail";
+        // gắn id và orderId vào dataset của button
+        bDetailButton.setAttribute("data-id", paramResponseObj[bI].id);
+        bDetailButton.setAttribute("data-orderid", paramResponseObj[bI].orderId);
+        // append button vào cột các ô thuộc cột Chi tiết
+        bDetailCell.appendChild(bDetailButton);
+        // thêm sự kiện click cho button Chi tiết
+        bDetailButton.addEventListener("click", function () {
+          onBtnUserDetailClick(this);
+        });
+      }
+    }
+
+  </script>
+</body>
+
+</html>

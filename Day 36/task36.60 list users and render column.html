@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>List users</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- Import Datatable sau jquery -->
+  <!-- Import them style bootstrap cho datatable -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css" />
+  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="text-center mt-4 mb-3">
+      <h2>Danh sách người dùng</h2>
+    </div>
+
+    <table id="user-table" class="table table-bordered table-striped table-hover">
+      <thead>
+        <tr>
+          <td>STT</td>
+          <td>Username</td>
+          <td>First name</td>
+          <td>Last name</td>
+          <td>Email</td>
+          <td>Age</td>
+          <td>Role</td>
+          <td>Action</td>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  ​
+  <script>
+    /***
+      * TODO: gán data user vào DataTale, render cột STT và mapping được roleId thành roleName
+
+      *** Gợi ý cho cột STT ***
+      * a) sử dụng phương thức render trong cột STT (định nghĩa ở columnDefs);
+      * b) khai báo 1 biến toàn cục STT và mỗi lần render thì tăng lên 1
+
+      * *** Gợi ý cho cột role ***
+      * a) sử dụng phương thức render trong cột Role (định nghĩa ở columnDefs);
+      * b) khai báo 1 hàm từ roleId trả về roleName, và đc gọi hàm này trong phương thức render ở trên
+    */
+
+    $(document).ready(function () {
+      /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+      var gJsonUser = `{
+          "description": "Data user",
+          "users": [
+          {
+            "id": 2,
+            "username": "quannv",
+            "firstname": "Ngo Van",
+            "lastname": "Quan",
+            "age": 18,
+            "email": "quan@gmail.com",
+            "roleId": 5
+          },
+          {
+            "id": 3,
+            "username": "longdh",
+            "firstname": "Do Hoang",
+            "lastname": "Long",
+            "age": 19,
+            "email": "long@gmail.com",
+            "roleId": 8
+          },
+          {
+            "id": 4,
+            "username": "hiendt",
+            "firstname": "Do Thi",
+            "lastname": "Hien",
+            "age": 29,
+            "email": "hien@gmail.com",
+            "roleId": 11
+          },
+          {
+            "id": 6,
+            "username": "lanht",
+            "firstname": "Ho Thi",
+            "lastname": "Lan",
+            "age": 27,
+            "email": "lan@gmail.com",
+            "roleId": 13
+          }
+        ]
+      }`;
+      var gJsonRole = `{
+          "description": "User Roles",
+          "roles": [
+            {
+              "roleId": 5,
+              "roleName": "Admin"
+            },
+            {
+              "roleId": 8,
+              "roleName": "Manager"
+            },
+            {
+              "roleId": 11,
+              "roleName": "Teacher"
+            },
+            {
+              "roleId": 13,
+              "roleName": "Staff"
+            }
+          ]
+        }`;
+
+      /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+      onPageLoading();
+      $(document).on("click", ".detail_user", function () {
+        onBtnDetailClick(this);
+      });
+      /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+      function onPageLoading() {
+        "use strict";
+        var vUserObj = JSON.parse(gJsonUser);
+        var vUserRoleObj = JSON.parse(gJsonRole);
+
+        console.log(vUserObj);
+        console.log(vUserRoleObj);
+
+        vUserObj.users.map((bI, index) => {
+          bI.stt = index + 1;
+        });
+
+        if (typeof vUserObj != "undefined" && vUserObj !== null) {
+          renderDataToTable(vUserObj.users, vUserRoleObj.roles);
+        }
+      }
+      /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+
+      function renderDataToTable(paramDataObj, paramDataRole) {
+        // console.log(paramDataObj);
+        // console.log(paramDataRole);
+
+        var vNewRoleId = paramDataObj.map((bI, index) =>
+          bI.roleId === paramDataRole[index].roleId
+            ? (bI.roleName = paramDataRole[index].roleName)
+            : ""
+        );
+        // check xem prop roleName đã được thêm vào dataObj chưa
+        console.log(paramDataObj);
+        var vUserRow = [
+          "stt",
+          "username",
+          "firstname",
+          "lastname",
+          "age",
+          "email",
+          "roleName",
+        ];
+        var vSTT_COL = 0;
+        var vUSERNAME_COL = 1;
+        var vFIRSTNAME_COL = 2;
+        var vLASTNAME_COL = 3;
+        var vEMAIL_COL = 4;
+        var vAGE_COL = 5;
+        var vROLE_COL = 6;
+        var vACTION_COL = 7;
+        $("#user-table").DataTable({
+          data: paramDataObj,
+          columns: [
+            { data: vUserRow[vSTT_COL] },
+            { data: vUserRow[vUSERNAME_COL] },
+            { data: vUserRow[vFIRSTNAME_COL] },
+            { data: vUserRow[vLASTNAME_COL] },
+            { data: vUserRow[vEMAIL_COL] },
+            { data: vUserRow[vAGE_COL] },
+            { data: vUserRow[vROLE_COL] },
+            { data: vUserRow[vACTION_COL] },
+          ],
+          columnDefs: [
+            {
+              targets: vACTION_COL,
+              className: "text-left",
+              defaultContent:
+                "<button class='btn btn-primary detail_user'> Chi tiết </button>",
+            },
+          ],
+        });
+      }
+
+      // Hàm xử lý sự kiện click vào btn Chi tiết
+      function onBtnDetailClick(paramDetailBtn) {
+        var vRowSelected = $(paramDetailBtn).parents("tr");
+        var vTable = $("#user-table").DataTable();
+        var vDataRow = vTable.row(vRowSelected).data();
+        console.log(vDataRow); //Task 4
+        console.log("STT: " + vDataRow.stt);
+        console.log("Username: " + vDataRow.username);
+        console.log("Firstname: " + vDataRow.firstname);
+        console.log("Lastname: " + vDataRow.lastname);
+        console.log("Email: " + vDataRow.email);
+        console.log("Age: " + vDataRow.age);
+        console.log("Role: " + vDataRow.roleName);
+      }
+    });
+  </script>
+</body>
+
+</html>

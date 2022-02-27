@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample data calls: getAllUsers, getUserInfo</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+  <h3>Sample function calls</h3>
+
+  <div class="row form-group">
+    <button class="btn btn-success m-1" onclick="onBtnLoadDataUsersClick()"> Sample api call: Load user data </button>
+    <button class="btn btn-success m-1" onclick="onBtnGetUserDataByIdClick()"> Sample api call: Get User info by ID </button>
+    <button class="btn btn-success m-1" onclick="onBtnUpdateUserClick()"> Sample api call: Update User info </button>
+  </div>
+  <div class="row form-group">
+    <button class="btn btn-danger m-1" onclick="onBtnLoadAjaxDataUsersClick()"> Sample api jquery ajax call: Load user data </button>
+    <button class="btn btn-info m-1" onclick="onBtnGetAjaxUserDataByIdClick()"> Sample api jquery ajax call: Get User info by ID </button>
+  </div>
+</div>
+
+<script>
+  "use strict";
+  /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+  const gREADYSTATE_FINISHED_RESPONSEREADY = 4;
+  const gREQUEST_STATUS_OK = 200;
+  
+  /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+
+  /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+  // Hàm xử lý sự kiện load user data
+  function onBtnLoadDataUsersClick() {
+    "use strict";
+    var vXhttp = new XMLHttpRequest();
+    vXhttp.onreadystatechange = function() {
+        if (this.readyState == gREADYSTATE_FINISHED_RESPONSEREADY && this.status == gREQUEST_STATUS_OK) {
+          console.log("responseText = " + vXhttp.responseText); 
+        }
+    };
+    vXhttp.open("GET", "http://42.115.221.44:8080/devcamp-register-java-api/users", true);
+    vXhttp.send();
+  }
+
+  //sample function get user data by id
+  function onBtnGetUserDataByIdClick() {
+    "use strict";
+    var vUserID = "9";
+    var vXhttp = new XMLHttpRequest();
+    vXhttp.onreadystatechange = function() {
+        if (this.readyState == gREADYSTATE_FINISHED_RESPONSEREADY && this.status == gREQUEST_STATUS_OK) {
+            console.log(vXhttp.responseText);  // xem trên console.log để biết cấu trúc
+            //bạn hãy tự chuyển thành JSON object, past, và nghiên cứu các dữ liệu nhân về (ví dụ dùng break-point, watch; hoặc ghi ra console)
+            alert("response Text = "  + vXhttp.responseText);
+          }
+    };
+    vXhttp.open("GET", "http://42.115.221.44:8080/devcamp-register-java-api/users/" + vUserID, true);
+    vXhttp.send();
+  }
+
+  //update user info
+  function onBtnUpdateUserClick() {
+    "use strict";
+    var vUserID = "9";
+    //data to be sent 
+    var vObjectRequestData = {
+            firstname: "Mike",  //bạn có thể sửa các giá trị này để thử, và lại get lại data 
+            lastname: "Donasky",
+            subject: "On business 200",
+            country: "USA"
+          };
+    //      
+    var vXmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+    var vUrlUpdateInfo = "http://42.115.221.44:8080/devcamp-register-java-api/users/"+ vUserID;
+
+    vXmlhttp.open("PUT", vUrlUpdateInfo);
+    vXmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    vXmlhttp.onreadystatechange = function() {
+        if (this.readyState == gREADYSTATE_FINISHED_RESPONSEREADY && this.status == gREQUEST_STATUS_OK) {
+            alert("Cập nhật thông tin thành công: " + this.responseText);
+        }
+    }
+    vXmlhttp.send(JSON.stringify(vObjectRequestData)); //send request
+  }
+
+  /*
+  * hàm load user data click dùng Ajax
+  */
+  function onBtnLoadAjaxDataUsersClick() {
+    "use strict";
+    $.ajax({
+        url:  "http://42.115.221.44:8080/devcamp-register-java-api/users",
+        type: 'GET',
+        dataType: 'json', // added data type
+        success: function(res) {
+            console.log(res);
+        },
+        error: function (ajaxContext) {
+            alert(ajaxContext.responseText)
+        }
+    }); 
+  }
+
+  //sample function get user data by id
+  function onBtnGetAjaxUserDataByIdClick() {
+    "use strict";
+    var vUserID = "1";
+    // hãy làm lại function này theo công nghệ ajax - jquery
+    console.log("get ajax user data by ID - function to be implemented");
+    $.ajax({
+        url:  "http://42.115.221.44:8080/devcamp-register-java-api/users/" + vUserID,
+        type: 'GET',
+        dataType: 'json', // added data type
+        success: function(res) {
+            console.log(res);
+        },
+        error: function (ajaxContext) {
+            alert("Co loi ajax");
+        }
+    }); 
+  }
+
+  /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+
+</script>
+
+</body>
+</html>

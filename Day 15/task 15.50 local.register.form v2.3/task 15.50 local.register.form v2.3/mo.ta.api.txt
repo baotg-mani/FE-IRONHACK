@@ -1,0 +1,27 @@
+Mô tả sơ bộ restAPI register:
+
+  Gọi đi từ client:
+  *****************
+  API: 
+  http://42.115.221.44:8080/devcamp-register-java-api/rest-api
+  
+  Input:
+  04 tham số: 
+  - fistname
+  - lastname
+  - country
+  - subject
+  
+  Ví dụ gọi:
+  xmlHttp.open( "GET", "http://42.115.221.44:8080/devcamp-register-java-api/rest-api?firstname=Nga&lastname=Do&country=australia&subject=family", false );
+  
+  
+  Trả về, với cấu trúc sau:
+  *************************
+  id: được cấp cho customer
+  firstname
+  country
+  customertype: Premium/Standard/Gold
+  registerstatus: accepted/denied
+  
+  Ví dụ chuỗi trả về responseText: {"id":"wA16XSkSOr","firstname":"Nga","lastname":"Do","country":"australia","subject":"","customerType":"Premium","registerStatus":"Denied"}

@@ -1,0 +1,136 @@
+<!-- Tạo bảng mã giảm giá hiển thị lên web -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <div class="container mt-4">
+    <h2>Lucky Dice Username</h2>
+    <form>
+      <div class="form-group">
+        <label for="username">User name:</label>
+        <input type="text" class="form-control" id="user-name" placeholder="Enter username" name="username">
+      </div>
+      <div class="form-group form-row">
+        <div class="form-group">
+            <button onclick="" type="button" class="btn btn-primary">sample: creat Table</button>
+          </div>
+          <div class="form-group">
+            <button onclick="" type="button" class="btn btn-primary">sample: creat Dice History Table</button>
+          </div>
+          <div class="form-group">
+            <button onclick="onBtnVoucherClick()" type="button" class="btn btn-primary">show Voucher History Table</button>
+          </div>
+      </div>
+      
+    </form>
+    <div id="log-result" class="mt-5"></div>
+    <div class="mt-5">
+      <table id="table-voucher-history" class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Mã giảm giá</th>
+            <th>Phần trăm giảm giá</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+     'use strict';
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    const gEND_OF_ROW_COL = -1;
+    const gREQUEST_STATUS_OK = 200;
+    const gREQUEST_READY_STATUS_FINISH_AND_OK = 4;
+    const gBASE_URL = "http://42.115.221.44:8080/devcamp-lucky-dice";
+
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    function onBtnVoucherClick() {
+        // khoi tao obj chua du lieu
+        var vUserObj = {
+            userName: "",
+        }
+        // B1: thu thap du lieu
+        getUserData(vUserObj);
+        // B2: validate
+        var vIsDataValidate = validateData(vUserObj);
+        if(vIsDataValidate) {
+            // B3: gui request de nhan Voucher History
+            var vXmlHttpVoucherHistory = new XMLHttpRequest();
+            sendRequestToGetVoucherHistory(vUserObj, vXmlHttpVoucherHistory);
+            // B4: xu ly front-end
+            vXmlHttpVoucherHistory.onreadystatechange = function () {
+                if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
+                    var vVoucherHistory = vXmlHttpVoucherHistory.responseText;
+                    var vResponseVoucher = JSON.parse(vVoucherHistory);
+                    // console.log(vResponseVoucher);
+                    console.log("status: " + vResponseVoucher.status);
+                    console.log(vResponseVoucher.vouchers);
+                    handleVoucherHistory(this);
+                }
+            }
+        }
+    }
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    // ham thu thap du lieu vao obj:
+    function getUserData(paramUserObj) {
+        var vUserNameElement = document.getElementById("user-name");
+        paramUserObj.userName = vUserNameElement.value.trim();
+    }
+
+    // ham kiem tra du lieu nhap:
+    function validateData(paramUserObj) {
+        if(paramUserObj.userName === "") {
+            console.log("Username not found!");
+            return false;
+        }
+        return true;
+    }
+
+    // ham gui request toi server:
+    function sendRequestToGetVoucherHistory(paramUserObj, paramXmlHttp) {
+        paramXmlHttp.open("GET", gBASE_URL + "/voucher-history?username=" + paramUserObj.userName, true);
+        paramXmlHttp.send();
+    }
+
+    // ham xu ly response va hien thi Voucher History vao table tbody:
+    function handleVoucherHistory(paramXmlHttp) {
+        // chuyen doi responseText ve Obj de lam viec:
+        var vResponseVoucherHtr = JSON.parse(paramXmlHttp.responseText);
+
+        // truy xuat vao table voucher history va tag tbody:
+        var vTableVoucherHtr = document.getElementById("table-voucher-history");
+        var vTableBody = vTableVoucherHtr.getElementsByTagName("tbody")[0];
+
+        // delete back to empty table:
+        vTableBody.innerHTML = "";
+
+        // put response data on the table:
+        for(var bI = 0; bI < vResponseVoucherHtr.vouchers.length; bI ++) {
+            // insert new row
+            var bNewRow = vTableBody.insertRow(gEND_OF_ROW_COL);
+            // insert 2 cells
+            var bMaGiamGia = bNewRow.insertCell(0);
+            var bPhanTramGiamGia = bNewRow.insertCell(1);
+            // assign data into 2 cellls
+            bMaGiamGia.innerHTML = vResponseVoucherHtr.vouchers[bI].maVoucher;
+            bPhanTramGiamGia.innerHTML = vResponseVoucherHtr.vouchers[bI].phanTramGiamGia;
+        }
+    }
+  </script>
+
+
+</body>
+
+</html>

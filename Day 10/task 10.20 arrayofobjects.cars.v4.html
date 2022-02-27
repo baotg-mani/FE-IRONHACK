@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> CAR DB </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    // CAR_DB: database of cars
+    // vID: vehicle identification number
+    const gCAR_DB = [
+        { make: "Ford", model: "Explorer", year: 2017, color: "white", vID: "AB-10111" },
+        { make: "Toyota", model: "Corolla", year: 2018, color: "silver", vID: "DN-23218" },
+        { make: "Mazda", model: "Mazda 6", year: 2020, color: "red", vID: "TZ-23212" },
+        { make: "Toyota", model: "Fortuna", year: 2016, color: "black", vID: "IN-91925" },
+        { make: "Mazda", model: "Mazda 3", year: 2019, color: "silver", vID: "MN-44593" }
+    ];
+
+    /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+    onPageLoading();
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    function onPageLoading() {
+        // Code để chạy thử test hàm getCarByIndex()
+        var gCarA = getCarByIndex(1); // hàm này trả về một đối tượng
+        console.log("Car found by getCarByIndex, index = " + 1);
+        console.log(gCarA.make);
+        console.log(gCarA.model);
+        console.log(gCarA.color);
+        
+        // Bạn hãy viết code chạy thử test hàm getCarByVID() xuống bên dưới
+        
+        var vCarVID = "TZ-23";
+        var vCarB = getCarByVID(vCarVID); // hàm này trả về một đối tượng
+        if(vCarB == null) {
+            console.log("not found by " + vCarVID);
+        }
+        console.log("Car found by getCarByVID, vID: " + vCarVID);
+        console.log(vCarB.make);
+        console.log(vCarB.model);
+        console.log(vCarB.color);
+    }
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    // đây là 01 function đã trả lại object car bởi index.
+    // bạn hãy tham khảo cách trả lại khi tìm thấy và không tìm thấy
+    function getCarByIndex(paramIndexOfCar) {
+        //if the input index not in the invalid range (index đưa vào không có trong array gCAR_DB)
+        if (paramIndexOfCar < 0 || paramIndexOfCar > gCAR_DB.length - 1) { 
+            return null; 
+        }
+        // nếu có thì return object ở vị trí đó
+        return gCAR_DB[paramIndexOfCar];
+    }
+
+    // bạn hãy viết function trả lại car 
+    // gợi ý:  bạn cần có 1 vòng lặp và tìm ra item đó nếu vID của item bằng input paramCarVID
+    // nên nhớ nếu bạn tìm thấy có thể ra khỏi vòng lặp ngay, vì vID là duy nhất 
+    // (gơi ý tìm kiếm "while loop javascript")
+    function getCarByVID(paramCarVID) {
+        var vIsFound = false;
+        var vIndex = 0;
+        var vCarObj = null;
+
+        // khi chưa tìm thấy ô tô và chưa tìm hết thì chúng ta tìm tiếp
+        while(vIsFound == false && vIndex < gCAR_DB.length) {
+            //thực hiện tìm kiếm
+            if(gCAR_DB[vIndex].vID === paramCarVID) {
+                vIsFound = true;
+                // ô tô mà tôi tìm thấy là ô tô gì
+                vCarObj = gCAR_DB[vIndex];
+            }
+            else {
+                vIndex++;
+            }
+        }
+        return vCarObj;
+    }
+</script>
+
+<body class="bg bg-transparent">
+    <div class="jumbotron">
+        <h1></h1> Test Page for Devcamp Javascrip Tasks </h1>
+        <p> Press F5 to run code. Don't forget to Save your code before running. (Ctrl+S). </p>
+    </div>
+</body>
+
+</html>

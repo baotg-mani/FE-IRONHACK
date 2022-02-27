@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<script>
+  /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+  /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+  $(document).ready(function () {
+    $("#form-login").on("submit", function (e) {
+      e.preventDefault();
+      onBtnLoginClick();
+    });
+
+  });
+  /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+  // hàm xử lý sự kiện login
+  function onBtnLoginClick() {
+    // khai báo đối tượng chứa dữ liệu
+    var vLoginObj = {
+      userName: "",
+      password: "",
+      rememberUser: false
+    };
+    // b1: thu thập dữ liệu
+    getLoginData(vLoginObj);
+    /*** 
+    vLoginObj.userName = $("#inp-login-username").val().trim();
+    vLoginObj.password = $("#pwd-login-password").val();
+    vLoginObj.rememberUser = $('#ckb-remember-username').is(":checked");
+    */
+    // b2: validate dữ liệu
+    var vIsValidated = validateLoginData(vLoginObj);
+    if (vIsValidated) {
+      // b3: thực hiện login (gửi data vào console)
+      login(vLoginObj);
+    }
+
+  }
+  // function to get login data on form
+  function getLoginData(paramLoginObj) {
+    paramLoginObj.userName = $("#inp-login-username").val().trim();
+    paramLoginObj.password = $("#pwd-login-password").val();
+    paramLoginObj.rememberUser = $('#ckb-remember-username').is(":checked");
+  }
+  // hàm validate dữ liệu login
+  function validateLoginData(paramLoginObj) {
+    if (paramLoginObj.userName === "") {
+      alert("Bạn cần nhập username");
+      return false;
+    }
+    if (paramLoginObj.password === "") {
+      alert("Bạn cần nhập password");
+      return false;
+    }
+    return true;
+  }
+  // hàm thực hiện việc login
+  function login(paramLoginObj) {
+    console.log(paramLoginObj);
+  }
+
+  /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+</script>
+
+<body>
+  <div class="container">
+    <form id="form-login">
+      <div class="row d-flex align-items-center min-vh-100">
+        <div class="col-sm-4 text-center mx-auto my-0 jumbotron">
+          <div class="mb-5">
+            <h3 class="text-center">Login to your account</h3>
+          </div>
+
+          <div>
+            <div class="form-group">
+              <input type="text" name="username" placeholder="Username" id="inp-login-username" class="form-control"
+                value="" autocomplete="username">
+            </div>
+            <div class="form-group">
+              <input name="password" id="pwd-login-password" placeholder="Password" class="form-control" value=""
+                autocomplete="inp-current-password" type="password">
+            </div>
+            <div class="form-group">
+              <input type="checkbox" name="rememberusername" id="ckb-remember-username" class="form-check-input">
+              <label class="form-check-label" for="rememberusername">Remember username</label>
+              <a class="float-right" href="#">Lost password?</a>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-log btn-block btn-info" id="btn-login">Login</button>
+            </div>
+          </div>
+
+          <div class="text-left">Or <a href="#">Sign-up</a> for having an account</div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</body>
+
+</html>

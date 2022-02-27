@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <script>
+    "use strict";
+    $(document).ready(function() {
+        /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+        
+        /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+        // $(selector).action()
+        $("#btn-turn-on-light").on("click", onBtnTurnOnLight); // callback function
+
+        $("#btn-turn-off-light").on("click", function() {
+            onBtnTurnOffLight();
+        });
+
+        /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+        // ham bat den
+        function onBtnTurnOnLight() {
+            $("#imgLight").prop("src", "images/pic_bulbon.gif");
+        }
+
+        // ham tat den
+        function onBtnTurnOffLight() {
+            $("#imgLight").prop("src", "images/pic_bulboff.gif");
+        }
+        /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <div class="d-flex align-items-end">
+                <input type="button" value="Bật đèn" class="btn btn-warning" id="btn-turn-on-light">
+                <img id="imgLight" src="images/pic_bulbon.gif" alt="light image" width="150px">
+                <input type="button" value="Tắt đèn" class="btn btn-secondary" id="btn-turn-off-light">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

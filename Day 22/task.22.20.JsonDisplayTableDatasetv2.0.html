@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Task 22.20</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <h2 class="text-center">Danh sách người dùng đăng ký</h2>
+    <table id="user-table" class="table table-bordered table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Mã người dùng</th>
+          <th>Firstname</th>
+          <th>Lastname</th>
+          <th>Age</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    const gJSON_USER = `{
+    "description": "Data user",
+    "users": [
+      {
+        "userId": 1,
+        "firstname": "Test1",
+        "lastname": "User1",
+        "age": 18
+      },
+      {
+        "userId": 2,
+        "firstname": "Test2",
+        "lastname": "User2",
+        "age": 19
+      },
+      {
+        "userId": 3,
+        "firstname": "Test3",
+        "lastname": "User3",
+        "age": 18
+      },
+      {
+        "userId": 4,
+        "firstname": "Test4",
+        "lastname": "User4",
+        "age": 20
+      },
+      {
+        "userId": 5,
+        "firstname": "Test5",
+        "lastname": "User5",
+        "age": 21
+      },
+      {
+        "userId": 6,
+        "firstname": "Test6",
+        "lastname": "User6",
+        "age": 20
+      }
+    ]
+  }`;
+    // parsing json to object
+    var gUserListObject = JSON.parse(gJSON_USER);
+    
+    const gEND_ROW_TABLE = -1;
+    // hằng số số thứ tự các cột
+    const gCOLUMN_USER_ID = 0;
+    const gCOLUMN_FIRSTNAME = 1;
+    const gCOLUMN_LASTNAME = 2;
+    const gCOLUMN_AGE = 3;
+    const gCOLUMN_ACTION = 4;
+
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    onPageLoading();
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    // hàm xử lý sự kiện loading
+    function onPageLoading() {
+      // hiển thị dữ liệu lên table
+      showDataOnTable(gUserListObject.users);
+      addEventClickToDetailButton()
+    }
+
+    // hàm xử lý sư kiện user detail click
+    function onBtnUserDetailClick(paramDetailButton) {
+      // lấy giá trị của dòng trong dataset
+      var vUserId = paramDetailButton.dataset.userid;
+      var vFirstName = paramDetailButton.dataset.firstname;
+      var vLastName = paramDetailButton.dataset.lastname;
+      var vAge = paramDetailButton.dataset.tuoi;
+
+      console.log("Thông tin user: ");
+      console.log("User id: " + vUserId);
+      console.log("Firstname: " + vFirstName);
+      console.log("Lastname: " + vLastName);
+      console.log("Age: " + vAge);
+    }
+
+     /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+     // hiển thị dữ liệu lên table
+    function showDataOnTable(paramUserList) {
+      var vTable = document.getElementById("user-table");
+      var vTableBody = vTable.getElementsByTagName("tbody")[0];
+
+      for (var bIndex = 0; bIndex < paramUserList.length; bIndex ++) {
+        var bUser = paramUserList[bIndex];
+        // tạo dòng mưới cho bẳng và ghi vào các giá trị 
+        var bNewRow = vTableBody.insertRow(gEND_ROW_TABLE);
+
+        var bCellUserId = bNewRow.insertCell(gCOLUMN_USER_ID);
+        var bCellFirstname = bNewRow.insertCell(gCOLUMN_FIRSTNAME);
+        var bCellLastname = bNewRow.insertCell(gCOLUMN_LASTNAME);
+        var bCellAge = bNewRow.insertCell(gCOLUMN_AGE);
+        var bCellAction = bNewRow.insertCell(gCOLUMN_ACTION);
+
+        bCellUserId.innerHTML = bUser.userId;
+        bCellFirstname.innerHTML = bUser.firstname;
+        bCellLastname.innerHTML = bUser.lastname;
+        bCellAge.innerHTML = bUser.age;
+        
+        // Tạo ra thành phần HTML button chi tiết
+        var bDetailButton = document.createElement("button");
+        bDetailButton.textContent = "Chi tiết";
+        bDetailButton.className = "btn btn-info user-detail";
+        // gắn dữ liệu của dòng vào dataset của detail button
+        bDetailButton.setAttribute("data-userid", bUser.userId);
+        bDetailButton.setAttribute("data-firstname", bUser.firstname);
+        bDetailButton.setAttribute("data-lastname", bUser.lastname);
+        bDetailButton.setAttribute("data-tuoi", bUser.age);
+
+        // Gắn (append) nút html Chi tiết ở trên vào ô action
+        bCellAction.appendChild(bDetailButton);
+
+        /*
+        // thêm sự kiện onclick cho nút
+        bDetailButton.addEventListener("click", function() {
+          onBtnUserDetailClick(this);
+        });
+        */
+      }
+    }
+    
+    // hàm để gắn sự kiện click cho nút detail
+    function addEventClickToDetailButton() {
+      // truy xuất được tất cả các nút detail
+      var vDetailButtons = document.getElementsByClassName("user-detail");
+      // gắn đc sự kiện click cho nút
+      for(var bI = 0; bI < vDetailButtons.length; bI ++) {
+        vDetailButtons[bI].addEventListener("click", function() {
+          onBtnUserDetailClick(this);
+        });
+      }
+    }
+
+  </script>
+
+</body>
+
+</html>

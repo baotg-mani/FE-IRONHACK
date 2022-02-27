@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Task 22.30</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<body>
+  <div class="container">
+    <div class="form-group">
+      <h1> Luyện tập lấy tham số từ query string (đường dẫn URL) </h1>
+      <img src="https://howto.caspio.com/wp-content/uploads/2016/12/creating_query_strings1.png" alt="query string">
+      <img src="https://bit.ly/2PJLv6Y" alt="query string">
+    </div>
+    <div class="form-group">
+      Hãy thử dùng query string như sau: ?id=a10&firstname=joe&lastname=doe</div>
+
+    <div class="form-group">Query: http://www.example.com/t.html?id=1&firstname=Minh&lastname=Vu</div>
+
+    <div class="form-group text-danger" id="result"></div>
+  </div>
+
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    onLoadPaging();
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    function onLoadPaging(){
+      "use strict";
+      var vUrlString = window.location.href; //đường đẫn gọi đến  đến trang
+      console.log(vUrlString);
+      var vUrlParams = new URL(vUrlParamsString);
+
+      //get a parameter (đây có thể coi là bước thu thập dữ liệu, ở trên đường dẫn)
+      var vFirstname = vUrlParams.searchParams.get("firstname");
+      var vLastname = vUrlParams.searchParams.get("lastname");
+      var vId = vUrlParams.searchParams.get("id");
+      
+      var vDivResult = document.getElementById("result");
+      vDivResult.innerHTML = "Firstname is: " + vFirstname + "<br>";
+
+      //1.  hãy ghi thêm những param khác ra đây
+      vDivResult.innerHTML += "Lastname: " + vLastname + "<br>";;
+      vDivResult.innerHTML += "Id: " + vId;
+
+      //Iterate the search parameters.
+      vUrl.searchParams.forEach(function (value, key) {
+      console.log(value, key);
+      });
+    }
+    
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+   <!-- Import Datatable sau jquery -->
+   <!-- Import them style bootstrap cho datatable -->
+   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+   <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+   <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+</head>
+
+<body>
+   <div class="container jumbotron">
+      <div class="text-center">
+         <h2>F100 - Quản trị người dùng</h2>
+      </div>
+      <div class="fa-pull-left">
+         <button id="btn-add-new" class="btn btn-info" data-toggle="modal" data-target="#modal-user">Add new
+            User</button>
+         <button id="btn-test-insert-data" class="btn btn-info">Test Insert Data</button>
+      </div>
+   </div>
+   <div class="container">
+      <table class="table table-bordered table-striped table-hover" id="userTable">
+         <thead>
+            <tr>
+               <th>STT</th>
+               <th>Firstname</th>
+               <th>Lastname</th>
+               <th>Age</th>
+               <th>Email</th>
+            </tr>
+         </thead>
+      </table>
+   </div>
+
+   <!-- Modal user detail-->
+   <div>
+      <div class="modal fade" id="modal-user" tabindex="-1">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title">Add new User</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+               <div class="modal-body">
+                  <form>
+                     <div class="row form-group">
+                        <label class="col-form-label col-sm-4">First Name <span class="text-danger">(*)</span></label>
+                        <div class="col-sm-8">
+                           <input type="text" class="form-control" id="input-firstname">
+                        </div>
+                     </div>
+                     <div class="row form-group">
+                        <label class="col-form-label col-sm-4">Last Name <span class="text-danger">(*)</span></label>
+                        <div class="col-sm-8">
+                           <input type="text" class="form-control" id="input-lastname">
+                        </div>
+                     </div>
+                     <div class="row form-group">
+                        <label class="col-form-label col-sm-4">Age <span class="text-danger">(*)</span></label>
+                        <div class="col-sm-8">
+                           <input type="text" class="form-control" id="input-age">
+                        </div>
+                     </div>
+                     <div class="row form-group">
+                        <label class="col-form-label col-sm-4">Email <span class="text-danger">(*)</span></label>
+                        <div class="col-sm-8">
+                           <input type="text" class="form-control" id="input-email">
+                        </div>
+                     </div>
+                  </form>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button id="btn-submit" class="btn btn-info">Save Data</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <script>
+      "use strict";
+      /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+      /** 
+      * Thay vì có 01 array các users, mở rộng thành đối tượng CSDL (cơ sở dữ liệu) với 02 API (method) ra ngoài là:
+      ** findUserByEmail(paramEmail): tìm user trong DB dựa vào email
+      ** addNewUser(paramUserData): thêm user vào DB, có kiểm soát validation
+      */
+      var gUserDataDb = {
+         userDataObjs: [
+            {
+               firstname: "Do",
+               lastname: "Van Nam",
+               age: 34,
+               email: "nam@gmail.com"
+            },
+            {
+               firstname: "Dinh",
+               lastname: "Hoai Linh",
+               age: 24,
+               email: "linh@gmail.com"
+            },
+            {
+               firstname: "Hoang",
+               lastname: "Trong Kinh",
+               age: 32,
+               email: "kinh.trong@gmail.com"
+            }
+         ],
+         //find user by email
+         findUserByEmail: function (paramEmail) {
+            var vUserFound = false;
+            var vIterator = 0;
+            while (!vUserFound && vIterator < this.userDataObjs.length) {
+               if (this.userDataObjs[vIterator].email === paramEmail) {
+                  vUserFound = true;
+               }
+               else {
+                  vIterator++;
+               }
+            }
+            var vResult = null;
+            if (vUserFound) {
+               vResult = this.userDataObjs[vIterator];
+            }
+            return vResult;
+         },
+         //add new users
+         addNewUser: function (paramUserData) {
+            debugger;
+            // bạn hãy thêm các trường hợp lỗi khác ở đây
+            //không có dữ liệu sẽ báo lỗi
+            if (paramUserData === undefined) {
+               throw ("10: undefined input");
+            }
+            // nếu First name rỗng sẽ báo lỗi
+            if (paramUserData.firstname === "") {
+               throw ("15: Firstname is empty");
+            }
+            // nếu có email trong db rồi, sẽ báo lỗi
+            if (this.findUserByEmail(paramUserData.email) !== null) {
+               throw ("20: email already in use");
+            }
+            //add thêm vào db
+            this.userDataObjs.push(paramUserData);
+         }
+      }
+
+      const gCOULUMN_STT = 0;
+      const gCOULUMN_FIRSTNAME = 1;
+      const gCOULUMN_LASTNAME = 2;
+      const gCOULUMN_AGE = 3;
+      const gCOULUMN_EMAIL = 4;
+
+      const gDATA_COLUMN = [
+         "stt",
+         "firstname",
+         "lastname",
+         "age",
+         "email"
+      ];
+
+      var gStt = 1;
+
+      // Khai báo DataTable và hiển thị dữ liệu lên bảng
+      var gTableUser = $("#userTable").DataTable({
+         // Khai báo các cột của datatable (Chú ý tên cột phải giống thuộc tính của object trong mảng đã khai báo)
+         data: gUserDataDb.userDataObjs,
+         columns: [
+            { "data": gDATA_COLUMN[gCOULUMN_STT] },
+            { "data": gDATA_COLUMN[gCOULUMN_FIRSTNAME] },
+            { "data": gDATA_COLUMN[gCOULUMN_LASTNAME] },
+            { "data": gDATA_COLUMN[gCOULUMN_AGE] },
+            { "data": gDATA_COLUMN[gCOULUMN_EMAIL] }
+         ],
+         // Ghi đè nội dung của cột (Ở ví dụ là cột cuối cùng), khi nào có data thì mới làm (ko làm với header row)
+         columnDefs: [
+            {
+               targets: gCOULUMN_STT,
+               render: function (data, type, full, meta) {
+                  return getSoThuTu();
+               }
+            }]
+      });
+
+      /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+      // Thêm hoặc Sửa dữ liệu
+      $("#btn-submit").on("click", onButtonSubmitClick);
+      $("#btn-test-insert-data").on("click", onButtonTestDbInterfacesClick);
+
+      /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+      // sav user data
+      function onButtonSubmitClick() {
+         // định nghĩa đối tượng chứa dữ liệu
+         var vUserNew = {
+            firstname: "",
+            lastname: "",
+            age: -1,
+            email: ""
+         };
+         // B1: Thu thập dữ liệu
+         getUserFormData(vUserNew);
+         // B2: Validate data
+         var vIsDataValidate = validateData(vUserNew);
+         // nếu data hợp lệ
+         if (vIsDataValidate) {
+            // B3: thực hiện logic nghiệp vụ (gọi api server, thêm bản ghi db, ...)
+            saveData(vUserNew);
+            // B4: Phản hồi lại trên giao diện: hiện thị data trên html table, và reset form input  
+            alert("Thêm user thành công!");
+            displayData();
+            resetForm();
+            $("#modal-user").modal("hide");
+         }
+      }
+
+      // test db interfaces
+      function onButtonTestDbInterfacesClick() {
+         //insert some invalid data to DBs
+         //thử insert dữ liệu phù hợp và ko phù hợp vào Dbs.
+         //ví dụ
+         /*
+         // B1: thu thập dữ liệu
+         var vTmpUserData = {
+             firstname: "hoan",
+             lastname: "do",
+             age: 10,
+             email: "phuongnga@gmail.com"
+         };
+         // B2: validate (ko có)
+         // B3: call api
+         gUserDataDb.addNewUser(vTmpUserData);
+         // B4: xử lý sự kiện
+         console.log(gUserDataDb.userDataObjs);
+         */
+
+
+         var vTmpUserDataInvalid = {
+            firstname: "",
+            lastname: "",
+            age: 10,
+            email: "phuongnga@gmail.com"
+         };
+         try {
+            gUserDataDb.addNewUser(vTmpUserDataInvalid);
+            console.log(gUserDataDb.userDataObjs);
+
+         } catch (paramError) {
+            alert(paramError);
+         }
+
+
+      }
+
+      /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+      // xử lý dữ liệu, hiện thị mới
+      function displayData() {
+         gStt = 1;
+         gTableUser.clear().draw();
+         gTableUser.rows.add(gUserDataDb.userDataObjs);
+         gTableUser.draw();
+      }
+      // hàm này thực hiện B1: đọc thu thập dữ liệu trên forms
+      function getUserFormData(paramUserObj) {
+         var vFirstNameInput = $("#input-firstname");
+         var vLastNameInput = $("#input-lastname");
+         var vAgeInput = $("#input-age");
+         var vEmailInput = $("#input-email");
+
+         paramUserObj.firstname = vFirstNameInput.val().trim();
+         paramUserObj.lastname = vLastNameInput.val().trim();
+         paramUserObj.age = vAgeInput.val().trim();
+         paramUserObj.email = vEmailInput.val().trim();
+      }
+
+      // hàm này thực hiện: kiểm tra -validate dữ liệu
+      function validateData(paramUserObj) {
+         if (paramUserObj.firstname === "") {
+            alert("Bạn cần nhập firstname");
+            $('#input-firstname').trigger('focus');
+            throw "Bạn cần nhập firstname";
+         }
+         if (paramUserObj.lastname === "") {
+            alert("Bạn cần nhập lastname");
+            $('#input-lastname').trigger('focus');
+            throw "Bạn cần nhập lastname";
+         }
+         if (paramUserObj.age === "") {
+            alert("Bạn cần nhập age");
+            $('#input-age').trigger('focus');
+            throw "Bạn cần nhập age";
+         }
+
+         if (isNaN(paramUserObj.age) || paramUserObj.age < 1 || paramUserObj.age > 150) {
+            alert("Tuổi bạn nhập vào không hợp lệ");
+            $('#input-age').trigger('focus');
+            throw "Tuổi bạn nhập vào không hợp lệ";
+         }
+
+         if (paramUserObj.email === "") {
+            alert("Bạn cần nhập email");
+            $('#input-email').trigger('focus');
+            throw "Bạn cần nhập email";
+         }
+
+         if (!validateEmail(paramUserObj.email)) {
+            alert("Email bạn nhập ko hợp lệ");
+            $('#input-email').trigger('focus');
+            throw "Email bạn nhập ko hợp lệ";
+         }
+         return true;
+      }
+
+      // validate email đúng định dạng
+      function validateEmail(email) {
+         const vRE = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<script>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+         return vRE.test(String(email).toLowerCase());
+      }
+
+      // hàm thực hiện tăng số thứ tự lên 1
+      function getSoThuTu() {
+         return gStt++;
+      }
+
+      // thêm data vào DB
+      function saveData(paramUserObj) {
+         //add new user to array in Db
+         gUserDataDb.addNewUser(paramUserObj);
+      }
+
+      // hàm reset form về ban đầu
+      function resetForm() {
+         var vFirstNameInput = $("#input-firstname");
+         var vLastNameInput = $("#input-lastname");
+         var vAgeInput = $("#input-age");
+         var vEmailInput = $("#input-email");
+
+         vFirstNameInput.val("");
+         vLastNameInput.val("");
+         vAgeInput.val("");
+         vEmailInput.val("");
+      }
+
+   </script>
+</body>
+
+</html>

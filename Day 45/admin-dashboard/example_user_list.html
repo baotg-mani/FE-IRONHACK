@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- Import Datatable sau jquery -->
+  <!-- Import them style bootstrap cho datatable -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2 style="text-align: center;">Danh sách người dùng</h2>
+  
+  <table class="table table-bordered table-striped table-hover" id="table-users">
+    <thead>
+      <tr>
+        <th>Mã người dùng</th>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Age</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal user detail-->
+<div>
+  <div class="modal fade" id="modal-user-detail" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">User detail information</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="row form-group">
+              <label class="col-form-label col-sm-4">User Id</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="input-user-id">
+              </div>
+            </div>
+            <div class="row form-group">
+              <label class="col-form-label col-sm-4">First Name</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="input-firstname">
+              </div>
+            </div>
+            <div class="row form-group">
+              <label class="col-form-label col-sm-4">Last Name</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="input-lastname">
+              </div>
+            </div>
+            <div class="row form-group">
+              <label class="col-form-label col-sm-4">Age</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="input-age">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+​<script>
+  var gJsonUser = `{
+    "description": "Data user",
+    "users": [
+      {
+        "userId": 1,
+        "firstname": "Test1",
+        "lastname": "User1",
+        "age": 18
+      },
+      {
+        "userId": 2,
+        "firstname": "Test2",
+        "lastname": "User2",
+        "age": 19
+      },
+      {
+        "userId": 3,
+        "firstname": "Test3",
+        "lastname": "User3",
+        "age": 18
+      },
+      {
+        "userId": 4,
+        "firstname": "Test4",
+        "lastname": "User4",
+        "age": 20
+      },
+      {
+        "userId": 5,
+        "firstname": "Test5",
+        "lastname": "User5",
+        "age": 21
+      },
+      {
+        "userId": 6,
+        "firstname": "Test6",
+        "lastname": "User6",
+        "age": 20
+      }
+    ]
+  }`;
+
+  // Biến mảng toàn cục chứa danh sách tên các thuộc tính
+  const gUSER_COLS = ["userId", "firstname", "lastname", "age", "action"];
+  
+  // Biến mảng toàn cục định nghĩa chỉ số các cột tương ứng
+  const gUSER_ID_COL = 0;
+  const gUSER_FIRSTNAME_COL = 1;
+  const gUSER_LASTNAME_COL = 2;
+  const gUSER_AGE_COL = 3;
+  const gUSER_ACTION_COL = 4;
+
+  var gUserObj = JSON.parse(gJsonUser);
+  var gUserTable = $("#table-users").DataTable({
+    data: gUserObj.users,
+    columns: [
+      { data: gUSER_COLS[gUSER_ID_COL] },
+      { data: gUSER_COLS[gUSER_FIRSTNAME_COL] },
+      { data: gUSER_COLS[gUSER_LASTNAME_COL] },
+      { data: gUSER_COLS[gUSER_AGE_COL] },
+      { data: gUSER_COLS[gUSER_ACTION_COL] }
+    ],
+    columnDefs: [
+      {
+        targets: gUSER_ACTION_COL,
+        defaultContent: "<button class='btn btn-primary user-detail'>Chi tiết</button>"
+      }
+    ]
+  });
+
+  $("#table-users tbody").on("click", ".user-detail", function() {
+    onUserDetailClick(this);
+  });
+
+  // hàm xử lý khi click vào nút user detail
+  function onUserDetailClick(paramUserDetailBtn) {
+    var vUserDetailBtn = $(paramUserDetailBtn);
+    var vTableRow = vUserDetailBtn.parents("tr");
+    var vDataTableRow = gUserTable.row(vTableRow);
+    var vData = vDataTableRow.data();
+    /***
+     * TODO: xử lý tiếp để show dữ liệu user lên Modal 
+     */
+        
+    $("#input-user-id").val(vData.userId);
+    $("#input-firstname").val(vData.firstname);
+    $("#input-lastname").val(vData.lastname);
+    $("#input-age").val(vData.age);
+    $("#modal-user-detail").modal("show");
+  }
+
+</script>
+</body>
+</html>
+​

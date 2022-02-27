@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>test</title>
+</head>
+
+<body>
+    <div class="container jumbotron">
+        <div class="row">
+            <div class="col-sm-12">
+                <button id="signup" class="btn btn-primary">POST Sign-up API</button>
+                <button id="signin" class="btn btn-primary">POST Sign-in API</button>
+                <button id="info" class="btn btn-primary">GET user info</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            // Lưu một biến token để dùng khi gọi chức năng get user info 
+            var gToken = "";
+
+            $("#signup").on("click", function() {
+                signUpFunction();
+            });
+
+            $("#signin").on("click", function() {
+                signInFunction();
+            });
+
+            $("#info").on("click", function() {
+                infoFunction();
+            });
+
+            function signUpFunction() {
+                var vSignUpData = {
+                    firstname: 'Devcamp',
+                    lastname: 'User',
+                    email: 'bao78@devcamp.edu.vn',
+                    password: '12345678'
+                }
+
+                $.ajax({
+                    url: "http://42.115.221.44:8080/devcamp-auth/users/signup",
+                    type: 'POST',
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(vSignUpData),
+                    success: function (pRes) {
+                        console.log(JSON.stringify(vSignUpData));
+                        console.log(pRes)
+                    },
+                    error: function (pAjaxContext) {
+                        console.log(pAjaxContext.responseJSON.message);
+                    }
+                });
+            }
+
+            function signInFunction() {
+                var vLoginData = {
+                    email: "minhvd@devcamp.edu.vn",
+                    password: "12345678"
+                }
+
+                $.ajax({
+                    url: "http://42.115.221.44:8080/devcamp-auth/users/signin?email=" + vLoginData.email + '&password=' + vLoginData.password,
+                    type: 'POST',
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (pRes) {
+                        console.log(pRes);
+
+                        gToken = pRes.token;
+                    },
+                    error: function (pAjaxContext) {
+                        console.log(pAjaxContext.responseText);
+                    }
+                });
+            }
+
+            function infoFunction() {
+                if(gToken == "") {
+                    alert("Chưa có token");
+                    return;
+                }
+
+                $.ajax({
+                    url: "http://42.115.221.44:8080/devcamp-auth/users/me",
+                    type: 'GET',
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    headers: {
+                        "Authorization": "Bearer " + gToken
+                    },
+                    success: function (pRes) {
+                        console.log(pRes);
+                    },
+                    error: function (pAjaxContext) {
+                        console.log(pAjaxContext.responseText);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <div class="container mt-4">
+    <h2>Lucky Dice History</h2>
+    <form>
+      <div class="form-group">
+        <label for="username">User name:</label>
+        <input type="text" class="form-control" id="user-name" placeholder="Enter username" name="username">
+      </div>
+      <div class="form-group">
+        <button onclick="onBtnHistoryDiceClick()" type="button" class="btn btn-primary">Show Dice History Table</button>
+      </div>
+    </form>
+    <div id="log-result" class="mt-5"></div>
+    <div class="mt-5">
+      <table id="table-dice-history" class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Game</th>
+            <th>Dice</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    'use strict';
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    const gEND_OF_ROW_COL = -1;
+    const gREQUEST_STATUS_OK = 200;
+    const gREQUEST_READY_STATUS_FINISH_AND_OK = 4;
+    const gBASE_URL = "http://42.115.221.44:8080/devcamp-lucky-dice";
+
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    function onBtnHistoryDiceClick() {
+      // debugger;
+      // khai bao obj luu du lieu
+      var vUserDiceObj = {
+        userName: ""
+      }
+      // B1: thu thap du lieu
+      getUsername(vUserDiceObj);
+      // B2: validate du lieu
+      var vIsDataValidate = validateData(vUserDiceObj);
+      if(vIsDataValidate) {
+        // B3: gui request toi server de get history dice
+        // create a request
+        var vXmlHttpDiceHistory = new XMLHttpRequest();
+        sendRequestToGetHistoryDice(vUserDiceObj, vXmlHttpDiceHistory);
+        // B4: xu ly front-end, hien thi lich su tung xuc xac
+        vXmlHttpDiceHistory.onreadystatechange = function () {
+          if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
+              // console.log(this.responseText);
+              handleDiceHistory(this);
+          }
+        }
+      }
+    }
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    // funtion lay du lieu tu vung nhap
+    function getUsername(paramUserObj) {
+      var vUsernameElement = document.getElementById("user-name");
+      paramUserObj.userName = vUsernameElement.value.trim();
+    }
+
+    // ham kiem tra vung nhap du lieu, return false or true
+    function validateData(paramUserObj) {
+      if(paramUserObj.userName === "") {
+        alert("Username don't filled!")
+        return false;
+      }
+      return true;
+    }
+
+    // ham send request toi sever de get history dice:
+    function sendRequestToGetHistoryDice(paramUserObj, paramXmlHttpDiceHistory) {
+      paramXmlHttpDiceHistory.open("GET", gBASE_URL + "/dice-history?username=" + paramUserObj.userName, true);
+      paramXmlHttpDiceHistory.send();
+    }
+
+    function handleDiceHistory(paramXmlHttpDiceHistory) {
+      var vTableDice = document.getElementById("table-dice-history");
+      var vTableBody = vTableDice.getElementsByTagName("tbody")[0];
+
+      // delete back to empty tablle:
+      vTableBody.innerHTML = "";
+
+      // lay du lieu response:
+      var vDiceResponseObj = JSON.parse(paramXmlHttpDiceHistory.responseText);
+      // hien thi du lieu len table:
+      for(var bI = 0; bI < vDiceResponseObj.dices.length; bI ++) {
+        // them dong moi
+        var bNewRow = vTableBody.insertRow(gEND_OF_ROW_COL);
+        // them 2 cells
+        var bGameCell = bNewRow.insertCell(0);
+        var bDiceCell = bNewRow.insertCell(1);
+        // them du lieu vao 2 cells vua tao:
+        bGameCell.innerHTML = bI + 1;
+        bDiceCell.innerHTML = vDiceResponseObj.dices[bI];
+      }
+    }
+
+  </script>
+
+
+</body>
+
+</html>

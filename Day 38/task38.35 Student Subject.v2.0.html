@@ -1,0 +1,426 @@
+<!-- QUẢN LÝ BẢNG ĐIỂM -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Import DataTable Library -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
+  <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+
+</head>
+
+<body>
+  <div class="container">
+    
+    <h2 class="text-center">F200 - LỊCH SỬ HỌC TẬP</h2>
+    <div class="border bg-light rounded">
+      <h3 class="m-3"><b>Thông tin học sinh:</b></h3>
+      <div class="row m-3">
+        <div class="col-sm-5">
+          <div class="row form-group">
+            <div class="col-sm-4">Student</div>
+            <div class="col-sm-8">
+              <select class="form-control" name="" id="select-student"></select>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-5">
+          <div class="row form-group">
+            <div class="col-sm-4">Subject</div>
+            <div class="col-sm-8">
+              <select class="form-control" name="" id="select-subject"></select>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <button id="btn-filter" class="btn btn-success">Lọc dữ liệu</button>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <table id="grade-rable" class="table table-bordered table-striped table-hover">
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Sinh viên</th>
+            <th>Môn học</th>
+            <th>Điểm</th>
+            <th>Ngày thi</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+
+  </div>
+
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    /* Mảng userObjects là mảng chứa dữ liệu user. Từng phần tử là object
+    */
+    var gStudents = [
+      {
+        id: 2, // tự tăng
+        studentCode: "1356783",
+        firstname: "Ngo Van",
+        lastname: "Quan",
+        age: 18,
+        email: "quan@gmail.com",
+        studyYear: 2015
+      },
+      {
+        id: 3, // tự tăng
+        studentCode: "1322783",
+        firstname: "Nguyen Thi",
+        lastname: "Han",
+        age: 20,
+        email: "han@gmail.com",
+        studyYear: 2014
+      },
+      {
+        id: 4, // tự tăng
+        studentCode: "1356780",
+        firstname: "Ngo Thu",
+        lastname: "Linh",
+        age: 17,
+        email: "lih@gmail.com",
+        studyYear: 2016
+      },
+      {
+        id: 5, // tự tăng
+        studentCode: "1356003",
+        firstname: "Tran Van",
+        lastname: "Tan",
+        age: 19,
+        email: "tan@gmail.com",
+        studyYear: 2014
+      },
+      {
+        id: 6, // tự tăng
+        studentCode: "1366783",
+        firstname: "Ngo Quang",
+        lastname: "Minh",
+        age: 18,
+        email: "minh@gmail.com",
+        studyYear: 2015
+      }
+
+    ];
+
+    var gSubjects = [
+      {
+        id: 5, // tự tăng
+        subjectCode: "MATH101",
+        subjectName: "Toán cao cấp 1"
+      },
+      {
+        id: 6, // tự tăng
+        subjectCode: "ENG102",
+        subjectName: "Anh Văn 2"
+      },
+      {
+        id: 7, // tự tăng
+        subjectCode: "PROG103",
+        subjectName: "Lập trình Java"
+      },
+      {
+        id: 8, // tự tăng
+        subjectCode: "MATH104",
+        subjectName: "Toán cao cấp 4"
+      },
+      {
+        id: 9, // tự tăng
+        subjectCode: "MATH105",
+        subjectName: "Toán cao cấp 5"
+      },
+    ];
+
+    var gGrades = [
+      {
+        id: 2, // tự tăng
+        studentId: 2,
+        subjectId: 5,
+        grade: 8,
+        examDate: "13/04/2021"
+      },
+      {
+        id: 3, // tự tăng
+        studentId: 3,
+        subjectId: 5,
+        grade: 9,
+        examDate: "13/04/2021"
+      },
+      {
+        id: 4, // tự tăng
+        studentId: 5,
+        subjectId: 5,
+        grade: 10,
+        examDate: "13/04/2021"
+      },
+      {
+        id: 5, // tự tăng
+        studentId: 6,
+        subjectId: 5,
+        grade: 10,
+        examDate: "13/04/2021"
+      },
+      {
+        id: 6, // tự tăng
+        studentId: 3,
+        subjectId: 6,
+        grade: 7,
+        examDate: "16/04/2021"
+      },
+      {
+        id: 7, // tự tăng
+        studentId: 4,
+        subjectId: 6,
+        grade: 9,
+        examDate: "16/04/2021"
+      },
+      {
+        id: 8, // tự tăng
+        studentId: 5,
+        subjectId: 6,
+        grade: 9,
+        examDate: "16/04/2021"
+      },
+      {
+        id: 9, // tự tăng
+        studentId: 6,
+        subjectId: 7,
+        grade: 10,
+        examDate: "20/04/2021"
+      },
+      {
+        id: 10, // tự tăng
+        studentId: 2,
+        subjectId: 7,
+        grade: 7,
+        examDate: "20/04/2021"
+      },
+      {
+        id: 11, // tự tăng
+        studentId: 5,
+        subjectId: 7,
+        grade: 9,
+        examDate: "20/04/2021"
+      },
+    ];
+
+    var gSTT = 1;
+
+    const gCOLS_NAME = ["stt", "studentId", "subjectId", "grade", "examDate"];
+
+    const gCOL_STT = 0;
+    const gCOL_STUDENT = 1;
+    const gCOL_SUBJECT = 2;
+    const gCOL_GRADE = 3;
+    const gCOL_EXAM_DATE = 4;
+
+    var gGradeTable = $("#grade-rable").DataTable({
+      searching: false,
+      columns: [
+        { data: gCOLS_NAME[gCOL_STT] },
+        { data: gCOLS_NAME[gCOL_STUDENT] },
+        { data: gCOLS_NAME[gCOL_SUBJECT] },
+        { data: gCOLS_NAME[gCOL_GRADE] },
+        { data: gCOLS_NAME[gCOL_EXAM_DATE] }
+      ],
+      columnDefs: [
+        {
+          targets: gCOL_STT,
+          render: function () {
+            return gSTT++;
+          }
+        },
+        {
+          targets: gCOL_STUDENT,
+          render: function (dataId) {
+            return getStudentNameById(dataId);
+          }
+        },
+        {
+          targets: gCOL_SUBJECT,
+          render: function (dataId) {
+            return getSubjectNameById(dataId);
+          }
+        }
+      ]
+    });
+
+    /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+    onPageLoading();
+
+    // gán sự kiện cho nút Filter
+    $("#btn-filter").on("click", function () {
+      onBtnFilterClick();
+    });
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    // Hàm xử lý sự kiện load trang
+    function onPageLoading() {
+      "use strict";
+      console.log(gStudents);
+      console.log(gSubjects);
+      console.log(gGrades);
+      loadDataToTable(gGrades); // load bảng biểm
+      loadSelectStudent(gStudents); // load data Select Student
+      loadSelectSubject(gSubjects); // load dataSelect Subject
+    }
+
+    // Hàm xử lý sự kiện Lọc khi click
+    function onBtnFilterClick() {
+      // B0: khởi tạo biến lưu dữ liệu
+      var vFilterObj = {
+        filterStu: -1,
+        filterSub: -1
+      }
+      // B1: thu thập dữ liệu
+      getFilterData(vFilterObj);
+      // B2: validate dũ liệu (bỏ qua)
+      // B3: xử lý hiển thị
+      filterGrade(vFilterObj);
+    }
+
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    // Hàm load dữ liệu ra bảng
+    function loadDataToTable(paramArr) {
+      "use strict";
+      gSTT = 1;
+      gGradeTable.clear();
+      gGradeTable.rows.add(paramArr);
+      gGradeTable.draw();
+
+      $("#grade-rable_info").each(function () {
+        var vText = $(this).text();
+        $(this).text(
+          vText
+            .replace("Showing", "Sắp xếp")
+            .replace("to", "đến")
+            .replace("of", "của")
+            .replace("entries", "kết quả")
+        );
+      });
+    }
+
+    // Hàm get studentName by studentId
+    function getStudentNameById(paramStudentId) {
+      "use strict";
+      var vIsFound = false;
+      var vStudentName = "";
+      var vIndex = 0;
+      while (!vIsFound && vIndex < gStudents.length) {
+        if (paramStudentId === gStudents[vIndex].id) {
+          vStudentName = gStudents[vIndex].firstname + " " + gStudents[vIndex].lastname;
+          vIsFound = true;
+        } else {
+          vIndex++;
+        }
+      }
+      return vStudentName;
+    }
+
+    // Hàm get subjectName by subjectId
+    function getSubjectNameById(paramSubjectId) {
+      "use strict";
+      var vIsFound = false;
+      var vSubjectName = "";
+      var vIndex = 0;
+      while (!vIsFound && vIndex < gSubjects.length) {
+        if (paramSubjectId === gSubjects[vIndex].id) {
+          vSubjectName = gSubjects[vIndex].subjectName;
+          vIsFound = true;
+        } else {
+          vIndex++;
+        }
+      }
+      return vSubjectName;
+    }
+
+    // Hàm đổ dữ liệu vào Select Student
+    function loadSelectStudent(paramStudentArr) {
+      "use strict";
+      var vSelectStudent = $("#select-student");
+
+      $("<option/>", {
+        text: "--- Chọn tất cả ---",
+        value: 0
+      }).appendTo(vSelectStudent);
+
+      for (let bI = 0; bI < paramStudentArr.length; bI++) {
+        var vOption = $("<option/>", {
+          text: paramStudentArr[bI].firstname + " " + paramStudentArr[bI].lastname,
+          value: paramStudentArr[bI].id
+        }).appendTo(vSelectStudent);
+      }
+    }
+
+    // Hàm đổ dữ liệu vào Select Subject
+    function loadSelectSubject(paramSubjectArr) {
+      "use strict";
+      var vSelectSubject = $("#select-subject");
+
+      $("<option/>", {
+        text: "--- Chọn tất cả ---",
+        value: 0
+      }).appendTo(vSelectSubject);
+
+      for (let bI = 0; bI < paramSubjectArr.length; bI++) {
+        var vOption = $("<option/>", {
+          text: paramSubjectArr[bI].subjectName,
+          value: paramSubjectArr[bI].id
+        }).appendTo(vSelectSubject);
+      }
+    }
+
+    // Hàm thu thập dữ liệu ở form Filter
+    function getFilterData(paramFilterObj) {
+      paramFilterObj.filterStu = $("#select-student").val();
+      paramFilterObj.filterSub = $("#select-subject").val();
+    }
+
+    // Hàm Lọc bảng điểm theo dữ liệu đã có
+    function filterGrade(paramFilterObj) {
+      "use strict";
+      var vFilterArr = [];
+
+      // lọc với trường hợp cả 2 fields select đồng khác 0 hoặc đồng bằng 0
+      if ((paramFilterObj.filterStu != 0 && paramFilterObj.filterStu != 0) || (paramFilterObj.filterStu == 0 && paramFilterObj.filterStu == 0)) {
+        var vFilterArr = gGrades.filter(function (e) {
+          return ((paramFilterObj.filterStu == e.studentId) && (paramFilterObj.filterSub == e.subjectId))
+            || ((paramFilterObj.filterSub == 0) && (paramFilterObj.filterStu == 0));
+        });
+        console.log(vFilterArr);
+        loadDataToTable(vFilterArr);
+      }
+
+      // lọc với trường hợp người dùng chỉ select student
+      if (paramFilterObj.filterStu != 0 && paramFilterObj.filterSub == 0) {
+        var vFilterArr = gGrades.filter(function (e) {
+          return (paramFilterObj.filterStu == e.studentId);
+        });
+        console.log(vFilterArr);
+        loadDataToTable(vFilterArr);
+      }
+
+      // lọc với trường hợp người dùng chỉ select subject
+      if (paramFilterObj.filterStu == 0 && paramFilterObj.filterSub != 0) {
+        var vFilterArr = gGrades.filter(function (e) {
+          return (paramFilterObj.filterSub == e.subjectId);
+        });
+        console.log(vFilterArr);
+        loadDataToTable(vFilterArr);
+      }
+    }
+  </script>
+</body>
+
+</html>

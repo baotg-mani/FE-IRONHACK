@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
+</head>
+<script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+
+    function onChangeColorClick() {
+        "use strict";
+        //code này để tham khảo  - for analysis only
+        var vCmtParagraph = document.getElementById("cmt-2-dev");
+        vCmtParagraph.style.color = "red";
+    }
+
+    function onChangeFontClick() {
+        "use strict";
+        // tham khảo code đã có ở changeColor()
+        // viết code của bạn ở đây - đổi thành chữ nghiêng
+        // tìm trên mạng  "change font style italic javascript"
+
+        //test only
+        console.log("test")
+        var vCmtParagraph = document.getElementById("cmt-2-dev");
+        vCmtParagraph.style.fontFamily = "italic";
+    }
+
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+
+</script>
+
+
+<body>
+    <div class="container jumbotron">
+        <p id="cmt-2-dev">
+            Test Page for Javascrip Tasks. F5 to run code.
+            Don't forget to Save your code before running. (Ctrl+S).
+        </p>
+        <div>
+            <input type="button" class="btn btn-danger" onclick="onChangeColorClick()" value="Change to New Color (red)">
+            <input type="button" class="btn btn-primary" onclick="onChangeFontClick()" value="Change to New Font Style (italic)">
+        </div>
+    </div>
+</body>
+
+</html>

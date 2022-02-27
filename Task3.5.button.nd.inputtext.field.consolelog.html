@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<script>
+
+function myOnClickFunction()
+{
+    // đây là code mẫu của tôi, viết ra tất cả các thuộc tính (properties của myInputstring element)
+    var myInputStringElement  = document.getElementById("myInputString");
+    console.log("***");
+    for (iterator = 0; iterator < myInputStringElement.attributes.length; iterator++) {
+        console.log(myInputStringElement.attributes[iterator].name 
+                      + "=" 
+                      + myInputStringElement.attributes[iterator].value) ;
+    }
+    
+    
+    // bạn hãy làm đúng như tôi làm ở trên, và ghi ra tất cả các thuộc tính (attributes)
+    // của element myInputNunber (trường input ở dưới)
+
+
+    
+}
+</script>
+
+<body style="background-color:lightgrey;"> 
+    <p>
+    Press F5 to run code.
+    Don't forget to Save your code before running. (Ctrl+S).
+  </p>
+    <label> myInputString</label>
+    <input type="text" id="myInputString" value="...default..." size="80">
+    <br> <br> 
+    <label> myInputNumber</label>
+    <input type="text" id="myInputNunber" value="...default..." size="70"  style="background-color:aquamarine;">
+    <br> <br>
+    <input type="button" onclick="myOnClickFunction()" value="Click to test !" >
+</body> 
+</html>

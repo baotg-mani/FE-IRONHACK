@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <title>Task 12.30</title>
+</head>
+
+<body>
+  <div class="container">
+    <form > 
+        <h2 style="text-align: center;" class="mt-3">Sample Responsive Form: Nhập cảnh với ô tô</h2>
+      <div class="form-group">
+        <label>First Name</label>
+        <input type="text" id="input-firstname" class="form-control" name="firstname" placeholder="Your first name..">
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" class="form-control" id="input-lastname" name="lastname" placeholder="Your last name..">
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="select-country">Country</label>
+          <select id="select-country" name="country" class="form-control">
+            <option value="australia">Australia</option>
+            <option value="canada">Canada</option>
+            <option value="usa">USA</option>
+          </select>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="regioninput">Region</label>
+          <input type="text" class="form-control" id="input-region" name="regioninput" placeholder="Your region..">
+        </div>
+      </div>
+    
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputCity">Car</label>
+          <select id="select-car" class="form-control">
+            
+          </select>
+        </div>
+      </div>
+     
+    </form>
+    <button class="btn btn-primary" onclick="onSendDataClick()">Send</button>
+  </div>
+  
+  <script>
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    // put data on car JSON select (đoạn jsonCarOptionDB - các giai đoạn sau này  bạn sẽ nhận từ phía server, hiện giờ ta tạm định nghĩa ở đây)
+    // yêu cầu 1: bạn hãy thêm 02 loại xe nữa
+    //  55, Toyota
+    //  75, Mazda
+    const gJSON_CAR_OPTION_DB = `[{"brandId": "10","brandName": "None"}, 
+                              {"brandId": "15","brandName": "Audi"},
+                              {"brandId": "20","brandName": "BMW"},
+                              {"brandId": "30","brandName": "Citroen"},
+                              {"brandId": "55","brandName": "Toyota"},
+                              {"brandId": "75","brandName": "Mazda"}]`;
+                              
+    var gJsonCarObject = JSON.parse(gJSON_CAR_OPTION_DB);
+
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    onPageLoading();
+    
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    // hàm thực hiện khi trang được load
+    function onPageLoading() {
+      loadDataToCarSelect();
+    }
+
+    //send form data; Send button onClick
+    function onSendDataClick() {
+      // code để gửi selected car
+      console.log("selected car is: ");
+      var vCarSelectElement = document.getElementById("select-car");
+      var vSelectedBrandId = vCarSelectElement.value;
+      console.log("brandId: " + vSelectedBrandId);
+      console.log("brandName :" + vCarSelectElement.options[vCarSelectElement.selectedIndex].text);
+      // yêu cầu 2: bạn hãy ghi tiếp những dữ liệu khác trên form ra console.log
+      var vFirstname = document.getElementById("input-firstname");
+      var vFirstnameValue = vFirstname.value;
+      console.log("Firstname: " + vFirstnameValue);
+
+      var vLastname = document.getElementById("input-lastname");
+      var vLastnameValue = vLastname.value;
+      console.log("Firstname: " + vLastnameValue);
+
+      var vCountrySelectElement = document.getElementById("select-country");
+      console.log("Country: " + vCountrySelectElement.options[vCountrySelectElement.selectedIndex].text);
+    
+      var vRegion = document.getElementById("input-region");
+      var vRegionValue = vRegion.value;
+      console.log("Region: " + vRegionValue);
+    }
+
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    // hàm thực hiện việc load dữ liệu vào Select Car
+    function loadDataToCarSelect() {
+      // adding the options to select html element   
+      var vSelectCarElement = document.getElementById("select-car");
+      for (var bIterator = 0; bIterator < gJsonCarObject.length; bIterator ++) {
+        // tạo option mới
+        var bCarOptionElement = document.createElement("option");
+        bCarOptionElement.value = gJsonCarObject[bIterator].brandId;
+        bCarOptionElement.text = gJsonCarObject[bIterator].brandName;
+        // thêm vào select html element
+        vSelectCarElement.appendChild(bCarOptionElement);
+      }
+    }
+  </script>
+
+</body>
+
+</html>

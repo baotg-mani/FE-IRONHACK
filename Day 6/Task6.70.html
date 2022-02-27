@@ -1,0 +1,100 @@
+<!--  Sửa lại bài 5.20, thêm một Message mới xuống dưới Message đã có. -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body id="id-body">
+        <h1 id="h1-title">Chào mừng đến với devcamp120</h1>
+        <img id="img-programing" src="image/programing.png" alt=""> <br>
+        <label id="lbl-message">Message cho bạn 12 tháng tới</label>
+        <input id="input-message" placeholder="Message to you..."> <br>
+        <button id="btn-send-message" onclick="onBtnSendMessageClick()">Gửi thông điệp</button>
+        <p id="p-message" style="color: blue; display: none;">Message to you</p>
+        <div id="add-message">
+
+        </div>
+        <img id="img-like" src="image/like-yellow-icon.png" style="width: 10%; display: none;">
+
+    </body>
+    <script>
+        /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+        /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+
+        //*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+        function onBtnSendMessageClick(){
+            "use strict";
+            console.log("Send message to me");
+            // truy xuất được ô text
+            var vInputMessageElement = document.getElementById("input-message");
+
+            // lấy được giá trị của ô text lưu vào một biến
+            var messageToMe = vInputMessageElement.value;
+            // hiển thị value vào console
+            console.log(messageToMe);
+
+            // gán value vào thẻ p màu xanh
+            var vMessageElement = document.getElementById("p-message");
+            vMessageElement.innerHTML = messageToMe;
+
+            // tạo và gán giá trị cho phần tử thêm messgae 
+            var vParagraph = document.createElement("p");
+            var vNodeParagraph = document.createTextNode(vInputMessageElement.value);
+            vParagraph.append(vNodeParagraph);
+            var vAddMessage = document.getElementById("add-message");
+            vAddMessage.append(vParagraph);
+
+            // hiển thị thẻ p màu xanh ra
+            vMessageElement.style.display = 'block';
+
+            // truy xuất ảnh bàn tay
+            var vImgLikeElement = document.getElementById("img-like");
+
+            // hiển thị ảnh bàn tay ra
+            vImgLikeElement.style.display = 'block';
+        }
+
+            // Hàm được thực thi khi trang được load
+        function onPageLoading(){
+            "use strict";
+            // Truy xuất các phần tử
+            var vH1TitleElement = document.getElementById("h1-title");
+            var vImgProgramingElement = document.getElementById("img-programing");
+            var vLabelMessageElement = document.getElementById("lbl-message");
+            var vInputMessageElement = document.getElementById("input-message");
+            var vButtonMessageElement = document.getElementById("btn-send-message");
+            var vMessageElement = document.getElementById("p-message");
+            var vImgLikeElement = document.getElementById("img-like");
+
+            // Lấy và hiển thị các giá trị vào console
+            console.log(vH1TitleElement.id);
+            console.log(vH1TitleElement.innerHTML);
+            
+            console.log(vImgProgramingElement.id);
+            console.log(vImgProgramingElement.src);
+
+            console.log(vLabelMessageElement.id);
+            console.log(vLabelMessageElement.innerHTML);
+
+            console.log(vInputMessageElement.id);
+            console.log(vInputMessageElement.placeholder);
+
+            console.log(vButtonMessageElement.id);
+            console.log(vButtonMessageElement.innerHTML);
+
+            console.log(vMessageElement.id);
+            console.log(vMessageElement.innerHTML);
+
+            console.log(vImgLikeElement.id);
+            console.log(vImgLikeElement.src);
+        }
+        /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+        onPageLoading();
+
+    </script>
+</html>

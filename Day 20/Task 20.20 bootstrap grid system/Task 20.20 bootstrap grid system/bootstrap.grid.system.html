@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- TODO 0: Nhúng thư viện boostrap -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container-fluid"> 
+    <div class="row"> 
+        <img src="co.the.chia.lam.12.cot.png"  width="50%" />
+        <img src="grid.system.five.class.png"  width="50%" />
+    </div>   
+</div>
+<div class="container-fluid">
+  <h1>Responsive Columns -<span style="color:red;"> Ví dụ chia 04 cột</span></h1>
+  <p>Kéo nhỏ browser lại để thấy tác động.</p>
+  <p>Nếu màn hình có width < 576px, thì các cột sẽ đè lên nhau.</p>
+  <!-- TODO 1: thay lần lượt class cho các cột thành col-md; col-lg, kéo nhỏ màn hình để xem sự khác biệt -->
+  <!-- TODO 2: Ở từng cột, chia tiếp thành từng row và các col; thêm label, input vào các col để xem giao diện -->
+  <div class="row">
+    <div class="col-md-3" style="background-color:lavender;">.col-sm-3</div>
+    <div class="col-md-3" style="background-color:lavenderblush;">.col-sm-3</div>
+    <div class="col-md-3" style="background-color:lavender;">.col-sm-3</div>
+    <div class="col-md-3" style="background-color:lavenderblush;">.col-sm-3</div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4" style="background-color:lavender;">
+      <label for="">Username</label>
+    </div>
+    <div class="col-sm-8" style="background-color:lavenderblush;">
+      <input type="text">
+    </div>
+
+  </div>
+  <div class="row">
+      <h2>Trên đây là ví dụ grid system, cho device cỡ nhỏ, chia 4 cột đều nhau</h2>
+      <img src="col-sm-3.png"  width="50%" />
+  </div>
+</div>
+
+</body>
+</html>

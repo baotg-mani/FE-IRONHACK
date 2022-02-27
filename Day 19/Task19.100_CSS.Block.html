@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 19.100</title>
+
+    <style>
+        .row-1 {
+            display: block;
+            border: 2px solid #B27796;
+            background-color: yellowgreen;
+            font-size: 40px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .row-2 {
+            display: block;
+            border: 2px solid #B27796;
+            background-color: linen;
+        }
+
+        .row-3 {
+            display: block;
+            border: 2px solid #B27796;
+            background-color: #e290d4;
+        }
+
+        .block-21 {
+            margin-top: 2px;
+            display: inline-block;
+            border: 2px solid #0b383a;
+            padding: 10px;
+            text-align: left;
+            width: 48%;
+        }
+
+        .block-22 {
+            margin-top: 2px;
+            display: inline-block;
+            border: 2px solid #333;
+            padding: 10px;
+            text-align: right;
+            width: 48%;
+        }
+
+        .block-21x {
+            display: block;
+            border: 2px solid #333;
+            padding: 10px;
+            text-align: center;
+            width: 97%;
+        }
+
+        .block-2111 {
+            display: inline-block;
+            border: 2px solid #333;
+            padding: 10px;
+            text-align: right;
+            width: 45%;
+        }
+
+        .block-2112 {
+            display: inline-block;
+            border: 2px solid #333;
+            padding: 10px;
+            text-align: right;
+            width: 45%;
+        }
+
+        .text-danger {
+            color: rgb(255, 72, 0);
+        }
+
+        .button {
+            margin-left: 88%;
+            width: 10%;
+            height: 10%;
+            font-size: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="row-1">Registration Form</div>
+
+    <div class="row-2">
+        <div class="block-21">
+            <div class="block-21x">
+                <div class="block-2111">
+                    <label>First Name<span class="text-danger">(*)</span></label>
+                </div>
+                <div class="block-2112">
+                    <input type="text">
+                </div>
+            </div>
+            <div class="block-21x">
+                <div class="block-2111">
+                    <label>Last Name<span class="text-danger">(*)</span></label>
+                </div>
+                <div class="block-2112">
+                    <input type="text">
+                </div>
+            </div>
+            <div class="block-21x">
+                <div class="block-2111">
+                    <label>Birthday<span class="text-danger">(*)</span></label>
+                </div>
+                <div class="block-2112">
+                    <input type="text">
+                </div>
+            </div>
+            <div class="block-21x">
+                <div class="block-2111">
+                    <label>Gender<span class="text-danger">(*)</span></label>
+                </div>
+                <div class="block-2112">
+                    <input type="radio" >
+                    <label>Male</label>
+                    <input type="radio" >
+                    <label>Female</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="block-22">
+            <div class="block-21x">
+                <div class="block-2111">
+                    <label>Passport<span class="text-danger">(*)</span></label>
+                </div>
+                <div class="block-2112">
+                    <input type="text">
+                </div>
+            </div>
+            <div class="block-21x">
+                <div class="block-2111">
+                    <label>Email</label>
+                </div>
+                <div class="block-2112">
+                    <input type="text">
+                </div>
+            </div>
+            <div class="block-21x">
+                <div class="block-2111">
+                    <label>Country<span class="text-danger">(*)</span></label>
+                </div>
+                <div class="block-2112">
+                    <input type="text">
+                </div>
+            </div>
+            <div class="block-21x">
+                <div class="block-2111">
+                    <label>Region</label>
+                </div>
+                <div class="block-2112">
+                    <input type="text">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row-3">
+        <div>
+            <button class="button">Send</button>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <title> Task 10.30 - Get data form and map to object</title>
+</head>
+<script>
+  "use strict";
+  /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+  /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+
+  /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+  function onPageLoading() {
+    //declare Object
+    var vProductObj = {
+      productCode: "",
+      productName: "",
+      category: "",
+      importNumber: 0,
+      country: "",
+      price: 0
+    }
+    //access elements
+    var vProductCodeElement = document.getElementById("input-product-code");
+    var vProductNameElement = document.getElementById("input-product-name");
+    var vCategoryElement = document.getElementById("select-category");
+    var vImportNumerElement = document.getElementById("input-import-number");
+    var vSelectCountryElement = document.getElementById("select-country");
+    var vInputPriceElement = document.getElementById("input-price");
+    //assign value into obj's properties
+    vProductObj.productCode = vProductCodeElement.value.trim();
+    vProductObj.productName = vProductNameElement.value.trim();
+    vProductObj.category = vCategoryElement.value;
+    vProductObj.importNumber = vImportNumerElement.value.trim();
+    vProductObj.country = vSelectCountryElement.value;
+    vProductObj.price = vInputPriceElement.value.trim();
+    //show obj to console
+    console.log(vProductObj);
+  }
+  /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/  
+
+</script>
+
+<body>
+  <div class="container jumbotron p-4">
+    <div class="text-center mb-4">
+      <h4>Quản lý sản phẩm</h4>
+    </div>
+    <form id="inputform01"> 
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="input-product-code">Mã sản phẩm</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="text" id="input-product-code" name="productcode" placeholder="Product code .." class="form-control">
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="input-product-name">Tên sản phẩm</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="text" id="input-product-name" name="productname" placeholder="Product Name .." class="form-control">
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="select-category">Nhóm sản phẩm</label>
+        </div>
+        <div class="col-sm-3">
+          <select id="select-category" name="category" class="form-control">
+            <option value="dientu">Điện tử</option>
+            <option value="hanggiadung">Hàng gia dụng</option>
+            <option value="dienlanh">Điện lạnh</option>
+          </select>
+        </div>
+        <div class="col-sm-3">
+          <label for="input-import-number">Số lượng nhập</label>
+        </div>
+        <div class="col-sm-3">
+          <input type="text" id="input-import-number" placeholder="Number of products ..." class="form-control">
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="select-country">Nước sản xuất</label>
+        </div>
+        <div class="col-sm-3">
+          <select id="select-country" name="category" class="form-control">
+            <option value="us">USA</option>
+            <option value="vn">Việt Nam</option>
+            <option value="cn">China</option>
+            <option value="au">Australia</option>
+          </select>
+        </div>
+        <div class="col-sm-3">
+          <label for="input-price">Giá bán</label>
+        </div>
+        <div class="col-sm-3">
+          <input type="text" id="input-price" placeholder="Price ..." class="form-control">
+        </div>
+      </div>
+      <div class="row form-group text-right">
+        <div class="col-sm-12">
+          <input type="button" value="Send" class="btn btn-info" id="btn-send" onclick="onPageLoading()">
+        </div>
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <title>Task 30.35</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+  </style>
+
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+    /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+    $(document).ready(function () {
+      // xử lý sự kiện khi Btn Sign up click
+      $("#btn-sign-up").on("click", onBtnSignUpClick);
+    });
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    // Hàm xử lý sự kiện click button Sign up
+    function onBtnSignUpClick() {
+      "use strict";
+      // Khai báo đối tượng lưu dữ liệu
+      var vSignUpObj = {
+        firstName: "",
+        lastName: "",
+        email: "",
+        pass: "",
+        confirmPass: "",
+        iAccept: false
+      }
+      // B1: thu thập dữ liệu
+      getDataOnForm(vSignUpObj);
+      // B2: validate dữ liệu
+      var vIsDataValid = validateData(vSignUpObj);
+      if (vIsDataValid) {
+        // B3: xử lý sự kiện front-end
+        console.log(vSignUpObj);
+      }
+    }
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    // Hàm get data trên form
+    function getDataOnForm(paramSignUpObj) {
+      "use strict";
+      paramSignUpObj.firstName = $("#input-firstname").val().trim();
+      paramSignUpObj.lastName = $("#input-lastname").val().trim();
+      paramSignUpObj.email = $("#input-email").val().trim();
+      paramSignUpObj.pass = $("#input-password").val().trim();
+      paramSignUpObj.confirmPass = $("#re-input-password").val().trim();
+      paramSignUpObj.iAccept = $("#checkbox-accept").is(":checked");
+    }
+
+    // Hàm kiểm tra (validate) dữ liệu nhập vào
+    function validateData(paramSignUpObj) {
+      "use strict";
+      if (paramSignUpObj.firstName === "") {
+        alert("Invalid first name!");
+        console.log("Invalid first name!");
+        return false;
+      }
+      if (paramSignUpObj.lastName === "") {
+        alert("Invalid last name!");
+        console.log("Invalid last name!");
+        return false;
+      }
+      if (!validateEmail(paramSignUpObj.email) || paramSignUpObj.email === "") {
+        alert("Invalid email");
+        console.log("Invalid email");
+        return false;
+      }
+      if (paramSignUpObj.pass === "") {
+        alert("Invalid password!");
+        console.log("Invalid password!");
+        return false;
+      }
+      if (paramSignUpObj.confirmPass === "" || paramSignUpObj.confirmPass !== paramSignUpObj.pass) {
+        alert("Password not confirmed!");
+        console.log("Password not confirmed!");
+        return false;
+      }
+      if (paramSignUpObj.iAccept === false) {
+        alert("Need to accept Temrs and Policy to sign up completely.")
+        console.log("Need to accept Temrs and Policy to sign up completely.");
+        return false;
+      }
+      console.log("Dữ liệu nhập hợp lệ");
+      return true;
+    }
+
+    // Hàm validate Email
+    function validateEmail(paramEmail) {
+      "use strict";
+      var vEmailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+      return vEmailReg.test(paramEmail);
+    }
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="col-sm-4 border rounded mt-4">
+      <div>
+        <h3><b>Sign Up</b></h3>
+        <div class="col-sm-12">
+          <h7 class="border-bottom pb-2">Please fill in this form to create an account!</h7>
+        </div>
+      </div>
+      <div class="form-group mt-3">
+        <div class="row my-2">
+          <div class="col-xs-6 col-sm-6">
+            <input class="form-control border-0" id="input-firstname" style="background-color: #adb5bd40;" type="text"
+              placeholder="First Name">
+          </div>
+          <div class="col-xs-6 col-sm-6">
+            <input class="form-control border-0" id="input-lastname" style="background-color: #adb5bd40;" type="text"
+              placeholder="Last Name">
+          </div>
+        </div>
+        <input class="form-control my-2 border-0" id="input-email" style="background-color: #adb5bd40;" type="text"
+          placeholder="Email">
+        <input class="form-control my-2 border-0" id="input-password" style="background-color: #adb5bd40;"
+          type="password" placeholder="Password">
+        <input class="form-control my-2 border-0" id="re-input-password" style="background-color: #adb5bd40;"
+          type="password" placeholder="Confirm Password">
+      </div>
+      <div class="">
+        <input type="checkbox" name="" id="checkbox-accept">
+        <label for="">I accept to <a class="text-decoration">Terms of use</a> & <a class="text-decoration">
+            Privacy Policy</a></label>
+      </div>
+      <div>
+        <button id="btn-sign-up" class="btn btn-primary mb-5 mt-2">Sign Up</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

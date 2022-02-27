@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Task 22.30</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<body>
+  <div class="container">
+    <div class="form-group p-2">
+      <a href="indexListView.html" class="font-weight-bold"> QUAY LẠI </a>
+    </div>
+    <div class="form-group">
+      <h1> Luyện tập lấy tham số từ query string (đường dẫn URL) </h1>
+      <img src="https://howto.caspio.com/wp-content/uploads/2016/12/creating_query_strings1.png" alt="query string">
+      <img src="https://bit.ly/2PJLv6Y" alt="query string">
+    </div>
+    <div class="form-group">
+      Hãy thử dùng query string như sau: ?id=a10&firstname=joe&lastname=doe
+    </div>
+    <div class="form-group">
+      Query: http://www.example.com/t.html?id=1&firstname=Minh&lastname=Vu
+    </div> 
+    <div class="form-group text-danger" id="div-result"> 
+    </div>
+  </div>
+  </div>
+
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    onLoadPaging();
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    function onLoadPaging(){
+      // get data from query string
+      var vUrlString = window.location.href; //đường đẫn gọi đến trang
+      console.log(vUrlString);
+      var vUrl = new URL(vUrlString);
+
+      // get parameters ( thu thập dữ liệu)
+      var vFirstname = vUrl.searchParams.get("firstname");
+      var vAge = vUrl.searchParams.get("age");
+      var vLastname = vUrl.searchParams.get("lastname");
+      var vId = vUrl.searchParams.get("id");
+    
+      // show on div result
+      var vDivResult = document.getElementById("div-result");
+      if(vId === null) {
+        alert("Giá trị id bị thiếu"); // đây chính là bước validate yêu cầu phải có id
+        window.location.href = "indexListView.html"; // nếu thiếu sẽ Quay trở lại trang nguồn index
+      }
+      else {
+        vDivResult.innerHTML = "Firstname is: " + vFirstname + "<br>";
+        vDivResult.innerHTML += "Lastname is: " + vLastname +  "<br>";
+        vDivResult.innerHTML += "Id is: " + vId +  "<br>";
+        vDivResult.innerHTML += "Age is: " + vAge;
+      }
+    }
+
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    
+  </script>
+</body>
+
+</html> 

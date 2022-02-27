@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> 07 API sample cho Pizza 365 Project</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+
+<!-- file html dùng để thử tác động của javascript vào các thành phần trang web-->
+<script>
+const gREQUEST_STATUS_OK = 200; // GET & PUT success
+const gREQUEST_STATUS_POST_SUCCESS = 201; // status 201: POST success
+const gREQUEST_STATUS_DELETE_SUCCESS = 204; // status 204: DELETE Success
+const gREQUEST_READY_STATUS_FINISH_AND_OK = 4;
+
+//gọi mẫu lấy danh sách order
+function onBtnGetAllOrderClick(){
+    "use strict";
+    //base url
+    const vBASE_URL = "http://42.115.221.44:8080/devcamp-pizza365/orders";
+    // create a request
+    var vXmlHttpGetAllOrder = new XMLHttpRequest();
+    vXmlHttpGetAllOrder.open( "GET", vBASE_URL, true);
+    vXmlHttpGetAllOrder.send();
+
+    vXmlHttpGetAllOrder.onreadystatechange = function() {
+        if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
+            var vOrderList = vXmlHttpGetAllOrder.responseText;
+            console.log(vOrderList);
+        }
+    }
+  
+}
+
+//gọi mẫu lấy thông tin 1 order - dùng khi xem chi tiết để sửa đơn hàng
+function onBtnGetOrderByIdClick(){
+    "use strict";
+    //base url
+    const vBASE_URL = "http://42.115.221.44:8080/devcamp-pizza365/orders";      
+    var vOrderId =  "OdwR3Qzoak";
+    
+    var vXmlHttpGetOrderById = new XMLHttpRequest();
+    vXmlHttpGetOrderById.open( "GET", vBASE_URL + "/" + vOrderId, true);
+    vXmlHttpGetOrderById.send();
+    vXmlHttpGetOrderById.onreadystatechange = function() {
+        if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
+            console.log(vXmlHttpGetOrderById.responseText);
+        }
+    }
+}
+
+//gọi tạo một order mới
+function onBtnCreateOrderClick(){
+    "use strict";
+    //base url
+    const vBASE_URL = "http://42.115.221.44:8080/devcamp-pizza365/orders";  
+    var vObjectRequest = {
+        kichCo: "M",
+        duongKinh: "25",
+        suon: "4",
+        salad: "300",
+        loaiPizza: "HAWAII",
+        idVourcher: "16512",
+        idLoaiNuocUong: "PEPSI",
+        soLuongNuoc: "3",
+        hoTen: "Phạm Thanh Bình",
+        thanhTien: "200000",
+        email: "binhpt001@devcamp.edu.vn",
+        soDienThoai: "0865241654",
+        diaChi: "Hà Nội",
+        loiNhan: "Pizza đế dày"
+    }    
+  
+    var vXmlHttpCreateOrder = new XMLHttpRequest();
+    vXmlHttpCreateOrder.open( "POST", vBASE_URL, true);
+    vXmlHttpCreateOrder.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    vXmlHttpCreateOrder.send(JSON.stringify(vObjectRequest));
+    vXmlHttpCreateOrder.onreadystatechange = function() {
+        if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_POST_SUCCESS) { 
+            var vCreatedOrder = vXmlHttpCreateOrder.responseText;
+            console.log(vCreatedOrder);
+        }
+    }            
+}
+
+//update một order mới
+function onBtnUpdateOrderClick(){
+    "use strict";
+    //base url
+    const vBASE_URL = "http://42.115.221.44:8080/devcamp-pizza365/orders";  
+    var vId =  "6425";
+    var vObjectRequest = {
+        trangThai: "confirmed" //3 trang thai open, confirmed, cancel
+    } 
+    
+    var vXmlHttpUpdateOrder = new XMLHttpRequest();
+    vXmlHttpUpdateOrder.open( "PUT", vBASE_URL + "/" + vId);
+    vXmlHttpUpdateOrder.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    vXmlHttpUpdateOrder.send(JSON.stringify(vObjectRequest));
+    vXmlHttpUpdateOrder.onreadystatechange = function() {
+        if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) { 
+            var vUpdatedOrder = vXmlHttpUpdateOrder.responseText;
+            console.log(vUpdatedOrder);
+        }
+    }            
+}
+
+//delete một order
+function onBtnDeleteOrderClick(){
+    "use strict";
+    //base url
+    const vBASE_URL = "http://42.115.221.44:8080/devcamp-pizza365/orders";  
+    var vId =  "6426";
+    
+    var vXmlHttpUpdateOrder = new XMLHttpRequest();
+    vXmlHttpUpdateOrder.open("DELETE", vBASE_URL + "/" + vId, true);
+    vXmlHttpUpdateOrder.send();
+    vXmlHttpUpdateOrder.onreadystatechange = function() {
+        // Delete thành công thì thông báo kết quả cho người dùng
+        if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_DELETE_SUCCESS) { 
+            console.log("Delete " + vId + " success!");
+        }
+    }            
+}
+
+//check mã giảm giá
+function onBtnCheckVoucherClick(){
+    "use strict";
+    const vBASE_URL =  "http://42.115.221.44:8080/devcamp-voucher-api/voucher_detail/";
+    var vVoucherId = "12332";  //một số mã đúng để test: 95531, 81432,...lưu ý test cả mã sai
+    // nếu mã giảm giấ đã nhập, tạo vXmlHttp request và gửi về server
+    var vXmlHttp = new XMLHttpRequest();
+    vXmlHttp.open( "GET",  vBASE_URL + vVoucherId, false);
+    vXmlHttp.send();
+    if(vXmlHttp.status == gREQUEST_STATUS_OK) { // restFullAPI successful
+        // nhận lại response dạng JSON ở vXmlHttp.responseText và chuyển thành object
+        console.log(vXmlHttp.responseText);          
+    } 
+    else {
+        // không nhận lại được data do vấn đề gì đó: khả năng mã voucher ko dúng
+        console.log("Không tìm thấy voucher " + vXmlHttp.responseText);
+    }
+}
+
+//mã nguồn để load data drink list (danh sách loại nước uống) về
+function onBtnGetDrinkListClick() {
+    "use strict";
+    var vBASE_URL ="http://42.115.221.44:8080/devcamp-pizza365/drinks";
+    var vXhttp = new XMLHttpRequest();
+    vXhttp.open("GET", vBASE_URL, true);
+    vXhttp.send();
+    vXhttp.onreadystatechange = function() {
+        if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
+          console.log(vXhttp.responseText); //ghi response text ra console.log
+        }
+    };
+}
+</script>
+
+<body>
+    <div class="container-fluid mt-4">
+        <p id = "cmt2dev">Test Page for Javascrip Tasks. F5 to run code. </p> 
+        <form id ="singleForm">
+        <button type="button" class="btn btn-primary" onclick="onBtnGetAllOrderClick()"><i class="fas fa-search">&nbsp;</i>Call api get all orders!</button>
+        <button type="button" class="btn btn-primary" onclick="onBtnGetOrderByIdClick()"><i class="fas fa-search">&nbsp;</i>Call api get order by id!</button>
+        <button type="button" class="btn btn-success" onclick="onBtnCreateOrderClick()"><i class="fas fa-plus-circle">&nbsp;</i>Call api create order!</button>
+        <button type="button" class="btn btn-info" onclick="onBtnUpdateOrderClick()"><i class="fas fa-edit">&nbsp;</i>Call api update order!</button>
+        <button type="button" class="btn btn-danger" onclick="onBtnDeleteOrderClick()"><i class="fas fa-trash-alt">&nbsp;</i>Call api Delete Order!</button>
+        <button type="button" class="btn btn-primary" onclick="onBtnCheckVoucherClick()"><i class="fas fa-search">&nbsp;</i>Call api Check Voucher</button>
+        <button type="button" class="btn btn-primary" onclick="onBtnGetDrinkListClick()"><i class="fas fa-search">&nbsp;</i>Call api Get Drink list!</button>
+        </form>
+        <p id="testP"  style="font-size:larger;"> Demo 07 API for Pizza 365 Project: </p>
+            <ul>
+                <li>get all Orders: lấy tất cả  orders </li> 
+                <li>create Order: tạo 1 order</li>
+                <li>get Order by ID: lấy 1 order bằng ID </li> 
+                <li>update Order: update 01 order</li> 
+                <li>delete Order: delete 01 order</li> 
+                <li>check voucher by ID: check thông tin mã giảm giá, quan trọng là có hay không, và % giảm giá </li>
+                <li>get drink list: lấy danh sách đồ uống</li>
+            </ul>
+        <strong style = "color:red"> Bật console log để nhìn rõ output </strong>
+    </div> 
+</body> 
+</html>

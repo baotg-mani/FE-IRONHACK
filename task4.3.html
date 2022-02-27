@@ -1,0 +1,67 @@
+Test
+Yêu cầu 
+Test 1
+Trang web đủ 04 element, 01 head, 01 input text, 01 button
+Test 2
+Khi load (F5) ghi đủ ID, value, hoặc innerHTML của 04 element ra console
+Test 3
+Khi ấn nút Send, ghi ra console, “send start…”
+Test 4ste
+Search-trial-error:  dùng alert ở javascript như thế nào
+1. Gợi ý từ khóa Search:  display alert message  javascript  
+2. Yêu cầu pass: nộp 02 ảnh: 1 ảnh kết quả tìm + 1 ảnh dùng thử
+Test 5
+Hiện được value vào alert
+
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="h1-title">TDD - Welcome to devcamp</h1>
+    <label id="lbl-message">Message</label>
+    <input id="input-message" placeholder="message ..."> <br>
+    <button id="btn-send" onclick="onBtnSendClick()">Send</button>
+</body>
+<script>
+    // hàm xử lý việc load trang
+    function onPageLoading() {
+        // B1: Truy xuất được các phần tử HTML
+        var h1TitleElement = document.getElementById("h1-title");
+        var lblMessageElement = document.getElementById("lbl-message");
+        var inputMessageElement = document.getElementById("input-message");
+        var btnSendElement = document.getElementById("btn-send");
+        // B2: lấy và ghi ra được ID, InnerHTML của các phần tử vào console
+        console.log(h1TitleElement.id);
+        console.log(h1TitleElement.innerHTML);
+
+        console.log(lblMessageElement.id);
+        console.log(lblMessageElement.innerHTML);
+
+        console.log(inputMessageElement.id);
+        console.log(inputMessageElement.placeholder);
+
+        console.log(btnSendElement.id);
+        console.log(btnSendElement.innerHTML);
+    }
+
+    onPageLoading();
+
+    // hàm xử lý sự kiện send click
+    function onBtnSendClick() {
+        console.log("send start ...");
+        // B1: Lấy được giá trị ở ô message và lưu vào một biến
+        // B1.1: Truy xuất được ô text message
+        var inputMessageElement = document.getElementById("input-message");
+        // B1.2: Lấy giá trị ô text và lưu vào 1 biến
+        var messageToMe = inputMessageElement.value;
+        // B2: alert giá trị ở biến ra
+        alert(messageToMe);
+    }
+    
+</script>
+</html>

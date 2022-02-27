@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Exception</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- Import Datatable sau jquery -->
+  <!-- Import them style bootstrap cho datatable -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="text-center mb-5 mt-3">
+      <h2>Try-Catch-Throw để xử lý trường hợp ngoại lệ (exception) ở javascript</h2>
+      <h5 class="text-secondary">Khi Throw ra cái gì, thì Catch sẽ nhận được cái đó</h5>
+    </div>
+    <div>
+      <img src="javascript-try-catch-1-1.png" height="350px" class="mr-3">
+      <img src="try-catch.PNG" height="350px">
+    </div>
+    <p> Điền số từ 5 đến 10:</p>
+    <form class="form-inline">
+      <input id="demo" type="text" class="form-control mr-4">
+      <button type="button" id="idWithThrowOnly" class="btn btn-primary mr-3">Thử chỉ với Throw</button>
+      <button type="button" id="idWithTryCatch" class="btn btn-primary mr-3">Thử với Try và Catch</button>
+      <button type="button" id="idWithTryCatchThrowObject" class="btn btn-primary">Thử với Try và Catch, Throw Object</button>
+    </form>
+    <p id="p-message-display"></p>
+  </div>
+</body>
+
+<script>
+
+  $("#idWithThrowOnly").on("click", onBtnTestWithThrowOnlyClick);
+  $("#idWithTryCatch").on("click", onBtnTestWithTryCatchClick);
+  $("#idWithTryCatchThrowObject").on("click", onBtnTestWithTryCatchThrowObjectClick);
+
+   // validate with throw only, no catch
+   // TODO 1: Sửa lại câu throw báo lỗi, thêm chữ Input ở đầu và chạy thử
+   function onBtnTestWithThrowOnlyClick() {
+      var vMessageElement = $("#p-message-display");
+      vMessageElement.html("");
+      var vInputValue = $("#demo").val().trim();
+      
+      if(vInputValue === "")  throw "Input is Empty";
+      if(isNaN(vInputValue)) throw "Input not a number";
+      if(vInputValue > 10)   throw "Input too high";
+      if(vInputValue < 5)  throw "Input too low";
+      vMessageElement.html("Input = " + vInputValue);
+  }
+
+
+  // hàm xử lý sự kiện button Test with try catch
+  // TODO 2: Sửa lại câu thông báo ở catch và chạy thử
+  function onBtnTestWithTryCatchClick() {
+    var vMessageElement = $("#p-message-display");
+    vMessageElement.html("");
+    var vInputValue = $("#demo").val().trim();
+    
+    try { 
+      // throw ra một string khi dữ liệu ko hợp lệ
+      if(vInputValue === "")  throw "is Empty";
+      if(isNaN(vInputValue)) throw "not a number";
+      if(vInputValue > 10)   throw "too high";
+      if(vInputValue < 5)  throw "too low";
+      vMessageElement.html("Input = " + vInputValue);
+    }
+    catch(paramErr) { // throw ra string thì catch nhận vào là một string
+      vMessageElement.html("Input " + paramErr + ", test again");
+    }
+
+  }
+
+  // Định nghĩa user exception object bằng 01 function
+  // Object này sẽ được dùng để throw ra khi chương trình gặp lỗi
+  function UserException(paramErrorCode, paramMessage) {
+    this.errorMessage = paramMessage;
+    this.name = 'UserException';
+    this.errorCode = paramErrorCode
+  }
+
+  // throw ra object và catch xử lý nhận vào là object
+  // TODO 3: Sửa lại câu thông báo ở trong catch, thêm thuộc tính name của UserException
+  function onBtnTestWithTryCatchThrowObjectClick() {
+    var vMessageElement = $("#p-message-display");
+    vMessageElement.html("");
+    var vInputValue = $("#demo").val().trim();
+    try { 
+      // throw ra một object khi dữ liệu không hợp lệ
+      if(vInputValue === "")  throw new UserException(10,"Input value is empty");
+      if(isNaN(vInputValue)) throw new UserException(20, "not a number");
+      if(vInputValue > 10)   throw new UserException (30, "too high");
+      if(vInputValue < 5)  throw new UserException (40, "too low");
+      vMessageElement.html("Input = " + vInputValue);
+    }
+    catch(paramErrObj) { // throw ra object thì catch cũng nhận vào là object và xử lý
+      vMessageElement.html(" ErrorCode:  " + paramErrObj.errorCode + ", Error Name: " + paramErrObj.name + ", Error Message: " + paramErrObj.errorMessage); 
+    }
+  }
+
+</script>
+
+</html>

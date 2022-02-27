@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <h1 id="h1-title">Chào mừng đến với devcamp120</h1>
+    <img id="img-programing" src="programing.png"> <br>
+    <div class="form-group col-sm-4">
+        <label id="lbl-message">Message cho bạn 12 tháng tới</label>
+        <input class="form-control" id="input-message" placeholder="Message to you...">
+    </div>
+    <div class="btn">
+        <button id="btn-send-message">Gửi thông điệp</button>
+        <p id="p-message">Message to you</p>
+    </div>
+    <img id="img-like" src="like-yellow-icon.png">
+</body>
+
+<script>
+    "use strict";
+    $(document).ready(function () {
+        "use strict";
+        /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+        /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+        // Hàm sự kiện load trang
+        onPageLoading();
+
+        // Hàm xử lý sự kiện click button
+        $("#btn-send-message").on("click", function () {
+            "use strict";
+            // B1: thu thập dữ liệu
+            var vInputValue = $("#input-message").val();
+            // B2: validate
+            if (vInputValue === "") {
+                alert("Input not found!");
+            } else {
+                // B3 làm việc front-end
+                showMessage(vInputValue);
+                // đồng thời hiển thị ra console
+                console.log("i am: " + $("#btn-send-message").attr("id"));
+                console.log("take data from" + $("#input-message").attr("id"));
+                console.log("send message to" + $("#p-message").attr("id"));
+
+
+            }
+        });
+        /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+        // Hàm được thực thi khi trang được load
+        function onPageLoading() {
+            "use strict";
+            // ẩn img like và cùng hiển thị lời nhắn
+            $("#img-like").hide();
+            $("#p-message").hide();
+        }
+
+        /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+        // Hàm show message màu xanh và img like
+        function showMessage(paramInputValue) {
+            "use strict";
+            $("#p-message").css("color", "blue"); // đổi màu message
+            $("#img-like").show(); // hiển thị like
+            $("#p-message").html(paramInputValue); // gán giá trị input cho thẻ P
+            $("#p-message").show(); // hiển thị thẻ P
+
+        }
+    })
+</script>
+
+</html>

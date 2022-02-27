@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> Task 12.30 </title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+
+<body>
+    <div class="container jumbotron">
+        <div class="form-group">
+            <h1 id="h1-welcome-msg"> Welcome devcamp 2021 !</h1>
+        </div>
+        <div class="form-group">
+            <label id="lbl-new-color"> New color: </label>
+            <select id="select-new-color" class="form-control w-25">
+                <option value="all"> select color</option>
+                <option value="red"> Red </option>
+                <option value="blue"> Blue </option>
+                <option value="green"> Green </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-info" onclick="changeColor()" id="btn-change-color"> Change color </button>
+        </div>
+    </div>
+</body>
+<script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    showAllElement();
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    function showAllElement() {
+        "use strict";
+        var vElementWelcomeMsg = document.getElementById("h1-welcome-msg");
+        var vElementLabelNewColor = document.getElementById("lbl-new-color");
+        var vElementSelectColor = document.getElementById("select-new-color");
+        var vElementBtnChangeColor = document.getElementById("btn-change-color");
+        debugger; //TDD.Test1. watch được các element
+        //console.log( "welcome msg " + vElementWelcomeMsg.id + " " + vElementWelcomeMsg.innerHTML);
+        //console.log("elemetn select " + vElementSelectColor.id );
+        //console.log("element btn " + vElementBtnChangeColor.id + " " + vElementBtnChangeColor.innerHTML);
+    }
+
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    //change color click
+    function changeColor() {
+        "use strict";
+        //debugger; // TDD Test 2, function có được call
+        //console.log("start change color ...");  // Cách khác để xác định function có được call
+        var vElementSelectColor = document.getElementById("select-new-color");
+        debugger;  // TDD test 3, watch (theo dõi) được màu đang có ở ô select là gì (value)
+        //console.log("Select value: " + vElementSelectColor.value);
+        var vElementWelcomeMsg = document.getElementById("h1-welcome-msg");
+        //assert những việc cần lưu ý 
+        console.assert(vElementSelectColor.value !== "all", "100: User chưa chọn màu mới ");
+
+        if (vElementSelectColor.value !== "all") {
+            vElementWelcomeMsg.style.color = vElementSelectColor.value;
+        }
+        else {
+            alert("Hãy chọn màu mới !!");
+        }
+    }
+</script>
+
+</html>

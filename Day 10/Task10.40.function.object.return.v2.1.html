@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <title>Task 10.40</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+    /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+    onPageLoading();
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    // hàm thực thi khi trang được load ra
+    function onPageLoading() {
+        "use strict";
+        var vMyPerson = getPerson();
+        //hãy dùng console.log viết ra thêm 02 property nữa là email và citizenID
+        console.log("Person input: ");
+        console.log("firstName: " + vMyPerson.firstName);
+        console.log("lastName: " + vMyPerson.lastName);
+        console.log("age: " + vMyPerson.age);
+        console.log("email: " + vMyPerson.email);
+        console.log("citizen ID: " + vMyPerson.citizenID);
+    }
+    
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    // function getPerson trả lại 01 đối tượng: Object
+    // bạn hãy viết thêm  mã nguồn để thêm 02 thuộc tính citizenID và email, đều là dạng string (chuỗi)
+    function getPerson() {
+        "use strict";
+        // get names from the database or API
+        var vPersonJoe = {
+            firstName: "Doe",
+            lastName: "Joe",
+            age: 39,
+            email: "tranbao2707@outlook.com",
+            citizenID: "091835035"
+        }
+        // return values
+        return vPersonJoe;
+    }
+</script>
+
+<body class="bg bg-light">
+    <div class="jumbotron">
+        <h1> Test Page for Devcamp Javascrip Tasks </h1>
+        <p> Press F5 to run code. Don't forget to Save your code before running. (Ctrl+S). </p>
+    </div>
+</body>
+
+</html>

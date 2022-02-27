@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> task 12.70 correct the code </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container jumbotron">
+        <pre>
+        run code by press F5
+    </pre>
+    </div>
+</body>
+<script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    onPageLoading();
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    function onPageLoading() {
+        "use strict";
+        // debugger;
+        var vMaxNumberIndex = getMaxNumberIndex([6, 3, 11, 2, 6]);
+        console.log("max number index 1:  = " + vMaxNumberIndex);
+
+        vMaxNumberIndex = getMaxNumberIndex([]);
+        console.log("max number index 2: = " + vMaxNumberIndex);
+    }
+
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    function getMaxNumberIndex(paramInputArrayOfNumbers) {
+        "use strict";
+        var vIndexResult = 0;
+        var vMaxNumber = paramInputArrayOfNumbers[vIndexResult];
+        for (var bIterator = 0; bIterator < paramInputArrayOfNumbers.length; bIterator++) {
+            if (vMaxNumber < paramInputArrayOfNumbers[bIterator]) {
+                vIndexResult = bIterator;
+            }
+        }
+        return vIndexResult;
+    }
+
+</script>

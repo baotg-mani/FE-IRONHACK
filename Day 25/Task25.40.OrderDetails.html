@@ -1,0 +1,278 @@
+<!-- TASK 25.30-25.40-25.50 -->
+<!-- 25.30: TRANG NGUỒN
+    25.40(25.50): TRANG ĐÍCH -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Detail</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <div class="mt-2 container bg-light rounded">
+    <div class="">
+      <h4>Order Detail!!!</h4>
+    </div>
+    <div class="">
+      <div class="form-group">
+        <label for="">Order ID (mã đơn hàng)</label>
+        <div>
+          <input id="input-orderid" class="form-control" type="text">
+        </div>
+      </div>
+
+      <div>
+        <div class="form-group">
+          <label for="">Cỡ combo</label>
+          <div>
+            <select class="form-control" name="" id="select-combo">
+              <option value="">Chọn cỡ combo</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Đường kính pizza</label>
+        <div>
+          <input id="input-duongkinh" class="form-control" type="text">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Sườn nướng (miếng)</label>
+        <div>
+          <input id="input-suon" class="form-control" type="text">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Đồ uống</label>
+        <div>
+          <select class="form-control" name="" id="select-drink">
+            <option value="">Chọn đồ uống</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Số lượng nước uống</label>
+        <div>
+          <input id="input-soluongnuoc" class="form-control" type="text">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Voucher ID (mã voucher)</label>
+        <div>
+          <input id="input-voucherid" class="form-control" type="text">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Loại pizza (pizza type)</label>
+        <div>
+          <input id="input-pizza-type" class="form-control" type="text">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Salad (g)</label>
+        <div>
+          <input id="input-salad" class="form-control" type="text">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Thành tiền</label>
+        <div>
+          <input id="input-payment" class="form-control" type="text">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Giảm giá (discount)</label>
+        <div>
+          <input id="input-discount" class="form-control" type="text">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Họ và tên</label>
+        <div>
+          <input id="input-fullname" class="form-control" type="text">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Email</label>
+        <div>
+          <input id="input-email" class="form-control" type="text">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Số điện thoại</label>
+        <div>
+          <input id="input-phonenumber" class="form-control" type="text">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Địa chỉ</label>
+        <div>
+          <input id="input-address" class="form-control" type="text">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Lời nhắn</label>
+        <div>
+          <input id="input-message" class="form-control" type="text">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Trạng thái đơn hàng</label>
+        <div>
+          <input id="input-trangthai" class="form-control" type="text">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Ngày tạo đơn</label>
+        <div>
+          <input id="input-ngaytaodon" class="form-control" type="text">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Ngày cập nhật</label>
+        <div>
+          <input id="input-ngaycapnhat" class="form-control" type="text">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    const gBASE_URL = "http://42.115.221.44:8080/devcamp-pizza365/orders";
+    const gREQUEST_STATUS_OK = 200;
+    const gREQUEST_READY_STATUS_FINISH_AND_OK = 4;
+    const gREQUEST_CREATE_SUCCESS = 201;
+
+    /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+    onPageLoading();
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    function onPageLoading() {
+      // get data from query string
+      var vUrlString = window.location.href;
+      console.log(vUrlString);
+      var vUrl = new URL(vUrlString);
+      // B1: thu thập dữ liệu (get parameter)
+      vOrderId = vUrl.searchParams.get("orderid");
+      console.log("Order ID: " + vOrderId);
+      // B2: validate (nếu không tồn tại orderId thì alert và quay lại trang nguồn-Task25.30)
+      if (vOrderId === null) {
+        alert("Giá trị Order Id bị thiếu");
+        window.location.href = "task25.30.pizza365.create.and.getOrder.v3.1.html";
+      } else {
+        // B3: xử lý sự kiện
+        document.getElementById("input-orderid").value = vOrderId; // hiển thị giá trị ra dòng order ID
+        // gọi hàm call API và xử lý sự kiện show updated data vào form
+        loadUpdatedDataToForm(vOrderId);
+      }
+    }
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    function loadUpdatedDataToForm() {
+      // B1: thu thập dữ liệu
+      var vUrlString = window.location.href;
+      var vUrl = new URL(vUrlString);
+      vId = vUrl.searchParams.get("id"); // dùng vId để gọi ra dữ liệu update
+      console.log("ID: " + vId);
+      // B2: validate dữ liệu
+      if (vId === null) {
+        alert("Giá trị ID bị thiếu");
+      } else {
+        // B3: call rest API
+        var vObjectRequest = {
+          trangThai: "confirmed" //3 trang thai open, confirmed, cancel
+        }
+        var vXmlHttpUpdateOrder = new XMLHttpRequest();
+        sendRequestUpdateOrder(vId, vXmlHttpUpdateOrder, vObjectRequest);
+        // B4: xử lý response và làm việc trên front-end
+        vXmlHttpUpdateOrder.onreadystatechange =
+          function () {
+            if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
+              var vUpdatedOrderObj = vXmlHttpUpdateOrder.responseText;
+              console.log(vUpdatedOrderObj);
+              var vResponseUpdateObj = JSON.parse(vUpdatedOrderObj);
+              handleShowUpdateOrder(vResponseUpdateObj);
+            }
+          }
+      }
+    }
+
+    // Hàm gửi request để lấy data update
+    function sendRequestUpdateOrder(paramID, paramXmlHttp, paramObjRequest) {
+      paramXmlHttp.open("PUT", gBASE_URL + "/" + paramID);
+      paramXmlHttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      paramXmlHttp.send(JSON.stringify(paramObjRequest));
+    }
+
+    // Hàm hiển thị các thông tin đã Update lên form
+    function handleShowUpdateOrder(paramResponseUpdateObj) {
+      // truy xuất các elements
+      var vOrderIdElement = document.getElementById("input-orderid");
+      var vSelectComboElement = document.getElementById("select-combo");
+      var vDuongKinhElement = document.getElementById("input-duongkinh");
+      var vSuonElement = document.getElementById("input-suon");
+      var vSelectDrinkElement = document.getElementById("select-drink");
+      var vSoLuongNuocElement = document.getElementById("input-soluongnuoc");
+      var vVoucherIdElement = document.getElementById("input-voucherid");
+      var vPizzaTypeElement = document.getElementById("input-pizza-type");
+      var vSaladElement = document.getElementById("input-salad");
+      var vPaymentElement = document.getElementById("input-payment");
+      var vGiamGiaElement = document.getElementById("input-discount");
+      var vHoTenElement = document.getElementById("input-fullname");
+      var vEmailElement = document.getElementById("input-email");
+      var vPhoneNumberElement = document.getElementById("input-phonenumber");
+      var vAddressElement = document.getElementById("input-address");
+      var vMessageElement = document.getElementById("input-message");
+      var vStatusElement = document.getElementById("input-trangthai");
+      var vCreatedDayElement = document.getElementById("input-ngaytaodon");
+      var vUpdatedDayElement = document.getElementById("input-ngaycapnhat");
+
+      // hiển thị vào form
+      vOrderIdElement.value = paramResponseUpdateObj.orderId;
+      vSelectComboElement.options[vSelectComboElement.selectedIndex].text = paramResponseUpdateObj.kichCo;
+      vDuongKinhElement.value = paramResponseUpdateObj.duongKinh;
+      vSuonElement.value = paramResponseUpdateObj.suon;
+      vSelectDrinkElement.options[vSelectDrinkElement.selectedIndex].text = paramResponseUpdateObj.idLoaiNuocUong;
+      vSoLuongNuocElement.value = paramResponseUpdateObj.soLuongNuoc;
+      vVoucherIdElement.value = paramResponseUpdateObj.idVourcher;
+      vPizzaTypeElement.value = paramResponseUpdateObj.loaiPizza;
+      vSaladElement.value = paramResponseUpdateObj.salad;
+      vPaymentElement.value = paramResponseUpdateObj.thanhTien;
+      vGiamGiaElement.value = paramResponseUpdateObj.giamGia;
+      vHoTenElement.value = paramResponseUpdateObj.hoTen;
+      vEmailElement.value = paramResponseUpdateObj.email;
+      vPhoneNumberElement.value = paramResponseUpdateObj.soDienThoai;
+      vAddressElement.value = paramResponseUpdateObj.diaChi;
+      vMessageElement.value = paramResponseUpdateObj.loiNhan;
+      vStatusElement.value = paramResponseUpdateObj.trangThai;
+      vCreatedDayElement.value = paramResponseUpdateObj.ngayTao;
+      vUpdatedDayElement.value = paramResponseUpdateObj.ngayCapNhat;
+    }
+  </script>
+</body>
+
+</html>

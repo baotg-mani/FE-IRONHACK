@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>ViewOrder-Pizza365.v1.0</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <div class="mt-2 container bg-light rounded">
+    <div>
+      <h4>Order Detail!!!</h4>
+    </div>
+    <div class="form-group">
+      <label for="">Order ID (mã đơn hàng)</label>
+      <div>
+        <input id="input-orderid" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div>
+      <div class="form-group">
+        <label for="">Cỡ combo</label>
+        <div>
+          <select class="form-control" name="" id="select-combo">
+            <option value="">Chọn cỡ combo</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Đường kính pizza</label>
+      <div>
+        <input id="input-duongkinh" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Sườn nướng (miếng)</label>
+      <div>
+        <input id="input-suon" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Đồ uống</label>
+      <div>
+        <select class="form-control" name="" id="select-drink">
+          <option value="">Chọn đồ uống</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Số lượng nước uống</label>
+      <div>
+        <input id="input-soluongnuoc" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Voucher ID (mã voucher)</label>
+      <div>
+        <input id="input-voucherid" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Loại pizza (pizza type)</label>
+      <div>
+        <input id="input-pizza-type" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Salad (g)</label>
+      <div>
+        <input id="input-salad" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Thành tiền</label>
+      <div>
+        <input id="input-payment" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Giảm giá (discount)</label>
+      <div>
+        <input id="input-discount" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Họ và tên</label>
+      <div>
+        <input id="input-fullname" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Email</label>
+      <div>
+        <input id="input-email" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Số điện thoại</label>
+      <div>
+        <input id="input-phonenumber" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Địa chỉ</label>
+      <div>
+        <input id="input-address" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Lời nhắn</label>
+      <div>
+        <input id="input-message" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Trạng thái đơn hàng</label>
+      <div>
+        <input id="input-trangthai" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Ngày tạo đơn</label>
+      <div>
+        <input id="input-ngaytaodon" class="form-control" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Ngày cập nhật</label>
+      <div>
+        <input id="input-ngaycapnhat" class="form-control" type="text">
+      </div>
+    </div>
+
+    <!-- <button type="button" class="btn btn-primary" onclick="onBtnConfirmClick()">Confirm</button>
+    <button type="button" class="btn btn-primary" onclick="onBtnCancelClick()">Cancel</button> -->
+  </div>
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    const gBASE_URL = "http://42.115.221.44:8080/devcamp-pizza365/orders";
+    const gREQUEST_STATUS_OK = 200;
+    const gREQUEST_READY_STATUS_FINISH_AND_OK = 4;
+    const gREQUEST_CREATE_SUCCESS = 201;
+    var gQueryString = {
+      id: "",
+      orderId: ""
+    }
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    onPageLoading();
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    function onPageLoading() {
+      // B1: thu thập dữ liệu
+      getDataFromQueryStr();
+      // B2: validate dữ liệu
+      if (gQueryString.id === null || gQueryString.orderId === null) {
+        alert("Thiếu giá trị. Kiểm tra id và orderId");
+      } else {
+        // B3: call restAPI
+        var vXmlHttpGetOrderByOrderId = new XMLHttpRequest();
+        senRequestToGetOrderData(vXmlHttpGetOrderByOrderId, gQueryString.orderId);
+        // B4: xử lý response và làm viêc trên frontend
+        vXmlHttpGetOrderByOrderId.onreadystatechange =
+          function () {
+            if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
+              console.log(vXmlHttpGetOrderByOrderId.responseText);
+              // Hiển thị data lên form
+              handleShowDataToForm(vXmlHttpGetOrderByOrderId.responseText);
+            }
+          }
+      }
+    }
+
+    // // Hàm xử lý sự kiện Button Confirm được Click:
+    // function onBtnConfirmClick() {
+    //   console.log("Button Confirm is clicked. ID: " + gQueryString.id);
+    //   // khai báo đối tượng trangThai
+    //   var vObjRequest = {
+    //     trangThai: "confirmed"
+    //   }
+    //   // B1: thu thập dữ liệu
+    //   // B2: validate dữ liệu
+    //   // B3: call restAPI update
+    //   var vXmlHttpUpdateOrder = new XMLHttpRequest();
+    //   sendRequestUpdateOrder(vXmlHttpUpdateOrder, vObjRequest);
+    //   // B4: xử lý response và làm viêc trên frontend
+    //   vXmlHttpUpdateOrder.onreadystatechange =
+    //     function () {
+    //       if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
+    //         var vUpdatedOrder = vXmlHttpUpdateOrder.responseText;
+    //         console.log("responseText Update: " + vUpdatedOrder);
+    //       }
+    //     }
+    // }
+
+    // Hàm xử lý sự kiện Button Cancel được Click:
+    // function onBtnCancelClick() {
+    //   console.log("Button Cancel is clicked. ID: " + gQueryString.id);
+    //   // khai báo đối tượng trangThai
+    //   var vObjRequest = {
+    //     trangThai: "cancel"
+    //   }
+    //   // B1: thu thập dữ liệu
+    //   // B2: validate dữ liệu
+    //   // B3: call restAPI update
+    //   var vXmlHttpUpdateOrder = new XMLHttpRequest();
+    //   sendRequestUpdateOrder(vXmlHttpUpdateOrder, vObjRequest);
+    //   // B4: xử lý response và làm viêc trên frontend
+    //   vXmlHttpUpdateOrder.onreadystatechange =
+    //     function () {
+    //       if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
+    //         var vUpdatedOrder = vXmlHttpUpdateOrder.responseText;
+    //         console.log("responseText Update: " + vUpdatedOrder);
+    //       }
+    //     }
+    // }
+
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    function getDataFromQueryStr() {
+      // get data from Querystring
+      var vUrlString = window.location.href;
+      var vUrl = new URL(vUrlString);
+      // lấy ra parameter id và orderId
+      gQueryString.id = vUrl.searchParams.get("id");
+      gQueryString.orderId = vUrl.searchParams.get("orderId");
+      // show id và orderId ra console
+      console.log(gQueryString.id);
+      console.log(gQueryString.orderId);
+    }
+
+    // Hàm gọi API lấy order data từ orderId
+    function senRequestToGetOrderData(paramXmlHttp, paramOrderId) {
+      paramXmlHttp.open("GET", gBASE_URL + "/" + paramOrderId, true);
+      paramXmlHttp.send();
+    }
+
+    // Hàm xử lý response và đưa data lên form hiển thị
+    function handleShowDataToForm(paramResponse) {
+      // parse về Object
+      var vOrderDataObj = JSON.parse(paramResponse);
+      // truy xuất element input select
+      var vOrderIdElement = document.getElementById("input-orderid");
+      var vSelectComboElement = document.getElementById("select-combo");
+      var vDuongKinhElement = document.getElementById("input-duongkinh");
+      var vSuonElement = document.getElementById("input-suon");
+      var vSelectDrinkElement = document.getElementById("select-drink");
+      var vSoLuongNuocElement = document.getElementById("input-soluongnuoc");
+      var vVoucherIdElement = document.getElementById("input-voucherid");
+      var vPizzaTypeElement = document.getElementById("input-pizza-type");
+      var vSaladElement = document.getElementById("input-salad");
+      var vPaymentElement = document.getElementById("input-payment");
+      var vGiamGiaElement = document.getElementById("input-discount");
+      var vHoTenElement = document.getElementById("input-fullname");
+      var vEmailElement = document.getElementById("input-email");
+      var vPhoneNumberElement = document.getElementById("input-phonenumber");
+      var vAddressElement = document.getElementById("input-address");
+      var vMessageElement = document.getElementById("input-message");
+      var vStatusElement = document.getElementById("input-trangthai");
+      var vCreatedDayElement = document.getElementById("input-ngaytaodon");
+      var vUpdatedDayElement = document.getElementById("input-ngaycapnhat");
+
+      // hiển thị vào form
+      vOrderIdElement.value = vOrderDataObj.orderId;
+      vSelectComboElement.options[vSelectComboElement.selectedIndex].text = vOrderDataObj.kichCo;
+      vDuongKinhElement.value = vOrderDataObj.duongKinh;
+      vSuonElement.value = vOrderDataObj.suon;
+      vSelectDrinkElement.options[vSelectDrinkElement.selectedIndex].text = vOrderDataObj.idLoaiNuocUong;
+      vSoLuongNuocElement.value = vOrderDataObj.soLuongNuoc;
+      vVoucherIdElement.value = vOrderDataObj.idVourcher;
+      vPizzaTypeElement.value = vOrderDataObj.loaiPizza;
+      vSaladElement.value = vOrderDataObj.salad;
+      vPaymentElement.value = vOrderDataObj.thanhTien;
+      vGiamGiaElement.value = vOrderDataObj.giamGia;
+      vHoTenElement.value = vOrderDataObj.hoTen;
+      vEmailElement.value = vOrderDataObj.email;
+      vPhoneNumberElement.value = vOrderDataObj.soDienThoai;
+      vAddressElement.value = vOrderDataObj.diaChi;
+      vMessageElement.value = vOrderDataObj.loiNhan;
+      vStatusElement.value = vOrderDataObj.trangThai;
+      vCreatedDayElement.value = vOrderDataObj.ngayTao;
+      vUpdatedDayElement.value = vOrderDataObj.ngayCapNhat;
+    }
+
+    // Hàm xử lý gửi request tới server để update lại dữ liệu thay đổi
+    function sendRequestUpdateOrder(paramXmlHttp, paramObjRequest) {
+      paramXmlHttp.open("PUT", gBASE_URL + "/" + gQueryString.id);
+      paramXmlHttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      paramXmlHttp.send(JSON.stringify(paramObjRequest));
+    }
+  </script>
+</body>
+
+</html>

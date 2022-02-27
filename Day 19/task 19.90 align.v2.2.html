@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>test 19.90</title>
+  <style>
+    .center-block {
+      margin: auto;
+      width: 60%;
+      /*hãy thử với các width khác nhau*/
+      border: 3px solid #73AD21;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .block-30 {
+      margin-top: 2px;
+      width: 30%;
+      /*hãy thử với các width khác nhau*/
+      border: 3px solid #3621ad;
+      padding: 10px;
+      display: inline-block;
+      text-align: right;
+    }
+
+    .block-60 {
+      margin-top: 2px;
+      width: 60%;
+      /*hãy thử với các width khác nhau*/
+      border: 3px solid #ad2157;
+      padding: 10px;
+      display: inline-block;
+      text-align: left;
+    }
+
+    .block-70 {
+      margin-top: 2px;
+      width: 70%;
+      /*hãy thử với các width khác nhau*/
+      border: 3px solid #ad2157;
+      padding: 10px;
+      display: inline-block;
+      text-align: left;
+    }
+
+    .block-20 {
+      width: 20%;
+      text-align: right;
+      margin-top: 2px;
+      border: 3px solid #3621ad;
+      padding: 10px;
+      display: inline-block;
+    }
+
+  </style>
+</head>
+
+<body>
+  <h2>Align block & element: bạn hãy thử làm các block inline mới, với các aligment text khác nhau, % chiều ngang khác
+    nhau</h2>
+  <p>To horizontally center a block element (like div), use margin: auto;</p>
+  <p>Để cho các block element (like div) vào giữa, dùng margin: auto;</p>
+  <p>Nếu cho text thì phải dùng text-align: center;</p>
+  <div id="div-class-center-block" class="center-block">
+    <p>Hello World! - center align</p>
+  </div>
+  <div id="div-class-30" class="block-30"> Block 30 </div>
+  <div id="div-class-60" class="block-60"> Block 60 </div>
+  <br>
+  <div id="div-class-20" class="block-20"> Block 20 </div>
+  <div id="div-class-70" class="block-70"> Block 70 </div>
+  <div id="div-class-center-block-2">
+    <p class="center-block" >CSS Basics Selectors, backgrounds, box model</p>
+  </div>
+
+  <script>
+    debugger;
+    var gBlock30Element = document.getElementById("div-class-30");
+    var gBlock60Element = document.getElementById("div-class-60");
+    var gBlock20Element = document.getElementById("div-class-20");
+    var gBlock70Element = document.getElementById("div-class-70");
+    var gCenterBlockElement = document.getElementById("div-class-center-block");
+  </script>
+</body>
+
+</html>

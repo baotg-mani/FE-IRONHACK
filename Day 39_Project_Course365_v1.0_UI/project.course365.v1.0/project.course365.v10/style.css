@@ -1,0 +1,34 @@
+
+.inputContainer i {
+  position: absolute;
+}
+
+.icon {
+  padding-left: 0.5rem;
+  padding-top: 0.7rem;
+  color: gray;
+}
+
+.background {
+  padding-top: 3.3rem;
+  min-height: 35rem;
+  background-color: #17a2b8;
+}
+
+.bgImage {
+  background-image: url(images/ionic-207965.png);
+  background-size: 25.2rem;
+  background-repeat: no-repeat;
+  background-position-x: 52rem;
+  background-position-y: 3.4rem;
+}
+
+.contentOnBg {
+  padding-left: 0rem;
+  padding-top: 8rem;
+}
+
+#text-content {
+  color: rgba(255, 255, 255, 0.575);
+}
+

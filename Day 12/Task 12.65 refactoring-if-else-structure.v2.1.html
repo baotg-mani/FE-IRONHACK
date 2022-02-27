@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Task 12.65 </title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    </head>
+    <script>
+        "use strict";
+
+        /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+        var gRandomNumber = getRandomNumber();
+        var gMyPresent = getPresentByDice(gRandomNumber);
+        // debugger;
+        /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+        onPageLoading();
+        /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+        function onPageLoading() {
+            // code test thử 
+            console.log(gMyPresent);
+        }
+        /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+
+        // function trả về phần thưởng, tùy giá trị paramInputDice (xúc xắc) từ 1 đến 6 là bao nhiêu
+        function getRandomNumber() {
+            var vX = Math.floor(Math.random() * 6) +1;
+            return vX;    
+        }
+
+        // các vấn bạn thấy trong code là 
+        // if-else bị lồng quá nhiều, sâu
+        // nhiều return
+        // tab lùi ra vào không hợp lý
+        // một số vấn đề đặt tên
+        function getPresentByDice(paramInputDice) {
+            "use strict";
+            if (paramInputDice == 1) {
+                return "voucher 5%";
+            }
+            else if (paramInputDice == 2) {
+                return "voucher 15%";
+            }
+            else if (paramInputDice == 3) {
+                return "voucher 20%"
+            }
+            else if (paramInputDice == 4) {
+                return "voucher 30%";
+            }
+            else if (paramInputDice == 5) {
+                return "voucher 40%"
+            }
+            else if (paramInputDice == 6) {
+                return "voucher 100%";
+            }
+            else {
+                return "no present founnd";
+            }
+        }
+
+
+    </script>
+
+    <body class="bg bg-light">
+        <div class="container">
+            <h1> Test Page for Devcamp Javascrip Tasks </h1>
+            <p> Press F5 to run code. Don't forget to Save your code before running. (Ctrl+S). </p>
+        </div>
+    </body>
+
+</html>

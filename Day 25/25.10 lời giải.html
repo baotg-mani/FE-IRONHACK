@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>Pizza 365 project</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <p class="h3 text-center mt-5"> Chọn đồ uống </p>
+    <div class="form-group col-12">
+      <hr class="mt-5 mb-5" />
+    </div>
+
+    <div class="form-group">
+      <label>Đồ uống:</label>
+      <select class="form-control" id="drink-select">
+        <option value="NONE">Chọn đồ uống</option>
+      </select>
+    </div>
+    <button id="show-result" onclick="onBtnShowResultClick()" class="btn btn-primary w-25">Hiển thị</button>
+  </div>
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    const gREQUEST_STATUS_OK = 200;
+    const gREQUEST_READY_STATUS_FINISH_AND_OK = 4;
+    const gDRINK_CHON_DO_UONG = "NONE";
+
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    onPageLoading();
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    // hàm xử lý sự kiện load trang
+    function onPageLoading() {
+      loadDataToDrinkSelect();
+    }
+
+    // hàm xử lý sự kiện nút show result click
+    function onBtnShowResultClick() {
+      // Khai báo đối tượng chứa dữ liệu trên form
+      var vDrinkObj = {
+        drinkValue: "",
+        drinkText: ""
+      };
+      // B1: thu thập dữ liệu
+      getDrinkData(vDrinkObj);
+      // B2: validate dữ liệu
+      var vIsDataValidated = validateData(vDrinkObj);
+      if(vIsDataValidated) {
+        // B3: show dữ liệu vào console
+        showDrinkDataToConsole(vDrinkObj);
+      }
+    }
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    // hàm load dữ liệu vào select drink
+    function loadDataToDrinkSelect() {
+      // B1: thu thập dữ liêu (ko có)
+      // B2: validate dữ liệu (ko có)
+      // B3: gọi request server để lấy dữ liệu drinks
+      var vXhttpDrink = new XMLHttpRequest();
+      callAPiToGetDrinks(vXhttpDrink);
+      // B4: load dữ liệu vào drink select (khi server trả về thành công response)
+      vXhttpDrink.onreadystatechange = function () {
+          if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
+            loadDrinkDataToSelect(vXhttpDrink);
+          }
+        };
+    }
+
+    // hàm gọi api để lấy danh sách đồ uống
+    function callAPiToGetDrinks(paramXmlHttp) {
+      paramXmlHttp.open("GET", "http://42.115.221.44:8080/devcamp-pizza365/drinks", true);
+      paramXmlHttp.send();
+    }
+
+    // hàm thực hiện việc đổ dữ liệu drink vào select
+    function loadDrinkDataToSelect(paramXmlHttp) {
+      var vDrinkObjs = JSON.parse(paramXmlHttp.responseText);
+      var vDrinkSelect = document.getElementById("drink-select");
+      for(let bI = 0; bI < vDrinkObjs.length; bI ++) {
+        var bDrinkOption = document.createElement("option");
+        bDrinkOption.text = vDrinkObjs[bI].tenNuocUong;
+        bDrinkOption.value = vDrinkObjs[bI].maNuocUong;
+        vDrinkSelect.appendChild(bDrinkOption);
+      }
+    }
+
+    // hàm thu thập dữ liệu drink trên form
+    function getDrinkData(paramDrinkObj) { 
+      var vDrinkSelect = document.getElementById("drink-select");
+      paramDrinkObj.drinkValue = vDrinkSelect.value;
+      paramDrinkObj.drinkText = vDrinkSelect.options[vDrinkSelect.selectedIndex].text;
+    }
+
+    // hàm validate dữ liệu đầu vào
+    function validateData(paramDrinkObj) {
+      if(paramDrinkObj.drinkValue === gDRINK_CHON_DO_UONG) {
+        alert("Bạn cần chọn một loại đồ uống!");
+        return false;
+      }
+
+      return true;
+    }
+
+    // hàm thực hiện việc show dữ liệu vào console
+    function showDrinkDataToConsole(paramDrinkObj) {
+      console.log(paramDrinkObj);
+    }
+
+    //mã nguồn để load data về
+    function sampleCodeLoadData() {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange =
+        function () {
+          if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
+            console.log(xhttp.responseText); //ghi response text ra console.log
+          }
+        };
+      xhttp.open("GET", "http://42.115.221.44:8080/devcamp-pizza365/drinks", true);
+      xhttp.send();
+    }
+
+  </script>
+</body>
+
+</html>

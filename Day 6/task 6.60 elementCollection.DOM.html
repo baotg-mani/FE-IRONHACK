@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container jumbotron">
+        <h2>JavaScript HTML DOM</h2>
+
+        <p>Hello World!</p>
+
+        <p>Hello Devcamp!</p>
+
+        <p id="demo"></p>
+
+        <script>
+            "use strict";
+            /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+            /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+            onPageLoading();
+            
+            /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+            function onPageLoading() {
+                // Truy xuất tất cả các thẻ p có trong file html. Chú ý hàm là getElementsByTagName
+                // Hàm getElementsByTagName sẽ trả về 1 MẢNG các phần tử
+                var vMyPCollection = document.getElementsByTagName("p");
+                // Truy xuất thẻ p có id là demo
+                var vPDemoElement = document.getElementById("demo");
+                // Gán giá trị của phần tử số 2 (chỉ số = 1) trong mảng vào thẻ demo
+                vPDemoElement.innerHTML = "The innerHTML of the second paragraph is: " + gMyCollection[1].innerHTML;
+            }
+
+            /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+
+        </script>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,96 @@
+<!-- Task 8.70 = 8.20 + thêm thuộc tính citizenId -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <title> simple javascript object</title>
+</head>
+<script>
+  "use strict";
+  /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+  /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+  onPageLoading();
+  
+  /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+  // Hàm được gọi khi load trang
+  function onPageLoading() {
+    // gọi hàm get thông tin person version 1
+    getPersonInfoVersion1();
+    // gọi hàm get thông tin person version 2
+    getPersonInfoVersion2();
+  }
+
+  /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+  
+  // Hàm khai báo và hiển thị thông tin đối tượng person version 1
+  function getPersonInfoVersion1() {
+    "use strict";
+    var vPersonJohn = {
+      // properties
+      firstName: "John",
+      lastName: "Doe",
+      age: 46,
+      //method fullName
+      fullName: function () {
+        return this.firstName + " " + this.lastName;
+      },
+      //method displayInConsoleLog
+      displayInConsoleLog: function () {
+        //write to HTML log
+        console.log("Person:");
+        console.log("firstName: " + this.firstName);
+        console.log("lastName: " + this.lastName);
+      }
+    }
+    // display person John in console.log
+    vPersonJohn.displayInConsoleLog();
+  }
+
+  /** Hàm khai báo và hiển thị thông tin đối tượng person version 2
+  * TODO: hãy định nghĩa thêm 01 thuộc tính nữa: age (tuổi) 
+  * Cách làm: copy mã nguồn từ hàm version 1 xuống, thêm property + sửa method displayConsonleLog
+  */
+  function getPersonInfoVersion2() {
+        //hiện tại chưa làm gì cả
+        "use strict";
+    var vPersonJohn = {
+        // properties
+        firstName: "John",
+        lastName: "Doe",
+        age: 46,
+        citizenId: '091835035',
+        //method fullName
+        fullName: function () {
+            return this.firstName + " " + this.lastName;
+        },
+        //method displayInConsoleLog
+        displayInConsoleLog: function () {
+            //write to HTML log
+            console.log("Person:");
+            console.log("firstName: " + this.firstName);
+            console.log("lastName: " + this.lastName);
+            console.log("age: " + this.age);
+            console.log("citizen ID: " + this.citizenId)
+            
+        }
+    }
+    vPersonJohn.displayInConsoleLog();
+  }
+</script>
+
+<body>
+  <div class="container jumbotron">
+    <div class="form-group">
+      <h1> Test Page for Devcamp Javascrip Tasks </h1>
+    </div>
+    <div class="form-group">
+      <p> Bật Console lên và chạy thử code. </p>
+    </div>
+  </div>
+</body>
+
+</html>

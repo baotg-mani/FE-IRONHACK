@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Task7.60a</title>
+    </head>
+    <body>
+        <p id="my-paragraph">Hello Devcamp120 2021 !</p> <br>
+        <button id="red-button" onclick="onRedButtonClick()">To Red</button>
+        <button id="blue-button" onclick="onBlueButtonClick()">To Blue</button>
+        <button id="green-button" onclick="onGreenButtonClick()">To Green</button>
+
+        <script>
+            "use strict";
+            /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+            var vParagraphElement = document.getElementById("my-paragraph");
+            var vRedBtnElement = document.getElementById("red-button");
+            var vBlueBtnElement = document.getElementById("blue-button");
+            var vGreenBtnElement = document.getElementById("green-button");
+
+            /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+            onPageLoad();
+
+            /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+            function onRedButtonClick() {
+                console.log('Nút đổi màu Red đã được ấn!');
+                vParagraphElement.style.color = "red"; // đổi màu 
+            }
+            console.assert(onRedButtonClick !== null, "Error: null onRedButtonClick found!"); // khẳng định và kiểm tra function là null hay ko
+
+            function onBlueButtonClick() {
+                console.log('Nút đổi màu Blue đã được ấn!');
+                vParagraphElement.style.color = "blue"; 
+            }
+            console.assert(onBlueButtonClick !== null, "Error: null onBlueButtonClick found!");
+
+            function onGreenButtonClick() {
+                console.log('Nút đổi màu Green đã được ấn!');
+                vParagraphElement.style.color = "green";
+            }
+            console.assert(onGreenButtonClick !== null, "Error: null onGreenButtonClick found!");
+            
+
+            /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+            function onPageLoad() {
+                "use strict";
+                // debugger;
+                console.log(vParagraphElement.id);
+                console.log(vParagraphElement.innerHTML);
+                // khẳng định biến khai báo != null, và stop ngay nếu việc đó xảy ra
+                if(!vParagraphElement) { throw("404: vParagraphElement not found!"); }
+                
+                console.log(vRedBtnElement.id);
+                console.log(vRedBtnElement.innerHTML);
+                // khẳng định biến khai báo != null, và stop ngay nếu việc đó xảy ra
+                if(!vRedBtnElement) { throw("404: vResBtnElement not found!"); }
+                
+                console.log(vBlueBtnElement.id);
+                console.log(vBlueBtnElement.innerHTML);
+                // khẳng định biến khai báo != null, và stop ngay nếu việc đó xảy ra
+                if(!vBlueBtnElement) { throw("404: vBlueBtnElement not found!"); }
+        
+                console.log(vGreenBtnElement.id);
+                console.log(vGreenBtnElement.innerHTML);
+                // khẳng định biến khai báo != null, và stop ngay nếu việc đó xảy ra
+                if(!vGreenBtnElement) { throw("404: vGreenBtnElement not found!"); }
+            }
+            
+        </script>
+    </body>
+
+</html>

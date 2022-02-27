@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+
+</head>
+
+<script>
+    "use strict";
+    $(document).ready(function () {
+        /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+        // gCAR_DB: database of cars
+        // vID: vehicle identification number
+        const gCAR_DB = [
+            { make: "Ford", model: "Explorer", year: 2017, color: "white", vID: "AB-10111" },
+            { make: "Toyota", model: "Corolla", year: 2018, color: "silver", vID: "DN-23218" },
+            { make: "Mazda", model: "Mazda 6", year: 2020, color: "red", vID: "TZ-23212" },
+            { make: "Toyota", model: "Fortuna", year: 2016, color: "black", vID: "IN-91925" },
+            { make: "Mazda", model: "Mazda 3", year: 2019, color: "silver", vID: "MN-44593" }
+        ];
+
+        /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+        onPageLoading();
+
+        /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+        // Hàm thực hiện khi load trang
+        function onPageLoading() {
+            //đây là code chạy thử của function getCarByVID
+            var vVIDCarForSearch = "TZ-23212";
+            var vSpanVIDElement = $("#bienKiemSoat");
+            vSpanVIDElement.html(vVIDCarForSearch);
+            var vCarInforElement = $("#carInfor");
+            var vMyCar = getCarByVID(vVIDCarForSearch);
+            if (vMyCar !== null) {
+                vCarInforElement.append("Vid: " + vMyCar.vID + "<br>");
+                vCarInforElement.append("Hãng: " + vMyCar.make + "<br>");
+                vCarInforElement.append("Model: " + vMyCar.model + "<br>");
+                vCarInforElement.append("Năm sản xuất: " + vMyCar.year + "<br>");
+                vCarInforElement.append("Màu sắc: " + vMyCar.color);
+            }
+            else {
+                vCarInforElement.html("Không tìm thấy ô tô có vID là: " + vVIDCarForSearch);
+            }
+        }
+
+        /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+        /**
+        * find and return a car by carVID
+        * input/start: vID của ô tô cần tìm
+        * output/end: 01 đối tượng ô tô (car) tìm thấy; nếu không tìm thấy thì trả về null
+        */
+        function getCarByVID(carVID) {
+            "use strict";
+            var vCarFound = false;
+            var vIterator = 0;
+            while (!vCarFound & vIterator < gCAR_DB.length) {
+                if (gCAR_DB[vIterator].vID === carVID) {
+                    vCarFound = true;
+                }
+                else {
+                    vIterator++;
+                }
+            }
+            var vCarResult = null;
+            if (vCarFound) {
+                vCarResult = gCAR_DB[vIterator];
+            }
+            return vCarResult;
+        }
+
+    });
+
+</script>
+
+<body class="bg-light">
+    <div class="container">
+        <div class="form-group">
+            <h1>Test Page for Devcamp Javascrip Tasks </h1>
+            <p> Press F5 to run code. Don't forget to Save your code before running. (Ctrl+S). </p>
+            <p>Thông tin ô tô biển kiểm soát: <span id="bienKiemSoat"></span> </p>
+            <p id="carInfor"></p>
+        </div>
+    </div>
+</body>
+
+</html>

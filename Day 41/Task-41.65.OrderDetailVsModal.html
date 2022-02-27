@@ -1,0 +1,556 @@
+<!-- Task 41.65~41.75 -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OrderDetailVsModal</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Import Datatable sau jquery -->
+  <!-- Import them style bootstrap cho datatable -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+
+
+</head>
+
+<body>
+  <div>
+    <h2 class="text-center">Danh sách đơn hàng</h2>
+  </div>
+  <div class="container jumbotron text-center mt-4">
+    <div class="col-sm-12 row form-group">
+      <div class="col-sm-2">
+        <label for="">Trạng thái order</label>
+      </div>
+      <div class="col-sm-3">
+        <select class="form-control" name="" id="select-status">
+          <option value="none">---Chọn tất cả---</option>
+          <option value="open">Open</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="cancel">Cancel</option>
+        </select>
+      </div>
+      <div class="col-sm-2">
+        <label for="">Loại pizza</label>
+      </div>
+      <div class="col-sm-3">
+        <select class="form-control" name="" id="select-pizza-type">
+          <option value="none">---Chọn tất cả---</option>
+          <option value="hawaii">Hawaii</option>
+          <option value="bacon">Bacon</option>
+          <option value="seafood">Seafood</option>
+        </select>
+      </div>
+      <div class="col-sm-2">
+        <button id="btn-filter" class="btn btn-success">Lọc</button>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <table class="table text-center table-striped table-hover" id="table-order">
+          <thead>
+            <tr>
+              <th scope="col">Order ID</th>
+              <th scope="col">Kích cỡ combo</th>
+              <th scope="col">Loại pizza</th>
+              <th scope="col">Nước uống</th>
+              <th scope="col">Thành tiền</th>
+              <th scope="col">Họ và tên</th>
+              <th scope="col">Số điện thoại</th>
+              <th scope="col">Trạng thái</th>
+              <th scope="col">Chi tiết</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Order Detail -->
+  <div id="modal-detail" class="modal fade" tabindex="0">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="h5-modal-title">Order Detail</h5>
+          <button class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mt-2 container bg-light rounded">
+              <div class="form-group">
+                <label for="">Order ID (mã đơn hàng)</label>
+                <div>
+                  <input id="input-orderid" class="form-control" type="text">
+                </div>
+              </div>
+
+              <div>
+                <div class="form-group">
+                  <label for="">Cỡ combo</label>
+                  <div>
+                    <select class="form-control" name="" id="select-combo">
+                      <option value="">Chọn cỡ combo</option>
+                      <option value="S">S</option>
+                      <option value="M">M</option>
+                      <option value="L">L</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="">Đường kính pizza</label>
+                <div>
+                  <input id="input-duongkinh" class="form-control" type="text">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="">Sườn nướng (miếng)</label>
+                <div>
+                  <input id="input-suon" class="form-control" type="text">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="">Đồ uống</label>
+                <div>
+                  <select class="form-control" name="" id="select-drink">
+                    <option value="">Chọn đồ uống</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="">Số lượng nước uống</label>
+                <div>
+                  <input id="input-soluongnuoc" class="form-control" type="text">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="">Voucher ID (mã voucher)</label>
+                <div>
+                  <input id="input-voucherid" class="form-control" type="text">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="">Loại pizza (pizza type)</label>
+                <div>
+                  <input id="input-pizza-type" class="form-control" type="text">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="">Salad (g)</label>
+                <div>
+                  <input id="input-salad" class="form-control" type="text">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="">Thành tiền</label>
+                <div>
+                  <input id="input-payment" class="form-control" type="text">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="">Giảm giá (discount)</label>
+                <div>
+                  <input id="input-discount" class="form-control" type="text">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="">Họ và tên</label>
+                <div>
+                  <input id="input-fullname" class="form-control" type="text">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="">Email</label>
+                <div>
+                  <input id="input-email" class="form-control" type="text">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="">Số điện thoại</label>
+                <div>
+                  <input id="input-phonenumber" class="form-control" type="text">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="">Địa chỉ</label>
+                <div>
+                  <input id="input-address" class="form-control" type="text">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="">Lời nhắn</label>
+                <div>
+                  <input id="input-message" class="form-control" type="text">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="">Trạng thái đơn hàng</label>
+                <div>
+                  <input id="input-trangthai" class="form-control" type="text">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="">Ngày tạo đơn</label>
+                <div>
+                  <input id="input-ngaytaodon" class="form-control" type="text">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="">Ngày cập nhật</label>
+                <div>
+                  <input id="input-ngaycapnhat" class="form-control" type="text">
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="modal-confirm-btn" class="btn btn-primary">Confirm</button>
+          <button type="button" id="modal-cancel-btn" class="btn btn-primary">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    const gBASE_URL = "http://42.115.221.44:8080/devcamp-pizza365/orders";
+
+    var gOrderDb = {
+      orders: [],
+      // method filter order
+      filterOrder: function (paramFilterObj) {
+        "use strict";
+        var vFilterArr = [];
+        vFilterArr = this.orders.filter(e =>
+          (paramFilterObj.status === e.trangThai.toLowerCase() || paramFilterObj.status === "none")
+          && (paramFilterObj.pizzaType === e.loaiPizza.toLowerCase() || paramFilterObj.pizzaType === "none")
+        );
+        return vFilterArr;
+      }
+    };
+
+    var gId = null;
+    var gOrderId = "";
+
+    const gCOL_ORDERID = 0;
+    const gCOL_KICKCO = 1;
+    const gCOL_LOAIPIZZA = 2;
+    const gCOL_NUOCUONG = 3;
+    const gCOL_THANHTIEN = 4;
+    const gCOL_HOVATEN = 5;
+    const gCOL_SODIENTHOAI = 6;
+    const gCOL_TRANGTHAI = 7;
+    const gCOL_CHITIET = 8;
+
+    var gColsName = [
+      "orderId",
+      "kickCo",
+      "loaiPizza",
+      "idLoaiNuocUong",
+      "thanhTien",
+      "hoTen",
+      "soDienThoai",
+      "trangThai",
+      "chiTiet"];
+
+    var gOrderTable = $("#table-order").DataTable({
+      "searching": false,
+      "ordering": false,
+      // khai báo các cột của DataTable
+      "columns": [
+        { data: gColsName[gCOL_ORDERID] },
+        { data: gColsName[gCOL_KICKCO] },
+        { data: gColsName[gCOL_LOAIPIZZA] },
+        { data: gColsName[gCOL_NUOCUONG] },
+        { data: gColsName[gCOL_THANHTIEN] },
+        { data: gColsName[gCOL_HOVATEN] },
+        { data: gColsName[gCOL_SODIENTHOAI] },
+        { data: gColsName[gCOL_TRANGTHAI] },
+        { data: gColsName[gCOL_CHITIET] }
+      ],
+      // định nghĩa lại 1 số cột
+      "columnDefs": [
+        {
+          targets: gCOL_CHITIET,
+          defaultContent: '<button class="btn btn-info detail">Chi tiết</button>'
+        }
+      ]
+    });
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    $(document).ready(function () {
+      onPageLoading();
+
+      // gán sự kiện click cho btn Lọc
+      $("#btn-filter").on("click", onBtnFilterClick);
+
+      // gán sự kiện click cho btn Chi tiết
+      $(document).on("click", ".detail", function () {
+        onBtnDetailClick(this);
+      });
+
+      // gán sự kiện click cho btn Confirm trong Modal
+      $("#modal-confirm-btn").on("click", function () {
+        onBtnConfirmClick();
+      })
+
+      // gán sự kiện click cho btn Cancel trong Modal
+      $("#modal-cancel-btn").on("click", function () {
+        onBtnCancelClick();
+      });
+    });
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    // Hàm thực hiện khi load trang
+    function onPageLoading() {
+      "use strict";
+      getAllOrders();
+      $("#table-order tbody").on("click", ".details", function () {
+        console.log("Nút Detail được click");
+        onBtnUserDetailClick(this);
+      });
+      // console.log(gOrderDb.orders);
+    }
+
+    // Hàm xử lý sự kiện btn Filter click
+    function onBtnFilterClick() {
+      "use strict";
+      // B0: khai báo biến lưu trữ dữ liệu ở form Lọc
+      var vFilterObj = {
+        status: "",
+        pizzaType: ""
+      }
+      // B1: thu thập dữ liệu
+      vFilterObj.status = $("#select-status").find(":selected").val();
+      vFilterObj.pizzaType = $("#select-pizza-type").find(":selected").val();
+      // B2: validate dữ liệu
+      // B3: xử lý sự kiện
+      var vFilterArr = gOrderDb.filterOrder(vFilterObj);
+      loadOrderToTable(vFilterArr);
+    }
+
+    // Hàm xử lý sự kiện click vào nút Chi tiết (Detail)
+    function onBtnDetailClick(paramDetailBtn) {
+      "use strict";
+      // B0: khai báo biến lưu trữ dữ liệu lấy trên table row
+      var vRowDataObj = {
+        // orderId: "",
+        // size: "",
+        // loaiPizza: "",
+        // idLoaiNuocUong: "",
+        // thanhTien: -1,
+        // hoTen: "",
+        // soDienThoai: "",
+        // trangThai: ""
+      };
+
+      // B1: thu thập dữ liệu
+      var vTableRow = $(paramDetailBtn).parents("tr");
+      // thu thập dữ liệu của từng phần tử thuộc mảng (nằm trên dòng) vào biến obj
+      vRowDataObj = gOrderTable.row(vTableRow).data();
+
+      // B2: validate (bỏ qua)
+      // B3: xử lý dữ liệu
+      gId = vRowDataObj.id; // get id from obj data of row
+      gOrderId = vRowDataObj.orderId; // get orderId from obj data of row
+
+      // B4: xử lý sự kiện
+      // hiển thị modal Order Detail vào console
+      console.log(vRowDataObj);
+      // hiển thị id và orderId vào console
+      console.log("ID: " + gId + ", orderId: " + gOrderId);
+      getOrderByOrderId(gOrderId); // get order và load lên modal
+      $("#modal-detail").modal("show"); // hiển thị modal Detail
+    }
+
+    // Hàm xử lý sự kiện click btn Confirm trong Modal
+    function onBtnConfirmClick() {
+      // B1: thu thập dữ liệu (bỏ qua vì ID đã đc get khi click btn Chi tiết)
+      console.log("Test Confirm btn, ID: " + gId);
+
+      // B2: validate dữ liệu
+      if (gId == null) {
+        alert("Thiếu ID");
+
+      } else {
+        // B3: call restAPI update dữ liệu
+        updateConfirmedStatus(gId); // B4 bên trong hàm Update.
+      }
+    }
+
+    // Hàm xử lý sự kiện click btn Cancel trong Modal
+    function onBtnCancelClick() {
+      // B1: thu thập dữ liệu (bỏ qua vì ID đã đc get khi click btn Chi tiết)
+      console.log("Test Cancel btn, ID: " + gId);
+
+      // B2: validate dữ liệu
+      if (gId == null) {
+        alert("Thiếu ID");
+
+      } else {
+        // B3: call restAPI update dữ liệu
+        updateCancelStatus(gId); // B4 bên trong hàm Update.
+      }
+    }
+
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    // Hàm thực hiện việc load all orders từ server và load vào table
+    function getAllOrders() {
+      "use strict";
+      // B1: Thu thập dữ liệu (trong bài này bước này ko cần)
+      // B2: Validate dữ liệu (trong bài này bước này ko cần)
+      // B3: Thực hiện việc gọi API từ server Server
+      $.ajax({
+        url: gBASE_URL,
+        type: "GET",
+        dataType: "json",
+        // async: false,
+        success: function (res) {
+          console.log(res);
+          gOrderDb.orders = res;
+          // B4: Xử lý trên front-end khi request xử lý xong và trả về response thành công
+          loadOrderToTable(gOrderDb.orders); // load dữ liệu ra table
+        },
+        error: function (ajaxContext) {
+          alert(ajaxContext.responseText);
+        }
+      });
+    }
+
+    // Hàm get Order by orderId
+    function getOrderByOrderId(paramOrderId) {
+      "use strict";
+      // call restAPI by AJAX
+      $.ajax({
+        url: gBASE_URL + "/" + paramOrderId,
+        type: "GET",
+        dataType: "json",
+        success: function (res) {
+          console.log(res);
+          loadOrderToModal(res);
+        },
+        error: function (paramError) {
+          console.log(paramError.response.Text);
+        }
+      });
+    }
+
+    // Hàm call server để update trạng thái Order trên server
+    function updateConfirmedStatus(paramId) {
+      "use strict";
+      // khởi tạo obj request confirmed status
+      var vObjRequest = {
+        trangThai: "confirmed"
+      }
+      // call API by ajax and handle event
+      $.ajax({
+        url: gBASE_URL + "/" + paramId,
+        type: "PUT",
+        contentType: "application/json;charset=UTF-8",
+        data: JSON.stringify(vObjRequest),
+        dataType: "json",
+        success: function (res) {
+          // B4: xử lý sự kiện front-end
+          // cập nhật lại trang Order Detail với dữ liệu đã update
+          getAllOrders();
+          // đóng modal
+          $("#modal-detail").modal("hide");
+        },
+        error: function (paramError) {
+          console.log(paramError.responseText);
+        }
+      });
+    }
+
+    // Hàm call server để update trạng thái Order trên server
+    function updateCancelStatus(paramId) {
+      "use strict";
+      // khởi tạo obj request confirmed status
+      var vObjRequest = {
+        trangThai: "cancel"
+      }
+      // call API by ajax and handle event
+      $.ajax({
+        url: gBASE_URL + "/" + paramId,
+        type: "PUT",
+        contentType: "application/json;charset=UTF-8",
+        data: JSON.stringify(vObjRequest),
+        dataType: "json",
+        success: function (res) {
+          // B4: xử lý sự kiện front-end
+          // cập nhật lại trang Order Detail với dữ liệu đã update
+          getAllOrders();
+          // đóng modal
+          $("#modal-detail").modal("hide");
+        },
+        error: function (paramError) {
+          console.log(paramError.responseText);
+        }
+      });
+    }
+
+    // Hàm load dữ liệu ra bảng sau khi lấy được từ server
+    function loadOrderToTable(paramOrderArr) {
+      // debugger;
+      "use strict";
+      gOrderTable.clear();
+      gOrderTable.rows.add(paramOrderArr);
+      gOrderTable.draw();
+    }
+
+    // Hàm load Order to Modal
+    function loadOrderToModal(paramOrderObj) {
+      "use strict";
+      $("#input-orderid").val(paramOrderObj.orderId);
+      $("#select-combo option:selected").text(paramOrderObj.kichCo);
+      $("#input-duongkinh").val(paramOrderObj.duongKinh);
+      $("#input-suon").val(paramOrderObj.suon);
+      $("#select-drink option:selected").text(paramOrderObj.idLoaiNuocUong);
+      $("#input-soluongnuoc").val(paramOrderObj.soLuongNuoc);
+      $("#input-voucherid").val(paramOrderObj.idVourcher);
+      $("#input-pizza-type").val(paramOrderObj.loaiPizza);
+      $("#input-salad").val(paramOrderObj.salad);
+      $("#input-payment").val(paramOrderObj.thanhTien);
+      $("#input-discount").val(paramOrderObj.giamGia);
+      $("#input-fullname").val(paramOrderObj.hoTen);
+      $("#input-email").val(paramOrderObj.email);
+      $("#input-phonenumber").val(paramOrderObj.soDienThoai);
+      $("#input-address").val(paramOrderObj.diaChi);
+      $("#input-message").val(paramOrderObj.loiNhan);
+      $("#input-trangthai").val(paramOrderObj.trangThai);
+      $("#input-ngaytaodon").val(paramOrderObj.ngayTao);
+      $("#input-ngaycapnhat").val(paramOrderObj.ngayCapNhat);
+    }
+  </script>
+</body>
+
+</html>

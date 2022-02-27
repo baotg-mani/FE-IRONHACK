@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>task 39.50</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- Import Datatable sau jquery -->
+  <!-- Import them style bootstrap cho datatable -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+
+  <script>
+    "use strict";
+    $(document).ready(function () {
+      /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+      const gCOLUMN_ID = 0;
+      const gCOLUMN_FIRST_NAME = 1;
+      const gCOLUMN_LAST_NAME = 2;
+      const gCOLUMN_COUNTRY = 3;
+      const gCOLUMN_SUBJECT = 4;
+      const gCOLUMN_REGISTERED_STATUS = 5;
+      const gCOLUMN_CUSTOMER_TYPE = 6;
+      const gCOLUMN_ACTION = 7;
+
+      const gUSER_COL = ["id", "firstname", "lastname", "country", "subject", "registerStatus", "customerType", "action"];
+
+      var gUserDb = {
+        users: [],
+
+        // các phương thức để làm việc với dữ liệu user
+        filterUser: function (paramFilterObj) {
+          var vFilterResult = [];
+          vFilterResult = gUserDb.users.filter(function (e) {
+            return (e.firstname.toLowerCase().includes(paramFilterObj.firstname.toLowerCase()) || paramFilterObj.firstname === "")
+              && (e.lastname.toLowerCase().includes(paramFilterObj.lastname.toLowerCase()) || paramFilterObj.lastname === "");
+          });
+          return vFilterResult;
+        }
+      }
+
+      // định nghĩa table  - chưa có data
+      var gUserTable = $("#user-table").DataTable({
+        // Khai báo các cột của datatable
+        "columns": [
+          { "data": gUSER_COL[gCOLUMN_ID] },
+          { "data": gUSER_COL[gCOLUMN_FIRST_NAME] },
+          { "data": gUSER_COL[gCOLUMN_LAST_NAME] },
+          { "data": gUSER_COL[gCOLUMN_COUNTRY] },
+          { "data": gUSER_COL[gCOLUMN_SUBJECT] },
+          { "data": gUSER_COL[gCOLUMN_REGISTERED_STATUS] },
+          { "data": gUSER_COL[gCOLUMN_CUSTOMER_TYPE] },
+          { "data": gUSER_COL[gCOLUMN_ACTION] }
+        ],
+        // Ghi đè nội dung của cột action, chuyển thành button chi tiết
+        "columnDefs": [
+          {
+            "targets": gCOLUMN_ACTION,
+            "defaultContent": "<button class='info-user btn btn-info'>Chi tiết</button>"
+          }]
+      });
+
+      /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+      onPageLoading();
+
+      // gán click event handler cho button chi tiet
+      $("#user-table").on("click", ".info-user", function () {
+        onButtonChiTietClick(this); // this là button được ấn
+      });
+
+      // gán trực tiếp sự kiện click btn Lọc user
+      $("#filter-button").on("click", function () {
+        onBtnFilterUserClick();
+      })
+
+      /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+      // infoFunction sẽ là function các nút cùng gọi
+      function onButtonChiTietClick(paramChiTietButton) {
+        //Xác định thẻ tr là cha của nút được chọn
+        var vRowSelected = $(paramChiTietButton).parents('tr');
+        //Lấy datatable row
+        var vDatatableRow = gUserTable.row(vRowSelected);
+        //Lấy data của dòng 
+        var vUserData = vDatatableRow.data();
+        var vId = vUserData.id;
+        var vFirstname = vUserData.firstname;
+        var vLastname = vUserData.lastname;
+        var vCountry = vUserData.country;
+        console.log(vId);
+        console.log(vFirstname);
+        console.log(vLastname);
+        console.log(vCountry);
+      }
+
+      // hàm chạy khi trang được load
+      function onPageLoading() {
+        // lấy data từ server
+        $.ajax({
+          url: "http://42.115.221.44:8080/devcamp-register-java-api/users",
+          type: "GET",
+          dataType: 'json',
+          success: function (responseObject) {
+            gUserDb.users = responseObject;
+            loadDataToTable(gUserDb.users);
+          },
+          error: function (error) {
+            console.assert(error.responseText);
+          }
+        });
+      }
+
+      // Hàm xử lý sự kiện click vào nút Lọc user
+      function onBtnFilterUserClick() {
+        // B0: khai báo biến chứa dữ liệu lọc
+        var vFilterObj = {
+          firstname: "",
+          lastname: ""
+        }
+        // B1: thu thập dữ liệu
+        getFilterData(vFilterObj);
+        // B2: validate dữ liệu (bỏ qua)
+        // B3: xử lý dữ liệu
+        var vFilterResult = gUserDb.filterUser(vFilterObj);
+        // B4: xử lý hiển thị
+        loadDataToTable(vFilterResult);
+      }
+
+      /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình */
+      // load data to table
+      function loadDataToTable(paramResponseObject) {
+        //Xóa toàn bộ dữ liệu đang có của bảng
+        gUserTable.clear();
+        //Cập nhật data cho bảng 
+        gUserTable.rows.add(paramResponseObject);
+        //Cập nhật lại giao diện hiển thị bảng
+        gUserTable.draw();
+      }
+
+      // Hàm thu thập dữ liệu trên form filter
+      function getFilterData(paramFilterObj) {
+        paramFilterObj.firstname = $("#input-firstname").val().trim();
+        paramFilterObj.lastname = $("#input-lastname").val().trim();
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <h2 style="text-align: center;">Danh sách đăng ký</h2>
+    <div class="container jumbotron">
+      <div class="row">
+        <div class="col-sm-2">
+          <label for="">Firstname</label>
+        </div>
+        <div class="col-sm-3">
+          <input type="text" class="form-control" id="input-firstname" placeholder="Enter firstname">
+        </div>
+        <div class="col-sm-2">
+          <label for="">Lastname</label>
+        </div>
+        <div class="col-sm-3">
+          <input type="text" class="form-control" id="input-lastname" placeholder="Enter lastname">
+        </div>
+        <div class="col-sm-2">
+          <button class="btn btn-success" id="filter-button">Lọc user</button>
+        </div>
+      </div>
+    </div>
+
+    <table class="table table-bordered table-striped table-hover" id="user-table">
+      <thead>
+        <tr>
+          <th>Mã người dùng</th>
+          <th>Firstname</th>
+          <th>Lastname</th>
+          <th>Country</th>
+          <th>Subject</th>
+          <th>Customer Type</th>
+          <th>Register Status</th>
+          <th>Action</th>
+        </tr>
+    </table>
+  </div>
+
+</body>
+
+</html>

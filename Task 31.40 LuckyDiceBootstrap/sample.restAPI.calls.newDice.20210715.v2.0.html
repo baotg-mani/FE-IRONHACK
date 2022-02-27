@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- file html dùng để thử tác động của javascript vào các thành phần trang web-->
+    <script>
+        const gREQUEST_READYSTATE_FINISH_RESPONSE_READY = 4;
+        const gREQUEST_STATUS_OK = 200;
+
+        // Function get new dice handle
+        function onBtnGetNewDiceClick() {
+            "use strict";
+            //base urlbaseUrk
+            const vBaseUrl = "http://42.115.221.44:8080/devcamp-lucky-dice/";
+            const vUtf8TextApplicationHeader = "application/json;charset=UTF-8";
+            // data to be sent by post method
+            var vDataObject = {
+                firstname: "do",
+                lastname: "nga",
+                username: "ngado20"
+            }
+
+            // create a request
+            var vXmlHttpDice = new XMLHttpRequest();
+            vXmlHttpDice.open("POST", vBaseUrl + "/dice", true);
+            vXmlHttpDice.setRequestHeader("Content-Type", vUtf8TextApplicationHeader);
+            vXmlHttpDice.send(JSON.stringify(vDataObject));  //chuyển Json object sang string
+
+            vXmlHttpDice.onreadystatechange = function () {
+                if (this.readyState == gREQUEST_READYSTATE_FINISH_RESPONSE_READY
+                    && this.status == gREQUEST_STATUS_OK) {  //nếu trạng thái của response ready và ok
+                    console.log(vXmlHttpDice.responseText);
+                }
+            }
+
+        }
+
+        //gọi mẫu lấy dice history
+        function onBtnGetDiceHistoryClick() {
+            "use strict";
+            //base url
+            const vBaseUrl = "http://42.115.221.44:8080/devcamp-lucky-dice";
+            var vUserNameTest = "ngado20";
+
+            var vXmlHttpDiceHistory = new XMLHttpRequest();
+            vXmlHttpDiceHistory.open("GET", vBaseUrl + "/dice-history?username=" + vUserNameTest, true);
+            vXmlHttpDiceHistory.send();
+            vXmlHttpDiceHistory.onreadystatechange =
+                function () {
+                    if (this.readyState == gREQUEST_READYSTATE_FINISH_RESPONSE_READY
+                        && this.status == gREQUEST_STATUS_OK) {
+                        console.log(vXmlHttpDiceHistory.responseText);
+                    }
+                }
+        }
+
+        //gọi mẫu lấy prize history
+        function onBtnGetPrizeClick() {
+            "use strict";
+            //base url
+            const vBaseUrl = "http://42.115.221.44:8080/devcamp-lucky-dice";
+            var vUserNameTest = "ngado20";
+            // create a request
+            var vXmlHttpPrizeHistory = new XMLHttpRequest();
+            vXmlHttpPrizeHistory.open("GET", vBaseUrl + "/prize-history?username=" + vUserNameTest, true);
+            vXmlHttpPrizeHistory.send();
+            vXmlHttpPrizeHistory.onreadystatechange =
+                function () {
+                    if (this.readyState == gREQUEST_READYSTATE_FINISH_RESPONSE_READY
+                        && this.status == gREQUEST_STATUS_OK) {
+                        var vPrizeHistory = vXmlHttpPrizeHistory.responseText;
+                        console.log(vPrizeHistory);
+                    }
+                }
+
+        }
+
+        //gọi mẫu lấy voucher history
+        function onBtnGetVoucherHistoryClick() {
+            "use strict";
+            //base url
+            const vBaseUrl = "http://42.115.221.44:8080/devcamp-lucky-dice";
+            var vUserNameTest = "ngado20";
+            var vXmlHttpVoucherHistory = new XMLHttpRequest();
+            vXmlHttpVoucherHistory.open("GET", vBaseUrl + "/voucher-history?username=" + vUserNameTest, true);
+            vXmlHttpVoucherHistory.send();
+            vXmlHttpVoucherHistory.onreadystatechange =
+                function () {
+                    if (this.readyState == gREQUEST_READYSTATE_FINISH_RESPONSE_READY
+                        && this.status == gREQUEST_STATUS_OK) {
+                        var vVoucherHistory = vXmlHttpVoucherHistory.responseText;
+                        console.log(vVoucherHistory);
+                    }
+                }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container jumbotron">
+        <p id="btn-cmt2dev">Test Page for Javascrip Tasks. F5 to run code. </p>
+        <form id="singleForm">
+            <input type="button" onclick="onBtnGetNewDiceClick()" value="Call post api get new dice!"
+                class="btn btn-primary">
+            <input type="button" onclick="onBtnGetDiceHistoryClick()" value="Call get api dice history!"
+                class="btn btn-warning">
+            <input type="button" onclick="onBtnGetPrizeClick()" value="Call get api prize history!"
+                class="btn btn-danger">
+            <input type="button" onclick="onBtnGetVoucherHistoryClick()" value="Call get api voucher history!"
+                class="btn btn-info">
+        </form>
+        <div class="form-group">
+            <ul>
+                <li>
+                    post api get new dice: lấy mặt xúc xắc ném được, voucher(nếu có), phần thưởng(nếu có)
+                </li>
+                <li>
+                    get api dice history: lấy lịch sử ném của user
+                </li>
+                <li>
+                    api prize history: lấy lịch sử phần thưởng của user
+                </li>
+                <li>
+                    get api voucher history: lấy lịch sử voucher của user
+                </li>
+            </ul>
+        </div>
+        <p id="par-test" style="font-size:larger;">Demo gọi 01 post API!</p>
+        <p> Input: username, firstname, lastname</p>
+    </div>
+</body>
+
+</html>

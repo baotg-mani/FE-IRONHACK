@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>Task-29.150</title>
+
+    <script>
+        "use strict";
+        /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+        /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+        $(document).ready(function () {
+
+            onPageLoading();
+            $("#send-button").on("click", onSendBtnClick)
+        });
+        /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+        function onPageLoading() {
+            console.log($("#inp-firstname").attr("id"));
+            console.log($("#inp-lastname").attr("id"));
+            console.log($("#inp-passport").attr("id"));
+            console.log($("#inp-birthday").attr("id"));
+            console.log($("#inp-region").attr("id"));
+            console.log($("#inp-subject").attr("id"));
+            console.log($("#inp-email").attr("id"));
+            console.log($("#inp-country").attr("id"));
+        }
+
+        function onSendBtnClick() {
+            // khai báo đối tượng lưu trữ dữ liệu
+            var vUser = {
+                firstName: "",
+                lastName: "",
+                birthday: "",
+                gender: "",
+                country: "",
+                region: "",
+                passport: "",
+                email: "",
+                subject: ""
+            }
+            // B1: thu thập dữ liệu
+            getDataOnForm(vUser);
+            console.log(vUser);
+            // B2: validate
+            var vIsDataValid = validateData(vUser);
+            if (vIsDataValid) {
+                console.log("Data is valid. " + vUser);
+                // B3: ghi dữ liệu ra console
+                console.log("First name: " + vUser.firstName
+                + "Last name: " + vUser.lastName
+                + "Birtday: " + vUser.birthday
+                + "Gender: " + vUser.gender
+                + "Country: " + vUser.country
+                + "Region: " + vUser.region
+                + "Passport: " + vUser.passport
+                + "Email: " + vUser.email
+                + "Subject: " + vUser.subject
+                );
+
+            }
+        }
+        /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+        // Hàm thu thập dữ liệu input trên form
+        function getDataOnForm(paramUser) {
+            paramUser.firstName = $("#inp-firstname").val().trim();
+            paramUser.lastName = $("#inp-lastname").val().trim();
+            paramUser.birthday = $("#inp-birthday").val().trim();
+            paramUser.gender = $("input[name='gender']:checked").val();
+            paramUser.country = $("#inp-country").val().trim();
+            paramUser.region = $("#inp-region").val().trim();
+            paramUser.passport = $("#inp-passport").val().trim();
+            paramUser.email = $("#inp-email").val().trim();
+            paramUser.subject = $("#inp-subject").val().trim();
+        }
+
+        // Hàm kiểm tra dữ liệu nhập
+        function validateData(paramUser) {
+            if (paramUser.firstName === "") {
+                alert(" Invalid Firstname ");
+                return false;
+            }
+            if (paramUser.lastName === "") {
+                alert(" Invalid Lastname ");
+                return false;
+            }
+            if (paramUser.birthday === "") {
+                alert("Invalid Birthday ");
+                return false;
+            }
+            if (paramUser.gender === "") {
+                alert("Invalid Gender ");
+                return false;
+            }
+            if (paramUser.country === "") {
+                alert("Invalid Country ");
+                return false;
+            }
+            if (paramUser.passport === "") {
+                alert("Invalid Passport ");
+                return false;
+            }
+            if (!validateEmail(paramUser.email) || paramUser.email === "") {
+                alert("Invalid email")
+                return false;
+            }
+
+            return true;
+        }
+
+        // Hàm validate Email
+        function validateEmail(paramEmail) {
+            var vEmailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+            return vEmailReg.test(paramEmail);
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="jumbotron container form-group">
+        <div class="row text-center">
+            <div class="col-sm-12">
+                <h3 class="">Registration Form</h3>
+            </div>
+        </div>
+        <div class="row col-sm-12">
+            <div class="col-sm-6 form-group row">
+                <div class="col-sm-4">
+                    <label>Firstname<span class="text-danger">(*)</span></label>
+                </div>
+                <div class="col-sm-8">
+                    <input id="inp-firstname" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="col-sm-6 form-group row">
+                <div class="col-sm-4">
+                    <label>Passport<span class="text-danger">(*)</span></label>
+                </div>
+                <div class="col-sm-8">
+                    <input id="inp-passport" class="form-control" type="text">
+                </div>
+            </div>
+        </div>
+        <div class="row col-sm-12">
+            <div class="col-sm-6 form-group row">
+                <div class="col-sm-4">
+                    <label>Lastname<span class="text-danger">(*)</span></label>
+                </div>
+                <div class="col-sm-8">
+                    <input id="inp-lastname" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="col-sm-6 form-group row">
+                <div class="col-sm-4">
+                    <label>Email<span class="text-danger">(*)</span></label>
+                </div>
+                <div class="col-sm-8">
+                    <input id="inp-email" class="form-control" type="text">
+                </div>
+            </div>
+        </div>
+        <div class="row col-sm-12">
+            <div class="col-sm-6">
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <label>Birthday<span class="text-danger">(*)</span></label>
+                    </div>
+                    <div class="col-sm-8">
+                        <input id="inp-birthday" class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <label>Gender<span class="text-danger">(*)</span></label>
+                    </div>
+                    <div class="col-sm-8">
+                        <input name="gender" value="Male" type="radio">Male
+                        <input name="gender" value="Female" type="radio">Female
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <label>Country<span class="text-danger">(*)</span></label>
+                    </div>
+                    <div class="col-sm-8">
+                        <input id="inp-country" class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <label>Region</label>
+                    </div>
+                    <div class="col-sm-8">
+                        <input id="inp-region" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 row">
+                <div class="col-sm-4">
+                    <label>Subject</label>
+                </div>
+                <div class="col-sm-8">
+                    <textarea id="inp-subject" class="form-control" rows="8"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row col-sm-12 text-right">
+            <div class="col-sm-12">
+                <button id="send-button" class="btn btn-success">Send</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

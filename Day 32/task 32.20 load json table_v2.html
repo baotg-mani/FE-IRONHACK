@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="text-center my-4">
+      <h2>Danh sách người dùng</h2>
+    </div>
+
+    <table id="user_table" class="table table-bordered table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Mã người dùng</th>
+          <th>Firstname</th>
+          <th>Lastname</th>
+          <th>Age</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>13528</td>
+          <td>John</td>
+          <td>Doe</td>
+          <td>23</td>
+          <td>...</td>
+        </tr>
+        <tr>
+          <td>23528</td>
+          <td>Mary</td>
+          <td>Moe</td>
+          <td>42</td>
+          <td>...</td>
+        </tr>
+        <tr>
+          <td>13348</td>
+          <td>July</td>
+          <td>Dooley</td>
+          <td>54</td>
+          <td>...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  ​
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    var gJsonUser = `{
+    "description": "Data user",
+    "users": [
+      {
+        "userId": 1,
+        "firstname": "Test1",
+        "lastname": "User1",
+        "age": 18
+      },
+      {
+        "userId": 2,
+        "firstname": "Test2",
+        "lastname": "User2",
+        "age": 19
+      },
+      {
+        "userId": 3,
+        "firstname": "Test3",
+        "lastname": "User3",
+        "age": 18
+      },
+      {
+        "userId": 4,
+        "firstname": "Test4",
+        "lastname": "User4",
+        "age": 20
+      },
+      {
+        "userId": 5,
+        "firstname": "Test5",
+        "lastname": "User5",
+        "age": 21
+      },
+      {
+        "userId": 6,
+        "firstname": "Test6",
+        "lastname": "User6",
+        "age": 20
+      }
+    ]
+  }`;
+    var gObjectUsers = JSON.parse(gJsonUser);
+    console.log(gObjectUsers);
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    onPageLoading();
+    $("#user_table").on("click",".details",function(){
+      console.log("Nút chi tiết được ấn");
+      onBtnDetailClick(this);
+    })
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    function onPageLoading(){
+      "use strict";
+      // Xoá bỏ các dòng tr trong bảng
+      $("#user_table tbody").empty();
+      // Load dữ liệu vào bảng thông qua cơ sở dữ liệu
+      
+      var vListUser = gObjectUsers.users;
+
+      for(var bI = 0; bI < vListUser.length; bI++){
+        var vRow = "";
+        vRow = vRow + "<tr>";
+          vRow = vRow + "<td>" + vListUser[bI].userId + "</td>";
+          vRow = vRow + "<td>" + vListUser[bI].firstname + "</td>";
+          vRow = vRow + "<td>" + vListUser[bI].lastname + "</td>";
+          vRow = vRow + "<td>" + vListUser[bI].age + "</td>";
+          vRow = vRow +
+           "<td><button class='btn btn-primary details' data-userid=" + vListUser[bI].userId +
+             " data-firstname=" + vListUser[bI].firstname +
+              " data-lastname=" + vListUser[bI].lastname +
+               " data-age=" + vListUser[bI].age +
+                "> Chi tiết </button></td>";
+        vRow = vRow + "</tr>";
+
+        $("#user_table tbody").append(vRow);
+      }      
+    }
+    function onBtnDetailClick(paramElement){
+      "use strict";
+      var vUserId = $(paramElement).data("userid");
+      var vFirstName = $(paramElement).data("firstname");
+      var vLastName = $(paramElement).data("lastname");
+      var vAge = $(paramElement).data("age");
+      console.log("User id: " + vUserId);
+      console.log("Firstname: " + vFirstName);
+      console.log("Lastname: " + vLastName);
+      console.log("Age: " + vAge);
+
+    }
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    
+  </script>
+</body>
+
+</html>
+​

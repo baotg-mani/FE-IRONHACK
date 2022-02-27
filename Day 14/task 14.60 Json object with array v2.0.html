@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>Task 14.60</title>
+</head>
+<script>
+     "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    //code demo
+    function onBtnTryItClick() {
+        //json string for person John
+        var vJsonStringJohn = `{"name": "John","age": 30,"car": ["Ford", "BMW", "Fiat"],"pet": {"type": "dog","name": "Joly"}}`;
+        // parse to object
+        var vJsonDataJohn = JSON.parse(vJsonStringJohn);
+        // write his pet to console
+        console.log(vJsonDataJohn.name + " has a " + vJsonDataJohn.pet.type + ". It's name is " + vJsonDataJohn.pet.name);
+    }
+
+    // Viết code xử lý của bạn ở dưới đây
+    function onBtnLisaClick() {
+        //define json person Lisa
+        var vJsonStringLisa = '{"name": "Lisa", "age": 22, "cars": ["Fiat", "Mazda", "Toyata", "Mercedes"], "pets":[{"type":"dog", "name":"Kata"}, {"type":"cat", "name":"Mill"},{"type":"parrot", "name":"Bea"}]}';
+        //parse into object
+        var vLisa = JSON.parse(vJsonStringLisa);
+        //write data of Lisa to console
+        console.log("name: " + vLisa.name );
+        console.log("age: " + vLisa.age );
+        console.log("cars: " + vLisa.cars[0] + ", " + vLisa.cars[1] + ", " + vLisa.cars[2] + ", " + vLisa.cars[3]);
+        console.log("pets:");
+        console.log("    - " + vLisa.pets[0].type + ", " + vLisa.pets[0].name);
+        console.log("    - " + vLisa.pets[1].type + ", " + vLisa.pets[1].name);
+        console.log("    - " + vLisa.pets[2].type + ", " + vLisa.pets[2].name);
+    }
+
+    //hãy làm những bước giống code demo
+    // với 01 person Lisa
+    // name: Lisa
+    // age: 22
+    // cars: Fiat, Mazda, Toyota, Mercedes
+    // pets: 
+    //   - dog, Kata 
+    //	 - cat, Mill
+    //   - parrot, Bea
+
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+</script>
+
+<body>
+    <div class="container jumbotron">
+        <p id="cmt2dev"> Test Page for Javascrip Tasks. F5 to run code.</p>
+        <form>
+            <button type="button" onclick="onBtnTryItClick()" class="btn btn-primary">Thử Code có sẵn - Try it!</button>
+            <button type="button" onclick="onBtnLisaClick()" class="btn btn-secondary">Button Lisa - Try your Code!</button>
+        </form>
+    </div>
+</body>
+
+</html>

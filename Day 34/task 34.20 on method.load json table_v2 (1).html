@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Task 34.20</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <div class="container mt-4 mb-4">
+    <div class="text-center">
+      <button class="btn btn-primary" id="btn-load-user-table">1. Load user to table</button>
+      <button class="btn btn-primary" id="btn-direct-handler-attach">2A. Direct attach handler to Detail button</button>
+      <button class="btn btn-primary" id="btn-delegate-handler">2B. Delegate handler Detail button</button>
+      <button class="btn btn-warning" id="btn-add-event-rows">3. Add event handler to each row</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <h2 style="text-align: center;">Danh sách người dùng</h2>
+
+    <table class="table table-bordered table-striped table-hover" id="table-users">
+      <thead>
+        <tr>
+          <th>Mã người dùng</th>
+          <th>Firstname</th>
+          <th>Lastname</th>
+          <th>Country</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  ​
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    var gUserTable = $("#table-users");
+
+    /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+    $("#btn-load-user-table").on("click", onBtnLoadUserClick);
+    $("#btn-direct-handler-attach").on("click", onDirectHandleAttachClick);
+    $("#btn-delegate-handler").on("click", onBtnOnDelegateClick);
+    $("#btn-add-event-rows").on("click", onBtnAddEventRow);
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    // hàm thực hiện call api và load dữ liệu user vào table, chưa gán sự kiện cho nút detail
+    function onBtnLoadUserClick() {
+      $.ajax({
+        url: "http://42.115.221.44:8080/devcamp-register-java-api/users",
+        type: 'GET',
+        dataType: 'json',
+        // async ko đc truyền nên nhận giá tị default = true
+        success: function (resObj) {
+          loadArrayToUserTable(resObj);
+        },
+        error: function (ajaxContext) {
+          console.log(ajaxContext.responseText)
+        }
+      });
+    }
+
+    // hàm gắn event handler trực tiếp vào nút chi tiết
+    function onDirectHandleAttachClick() {
+      $(".user-detail").on("click", function () {
+        onUserDetailClick(this);
+      });
+    }
+
+    // hàm delefate event handler cho các nút chi tiết thông qua table
+    function onBtnOnDelegateClick() {
+      $("#table-users").on("click", ".user-detail", function () {
+        onUserDetailClick(this);
+      });
+    }
+
+    // hàm xử lý khi click vào nút user detail
+    function onUserDetailClick(paramUserDetailBtn) {
+      var vUserDetailBtn = $(paramUserDetailBtn);
+      var vUserId = vUserDetailBtn.data("user-id");
+      var vFirstName = vUserDetailBtn.data("firstname");
+      var vLastName = vUserDetailBtn.data("lastname");
+      var vCountry = vUserDetailBtn.data("country");
+
+      console.log("Id: " + vUserId);
+      console.log("firstname: " + vFirstName);
+      console.log("lastname: " + vLastName);
+      console.log("Country: " + vCountry);
+    }
+
+    function onBtnAddEventRow() {
+      $(document).on("click", "#table-users tbody tr", function () {
+        var vRowIndex = $(this).index();
+        console.log(vRowIndex + 1);
+      });
+    }
+
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    /**
+     * Hàm thực hiện load user server trả về lên table
+     */
+    function loadArrayToUserTable(paramObj) {
+      gUserTable.find("tr:gt(0)").remove();
+      // load dữ liệu vào bảng
+      for (var bI = 0; bI < paramObj.length; bI++) {
+        var bNewRow = $("<tr/>").appendTo(gUserTable);
+        // $(selector, {})         .action()
+        var bUserCode = $("<td/>", {
+          html: paramObj[bI].id
+        }).appendTo(bNewRow);
+
+        var bFirstName = $("<td/>", {
+          html: paramObj[bI].firstname
+        }).appendTo(bNewRow);
+
+        var bLastName = $("<td/>", {
+          html: paramObj[bI].lastname
+        }).appendTo(bNewRow);
+
+        var bAge = $("<td/>", {
+          html: paramObj[bI].country
+        }).appendTo(bNewRow);
+
+        var bActionCell = $("<td/>").appendTo(bNewRow);
+        var bDetailButton = $("<button/>", {
+          text: "Chi tiết"
+        })
+          .data("user-id", paramObj[bI].id)
+          .data("firstname", paramObj[bI].firstname)
+          .data("lastname", paramObj[bI].lastname)
+          .data("country", paramObj[bI].country)
+          .addClass("btn btn-primary user-detail")
+          .appendTo(bActionCell);
+      }
+    }
+
+  </script>
+</body>
+
+</html>

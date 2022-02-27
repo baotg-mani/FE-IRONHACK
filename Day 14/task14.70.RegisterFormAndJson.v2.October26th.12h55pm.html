@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>Task 14.70</title>
+  </head>
+  
+  <body>
+  
+    <div class="container">
+      <form > 
+          <h2 style="text-align: center;" class="mt-3">Sample Responsive Form: Nhập cảnh với ô tô</h2>
+        <div class="form-group">
+          <label>First Name</label>
+          <input id="input-firstname" type="text" class="form-control" name="firstname" placeholder="Your First name..">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input id="input-lastname" type="text" class="form-control" name="lastname" placeholder="Your last name..">
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="country-select">Country</label>
+            <select id="select-country" name="country" class="form-control">
+              
+            </select>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="regioninput">Region</label>
+            <input id="input-region" type="text" class="form-control" name="regioninput" placeholder="Your region..">
+          </div>
+          
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputCity">Car</label>
+            <select id="select-car" class="form-control">
+            
+            </select>
+          </div>
+          
+        </div>
+       
+      </form>
+      <button onclick="onSendDataClick()" class="btn btn-primary">Send</button>
+    </div>
+    
+<script>
+  "use strict";
+  /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+  // Hằng số chuỗi JSON chứa danh sách các đối tượng Car
+  const gJSON_CAR_OPTION_DB = `[
+    {"brandId": "10","brandName": "None"}, 
+    {"brandId": "15","brandName": "Audi"},
+    {"brandId": "20","brandName": "BMW"},
+    {"brandId": "30","brandName": "Citroen"}
+  ]`;
+  
+  // Hằng số chuỗi JSON chứa danh sách các đối tượng Countries
+  const gJSON_COUNTRY_OPTION_DB = `[
+    {"countryCode" : "0", "countryName" : "None"},
+    {"countryCode" : "VN", "countryName" : "Vietnam"},
+    {"countryCode" : "US", "countryName" : "United States"},
+    {"countryCode" : "CA", "countryName" : "Canada"},
+    {"countryCode" : "AU", "countryName" : "Australia"},
+    {"countryCode" : "CN", "countryName" : "China"}
+  ]`;
+  
+  /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+  onPageLoading();
+
+  /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+  // hàm thực thi sự kiện load trang
+  function onPageLoading() {
+    // debugger;
+    var vFirstnameElement = document.getElementById("input-firstname");
+    var vLastnameElement = document.getElementById("input-lastname");
+    var vRegionElement = document.getElementById("input-region");
+    var vSelectCarElement = document.getElementById("select-car");
+    var vSelectCountryElement = document.getElementById("select-country");
+    // gọi hàm load dữ liệu vào select car
+    loadDataToCarSelect();
+    // gọi hàm load dữ liệu vào select country
+    loadDataToCountrySelect();
+  }
+
+  // hàm xử lý sự kiện khi click nút Send
+  function onSendDataClick() {
+    var vFirstnameElement = document.getElementById("input-firstname");
+    var vLastnameElement = document.getElementById("input-lastname");
+    var vRegionElement = document.getElementById("input-region");
+    var vSelectCarElement = document.getElementById("select-car");
+    var vSelectCountryElement = document.getElementById("select-country");
+    console.log(vFirstnameElement.value);
+    console.log(vLastnameElement.value);
+    console.log(vRegionElement.value);
+    console.log(vSelectCountryElement.options[vSelectCountryElement.selectedIndex].text);// lấy text ở select được chọn hiện ra console
+    console.log(vSelectCarElement.options[vSelectCarElement.selectedIndex].text);
+    
+  }
+
+  /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+  // hàm để load dữ liệu từ JSON vào car select
+  function loadDataToCarSelect() {
+    // 1. parsing data từ JSON string thành JSON object
+    var vJsoncarObject = JSON.parse(gJSON_CAR_OPTION_DB);
+    // 2. put data từ JSON object vào select html element cho car
+    var vSelectCarElement = document.getElementById("select-car");
+    for(var bIterator = 0; bIterator < vJsoncarObject.length; bIterator ++) {
+      var bCarOptionElement = document.createElement("option");
+      bCarOptionElement.value = vJsoncarObject[bIterator].brandId;
+      bCarOptionElement.text = vJsoncarObject[bIterator].brandName;
+    	vSelectCarElement.appendChild(bCarOptionElement);
+    }
+  }
+  //hàm load dữ liệu từ JSON vào country select
+  function loadDataToCountrySelect() {
+    // 1. parsing data từ JSON string thành JSON object
+    var vJsonCountryObject = JSON.parse(gJSON_COUNTRY_OPTION_DB);
+    // 2. put data từ JSON object vào select html element cho country
+    var vSelectCountryElement = document.getElementById("select-country");
+    for(var bIterator = 0; bIterator < vJsonCountryObject.length; bIterator ++) {
+      var bCountryOptionElement = document.createElement("option");
+      bCountryOptionElement.value = vJsonCountryObject[bIterator].countryCode;
+      bCountryOptionElement.text = vJsonCountryObject[bIterator].countryName;
+      vSelectCountryElement.appendChild(bCountryOptionElement);
+    }
+  }
+
+</script> 
+
+</body>
+</html>
+
+

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container jumbotron">
+    <button type="button" class="btn btn-primary" onclick="onAddChildClick()">Add thêm 01 child</button>
+
+    <div id="demoParent">nội dung ví dụ</div>
+
+    <script>
+        "use strict";
+        /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+        /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+
+        /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+        // Hàm add thêm 01 child
+        function onAddChildClick() {
+            //tạo phần tử p    
+            var vP = document.createElement("p");
+
+            //tạo phần tử text
+            var vNode = document.createTextNode("child mới");
+
+            //gắn phần tử Text vào phần tử p
+            vP.appendChild(vNode);
+
+            //Thay đổi một số thuộc tính của p
+            vP.style.backgroundColor = 'green';
+            vP.style.padding = "10px";
+            vP.style.color = "white";
+            
+            // Truy xuất phần tử thẻ div
+            var vDiv = document.getElementById("demoParent");
+            //gắn phần tử p vào thẻ div
+            vDiv.appendChild(vP);
+        }
+
+        /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+
+    </script>
+</body>
+</div>
+</html>

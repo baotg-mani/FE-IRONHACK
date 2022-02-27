@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 16.60 - Random Dice V2</title>
+</head>
+<body>
+    <div>
+        <label>Username</label>
+        <input id="input-username" type="text">
+    </div> <br>
+    <div>
+        <label>Firstname</label>
+        <input id="input-firstname" type="text">
+    </div> <br>
+    <div>
+        <label>Lastname</label>
+        <input id="input-lastname" type="text">
+    </div> <br>
+    <button id="btn-get-dice" onclick="onBtnGetDiceClick()">Get New Dice</button> <br>
+    <div >
+        <br><label>Result:</label>
+        <p style="display: none;" id="paragraph"></p>
+    </div>
+
+    <script>
+        /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+        const gREQUEST_STATUS_OK = 200;
+        const gREQUEST_READY_STATUS_FINISH_AND_OK = 4;
+        const gBASE_URL = "http://42.115.221.44:8080/devcamp-lucky-dice/";
+        const gUTF8_TEXT_APPLICATON_HEADER = "application/json;charset=UTF-8";
+        /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+        // debugger;
+
+        onPageLoading();
+        /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+        function onPageLoading() {
+            var vUsernameElement = document.getElementById("input-username");
+            var vFirstnameElement = document.getElementById("input-firstname");
+            var vLastnameElement = document.getElementById("input-lastname");
+            var vButtonElement = document.getElementById("btn-get-dice");
+            var vParaElement = document.getElementById("paragraph");
+        }
+
+        function onBtnGetDiceClick() {
+            "use strict;"
+            console.log("Get new dice.");
+            // khai bao object de luu tru du lieu dau vao
+            var vUserDataObj = {
+                username: "",
+                firstname: "",
+                lastname: ""
+            }
+            // B1: thu thap du lieu
+            getDataUser(vUserDataObj);
+            // B2: validate du lieu dau vao
+            var vIsDataValidate = validateData(vUserDataObj);
+            if(vIsDataValidate) {
+                console.log(vUserDataObj);
+                // B3: gui request toi server
+                var vXmlHttpDice = new XMLHttpRequest(); // đây là cú pháp để tạo mới 1 object request, cần viết chính xác
+                sendRequestGetNewDice(vUserDataObj, vXmlHttpDice);
+                // ham xu ly su kien sau khi readystate change
+                vXmlHttpDice.onreadystatechange = function() {
+                    // B4: nhan lai response khi request da thuc hien xong va thanh cong
+                    if(this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
+                    handleResponseNewDice(vXmlHttpDice); // thuc hien ham xu ly su kien voi response new dice
+                    }
+                }
+            }           
+        }
+        /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+        function getDataUser(paramUserObj) {
+            var vUsernameElement = document.getElementById("input-username");
+            var vFirstnameElement = document.getElementById("input-firstname");
+            var vLastnameElement = document.getElementById("input-lastname");
+
+            paramUserObj.username = vUsernameElement.value.trim();
+            paramUserObj.firstname = vFirstnameElement.value.trim();
+            paramUserObj.lastname = vLastnameElement.value.trim();
+        }
+
+        function validateData(paramUserObj) {
+            "use strict;"
+            if(paramUserObj.username === "") {
+                alert("Not enter username yet!");
+                return false;
+            }
+            if(paramUserObj.firstname === "") {
+                console.assert(false, "First name must be filled!");
+                return false;
+            }
+            if(paramUserObj.lastname === "") {
+                console.assert(false, "Last name must be filled!");
+                return false;
+            }
+            return true;
+        }
+
+        function sendRequestGetNewDice(paramUserObj, paramXmlHttp) {
+            var vPersonDataJson = JSON.stringify(paramUserObj);
+            paramXmlHttp.open("POST", gBASE_URL + "/dice", true);
+            paramXmlHttp.setRequestHeader("Content-Type", gUTF8_TEXT_APPLICATON_HEADER);
+            paramXmlHttp.send(vPersonDataJson);
+        }
+
+        function handleResponseNewDice(paramXmlHttp) {
+            "use strict;"
+            console.log(paramXmlHttp.responseText); // hien thi response text ra Console
+            var vDiceObj = JSON.parse(paramXmlHttp.responseText); // chuyen doi response text ve Obj
+
+            // hien thi thong tin Dice ra vung Result va Console:
+            var vParaElement = document.getElementById("paragraph");
+            vParaElement.style.display = "block"; // hien thi vung Result
+            console.log("Dice: " + vDiceObj.dice);
+            vParaElement.innerHTML = "Dice: " + vDiceObj.dice; 
+            // kiem tra dieu kien kha dung cua Voucher, de show vao Result
+            if(vDiceObj.voucher !== null) {
+                console.log("Ma giam gia: " + vDiceObj.voucher.phanTramGiamGia);
+                vParaElement.innerHTML += "<br>Ma giam gia: " + vDiceObj.voucher.phanTramGiamGia;
+            }
+            // kiem tra dieu kien kha dung cua Prize(phan thuong), de show vao Result
+            if(vDiceObj.prize !== null) {
+                console.log("Phan thuong: " + vDiceObj.prize);
+                vParaElement.innerHTML += "<br>Phan thuong: " + vDiceObj.prize;
+            }          
+        }
+    </script>
+</body>
+</html>

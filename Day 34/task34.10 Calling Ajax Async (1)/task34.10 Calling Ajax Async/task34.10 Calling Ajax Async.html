@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample data calls: getAllUsers, getUserInfo</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+  <h3 class="mt-4 mb-3">Calling Ajax async</h3>
+  <div class="form-group mb-4 text-danger h6">Click vào từng nút và xem kết quả khác nhau ở Console</div>
+  <div>
+    <img src="async.JPG" style="width: 85%;" class="mb-4">
+  </div>
+
+  <div class="row form-group">
+    <button class="btn btn-danger m-1" onclick="loadAjaxDataUsersAsync()">Load user with async default</button>
+    <button class="btn btn-info m-1" onclick="loadAjaxDataUsersAsyncFalse()">Load user with async false</button>
+  </div>
+</div>
+
+<script>
+  "use strict";
+  /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+  /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+
+  /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+  /**
+  * Hàm call api get all users.
+  * tham số async (không điền) sẽ nhận giá trị default là true (bất đồng bộ)
+  * với async = true => chương trình thực hiện gói ajax API và KHÔNG quan tâm việc gọi đó ĐÃ KẾT THÚC CHƯA 
+  * mà vẫn tiếp tục thực hiện dòng lệnh tiếp theo (A10)
+  */
+  function loadAjaxDataUsersAsync() {
+    var vNumberUsers = 0;
+    $.ajax({
+        url:  "http://42.115.221.44:8080/devcamp-register-java-api/users",
+        type: 'GET',
+        dataType: 'json',
+        // async ko đc truyền nên nhận giá tị default = true
+        success: function(res) {
+          vNumberUsers = res.length;
+          console.log("** 1. Hiển thị thông tin trong call Ajax **");
+          console.log(vNumberUsers);
+        },
+        error: function (ajaxContext) {
+          console(ajaxContext.responseText)
+        }
+    }); 
+    
+    console.log("** 2. Hiển thị thông tin ngoài Ajax**"); // A10
+    console.log(vNumberUsers);
+  }
+
+  /**
+  * Hàm call api get all users.
+  * gán giá trị tham số async = false (không bất đồng bộ)
+  * với async = false => chương trình gọi ajax API và phải chờ cho đến khi thực thi xong việc call API đó (readyState = 4)
+  * THÌ mới thực hiện dòng lệnh tiếp theo (B10)
+  */
+  function loadAjaxDataUsersAsyncFalse() {
+    var vNumberUsers = 0;
+    $.ajax({
+        url:  "http://42.115.221.44:8080/devcamp-register-java-api/users",
+        type: 'GET',
+        dataType: 'json',
+        async: false,  // tham số async nhận giá trị fasle
+        success: function(res) {
+          vNumberUsers = res.length;
+          console.log("** 10. Hiển thị thông tin trong call Ajax **");
+          console.log(vNumberUsers);
+        },
+        error: function (ajaxContext) {
+          console(ajaxContext.responseText)
+        }
+    }); 
+    console.log("** 20. Hiển thị thông tin ngoài Ajax **"); // B10
+    console.log(vNumberUsers);
+  }
+
+  /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+</script>
+
+</body>
+</html>

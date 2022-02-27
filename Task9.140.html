@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 9.140</title>
+    <link rel="stylesheet" href="9.140.css">
+</head>
+<body>
+    <div class="container">    
+        <div style="text-align: center;">
+        <div>
+            <img id="img-wall" src="LuckyDiceImages.v1.2/LuckyDiceImages/people-playing-casino.jpg">
+        </div>
+        <div>
+            <h1 class="col-7" style="text-align: center;" id="h1-title"> Chào mừng đến với Lucky Dice Casino </h1>
+        </div>
+        <div>        
+            <img id="img-dice" src="LuckyDiceImages.v1.2/LuckyDiceImages/dice.png" style="width: 10%; text-align: center;"> <br>
+        </div>
+        <div>        
+            <button id="btn-dice" onclick="onBtnDiceClick(), chageDiveImage(gRandomNumber)">Ném</button>
+        </div>
+        <div class="container-h2">
+            <div class="">
+                <h2 id="h2-send-message" style="display: none;" >message...</h2>
+            </div>        
+        </div>
+        </div>
+    </div>
+    <script>
+
+        /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+        var gRandomNumber;
+        var gImgDiceElement = document.getElementById("img-dice");
+        var gH2SendMessageElement = document.getElementById("h2-send-message");
+
+
+        /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+
+        /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+        function onBtnDiceClick() {
+            console.log('Tung xúc xắc');
+            getRandomNumber();
+            console.log(gRandomNumber);
+
+            changeMessage(gRandomNumber);
+            gH2SendMessageElement.style.display = "block";
+        }
+        
+        /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+
+
+        "use strict";
+        function onPageLoading() {
+            var vImgWallElement = document.getElementById("img-wall");
+            var vH1TitleElement = document.getElementById("h1-title");
+            var vBtnDiceElement = document.getElementById("btn-dice");
+
+            console.log(vImgWallElement.id);
+            console.log(vImgWallElement.src);
+
+            console.log(vH1TitleElement.id);
+            console.log(vH1TitleElement.innerHTML);
+
+            console.log(gImgDiceElement.id);
+            console.log(gImgDiceElement.src);
+
+            console.log(vBtnDiceElement.id);
+            console.log(vBtnDiceElement.innerHTML);
+
+            console.log(gH2SendMessageElement.id);
+            console.log(gH2SendMessageElement.innerHTML);
+
+            
+        } onPageLoading();
+
+        function getRandomNumber() {
+            gRandomNumber = Math.floor(Math.random() * 6) +1;
+            return gRandomNumber;    
+        }
+
+        function chageDiveImage(x) {
+            if(x == 1)
+                gImgDiceElement.src = '/LuckyDiceImages.v1.2/LuckyDiceImages/1.png';
+            if(x == 2)
+                gImgDiceElement.src = '/LuckyDiceImages.v1.2/LuckyDiceImages/2.png';
+            if(x == 3)
+                gImgDiceElement.src = '/LuckyDiceImages.v1.2/LuckyDiceImages/3.png';
+            if(x == 4)
+                gImgDiceElement.src = '/LuckyDiceImages.v1.2/LuckyDiceImages/4.png';
+            if(x == 5)
+                gImgDiceElement.src = '/LuckyDiceImages.v1.2/LuckyDiceImages/5.png';
+            if(x == 6)
+                gImgDiceElement.src = '/LuckyDiceImages.v1.2/LuckyDiceImages/6.png';
+        }
+
+        function changeMessage(x) {
+            if(x >= 1 && x <= 3)  
+                gH2SendMessageElement.innerHTML = 'Bạn quá đen, thử lại nào!';
+            if(x >= 4 && x <= 6) {
+                gH2SendMessageElement.innerHTML = 'Chúc mừng bạn, chơi ván nữa!';
+            }
+        }
+        
+    </script>
+</body>
+</html>

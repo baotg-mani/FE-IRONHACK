@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> Task 12.40 </title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head> 
+
+<body>
+  <!-- Bắt đầu vùng form màu xám -->
+  <div class="container jumbotron p-4 my-3">
+    <div class="row form-group">
+      <label id="label-ma-mon" class="col-md-2 col-form-label">First name<span class="text-danger">(*)</span></label>
+      <div class="col-md-4">
+        <input type="text" class="form-control" placeholder="Enter firstname ..." id="input-firstname">
+      </div>
+    </div>
+    <div class="row form-group">
+      <label id="label-ten-mon" class="col-md-2 col-form-label">Last name<span class="text-danger">(*)</span></label>
+      <div class="col-md-4">
+        <input type="text" class="form-control" placeholder="Enter lastname ..." id="input-lastname">
+      </div>
+    </div>
+    <div class="row form-group">
+      <label id="label-so-tin-chi" class="col-md-2 col-form-label">Country<span class="text-danger">(*)</span></label>
+      <div class="col-md-4">
+        <select class="form-control" id="select-country">
+            <option value="vietnam">Việt Nam</option>
+            <option value="usa">Mỹ</option>
+            <option value="australia">Úc</option>
+            <option value="china">Trung Quốc</option>
+        </select>
+      </div>
+      <div class="col-sm-2">
+        <button type="button" class="btn btn-info" id="btn-save-data" onclick="onBtnSaveDataClick()">Send</button>
+      </div>
+    </div>
+  </div>
+  <!-- Kết thúc vùng form màu xám -->
+
+  <!-- vùng hiển thị thông tin User -->
+  <div id="div-container-subject" class="container bg-info" style="display: none;">
+    <div id="div-subject-infor" class="text-white p-3">...</div>
+  </div>
+
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    //goi hàm load trang
+    onPageLoading();
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+
+    // Hàm xử lý sự kiện load trang
+    function onPageLoading() {
+      var vInputFirstnameElement = document.getElementById("input-firstname");
+      var vInputLastnameElement = document.getElementById("input-lastname");
+      var vSelectCountryElement = document.getElementById("select-country");
+      var vBtnSaveDataElement = document.getElementById("btn-save-data");
+    //   debugger;
+    }
+
+    function onBtnSaveDataClick() {
+      //console.log("Lưu dữ liệu User");
+      // debugger;
+      // khai báo đối tượng User chứa dữ liệu
+      var vUser = {
+        firstName: "",
+        lastName: "",
+        country: ""
+      }
+      // B1: thu thập dữ liệu
+      getFormData(vUser);
+
+      // B2: kiểm tra dữ liệu
+      var vIsValidData = validateData(vUser);
+          
+      // B3: ghi dữ liệu vào vùng màu vàng
+      if (vIsValidData) {
+        showDataUser(vUser);
+      }
+    }
+    
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    //Hàm thu thập dữ liệu
+    //Input: biến chứa dữ liệu User
+    //Output: biến chứa các giá trị nhập trên form
+
+
+    function getFormData(paramUser) {
+      //truy suất phần tử
+      var vInputFirstnameElement = document.getElementById("input-firstname");
+      var vInputLastnameElement = document.getElementById("input-lastname");
+      var vSelectCountryElement = document.getElementById("select-country");
+      
+      //gán giá trị cho tham số môn học
+      paramUser.firstName = vInputFirstnameElement.value.trim();
+      paramUser.lastName = vInputLastnameElement.value.trim();
+      paramUser.country = vSelectCountryElement.value.trim();
+    }
+
+    //Hàm kiểm tra(Validate) các trường phải có dữ liệu trên form
+    function validateData(paramUser) {
+      if (paramUser.firstName === "") {
+        alert("Enter First name!");
+        return false;
+      }
+      if (paramUser.lastName === "") {
+        alert("Enter Last name!");
+        return false;
+      }
+      if (paramUser.country === "") {
+        alert("Enter Country");
+        return false;
+      }
+      return true;
+    }
+
+    //Hàm hiển thị thông tin User
+    function showDataUser(paramUser) {
+      var vDivContainerSubjectElement = document.getElementById("div-container-subject");//vùng chứa màu xanh
+      var vDivSubjectInforElement = document.getElementById("div-subject-infor");//vùng hiển thị nội dung môn học
+      //hiển thị vùng chứa màu xanh
+      vDivContainerSubjectElement.style.display = 'block';
+
+      //hiển thị dữ liệu
+      vDivSubjectInforElement.innerHTML = "First Name: " + paramUser.firstName;
+      vDivSubjectInforElement.innerHTML += "<br/>Last Name: " + paramUser.lastName;
+      vDivSubjectInforElement.innerHTML += "<br/>Country: " + paramUser.country;
+    }
+  </script>
+</body>
+
+</html>

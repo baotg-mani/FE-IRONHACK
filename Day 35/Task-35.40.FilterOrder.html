@@ -1,0 +1,184 @@
+<!-- LƯU Ý: Task 35.10 ~ 35.40(filter)
+orderList.html và orderDetail là 2 trang dành cho Nhân viên cửa hàng xem.
+Sau khi nhân được đơn đặt hàng từ phía Khách -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OrderList</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <div>
+    <h2 class="text-center">Danh sách đơn hàng</h2>
+  </div>
+  <div class="container jumbotron text-center mt-4">
+    <div class="col-sm-12 row form-group">
+      <div class="col-sm-3">
+        <label for="">Chọn trạng thái</label>
+      </div>
+      <div class="col-sm-6">
+        <select class="form-control" name="" id="select-status">
+          <option value="none">Chọn trạng thái</option>
+          <option value="open">Open</option>
+          <option value="confirm">Confirm</option>
+          <option value="cancel">Cancel</option>
+        </select>
+      </div>
+      <div class="col-sm-3">
+        <button id="btn-filter" class="btn btn-success">Filter orders</button>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <table class="table text-center table-striped table-hover" id="table-order">
+          <thead>
+            <tr>
+              <th scope="col">Order ID</th>
+              <th scope="col">Kích cỡ combo</th>
+              <th scope="col">Loại pizza</th>
+              <th scope="col">Nước uống</th>
+              <th scope="col">Thành tiền</th>
+              <th scope="col">Họ và tên</th>
+              <th scope="col">Số điện thoại</th>
+              <th scope="col">Trạng thái</th>
+              <th scope="col">Chi tiết</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    var gAllData = [];
+    var gStatusArray = [];
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    $(document).ready(function () {
+      onPageLoading();
+      $("#btn-filter").on("click", onBtnFilterClick);
+    });
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    // Hàm thực hiện khi load trang
+    function onPageLoading() {
+      "use strict";
+      getAllOrders();
+      $("#table-order tbody").on("click", ".details", function () {
+        console.log("Nút Detail được click");
+        onBtnUserDetailClick(this);
+      });
+      // console.log(gAllData);
+    }
+
+    // Hàm xử lý sự kiện Button Chi tiết Click
+    function onBtnUserDetailClick(paramDetailButton) {
+      "use strict";
+      console.log("id: " + paramDetailButton.dataset.id);
+      console.log("orderId: " + paramDetailButton.dataset.orderid);
+      // lưu giá trị id và orderId của dataset btn vào biến
+      var vId = paramDetailButton.dataset.id;
+      var vOrderId = paramDetailButton.dataset.orderid;
+
+      const vDETAIL_FORM_URL = "Task-35.20.OrderDetail.html";
+      // tạo querystring
+      var vUrlSiteToOpen = vDETAIL_FORM_URL +
+        "?id=" + vId +
+        "&orderId=" + vOrderId;
+      window.location.href = vUrlSiteToOpen;
+    }
+
+    // Hàm xử lý sự kiện btn Filter click
+    function onBtnFilterClick() {
+      "use strict";
+      console.log("filter btn is clicked");
+      // B1: thu thập sự kiện
+      var vSelectStatus = $("#select-status").find(":selected").val();
+      // B2: validate dữ liệu
+      if (vSelectStatus === "none") {
+        alert("Please choose any status");
+        return false;
+      } else {
+        // debugger;
+        // B3: xử lý sự kiện
+        let vStatusArray = gAllData.filter(
+          // e là tham số truyền vào arrow function, ở đây là từng phần tử của gAllData
+          e => e.trangThai.toLowerCase() == vSelectStatus // nếu thỏa mãn điều kiện sẽ add vào vStatusArray
+          );
+        console.log(vStatusArray);
+        loadOrderToTable(vStatusArray);
+      }
+    }
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    // Hàm thực hiện việc load all orders từ server và load vào table
+    function getAllOrders() {
+      "use strict";
+      const vBASE_URL = "http://42.115.221.44:8080/devcamp-pizza365/orders";
+      // B1: Thu thập dữ liệu (trong bài này bước này ko cần)
+      // B2: Validate dữ liệu (trong bài này bước này ko cần)
+      // B3: Thực hiện việc gọi API từ server Server
+      $.ajax({
+        url: vBASE_URL,
+        type: "GET",
+        dataType: "json",
+        // async: false,
+        success: function (res) {
+          console.log(res);
+          gAllData = res;
+          // B4: Xử lý trên front-end khi request xử lý xong và trả về response thành công
+          loadOrderToTable(res); // load dữ liệu ra table
+        },
+        error: function (ajaxContext) {
+          alert(ajaxContext.responseText);
+        }
+      });
+    }
+
+    // Hàm load dữ liệu ra bảng sau khi lấy được từ server
+    function loadOrderToTable(paramResponseObj) {
+      "use strict";
+      var vUserTable = $("#table-order");
+      vUserTable.empty();
+      //CODE Ở ĐÂY ĐỂ LOAD DATA VÀO TABLE:
+      for (var bI = 0; bI < paramResponseObj.length; bI++) {
+        var vNewRow =
+          `<tr>
+          <td>${paramResponseObj[bI].orderId}</td>
+          <td>${paramResponseObj[bI].kichCo}</td>
+          <td>${paramResponseObj[bI].loaiPizza}</td>
+          <td>${paramResponseObj[bI].idLoaiNuocUong}</td>
+          <td>${paramResponseObj[bI].thanhTien}</td>
+          <td>${paramResponseObj[bI].hoTen}</td>
+          <td>${paramResponseObj[bI].soDienThoai}</td>
+          <td>${paramResponseObj[bI].trangThai}</td>
+          <td>
+            <button class="btn btn-info user-detail details" 
+            data-id=${paramResponseObj[bI].id} 
+            data-orderid=${paramResponseObj[bI].orderId}>Chi tiết
+            </button>
+          </td>
+        </tr>`;
+        // add row vào bảng
+        vUserTable.append(vNewRow);
+      }
+    }
+  </script>
+</body>
+
+</html>

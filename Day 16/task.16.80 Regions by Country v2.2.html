@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Task 16.80</title>
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <h2>Responsive Form</h2>
+    <p>sample forms 02: multi colums</p>
+
+    <form id="inputform01" class="jumbotron">
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="fname">First Name</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="text" id="inp-fname" name="firstname" placeholder="Your name.." class="form-control">
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="lname">Last Name</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="text" id="inp-lname" name="lastname" placeholder="Your last name.." class="form-control">
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="country">Country</label>
+        </div>
+        <div class="col-sm-3">
+          <select id="select-country" name="country" class="form-control">
+          </select>
+        </div>
+        <div class="col-sm-3">
+          <label for="region">Region</label>
+        </div>
+        <div class="col-sm-3">
+          <select id="select-region" name="region" class="form-control" disabled>
+          </select>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="car">Car</label>
+        </div>
+        <div class="col-sm-3">
+          <select id="select-car" name="car" class="form-control">
+          </select>
+        </div>
+        <div class="col-sm-3">
+          <label for="age">Car type</label>
+        </div>
+        <div class="col-sm-3">
+          <select id="select-car-type" name="car" class="form-control" disabled>
+          </select>
+        </div>
+      </div>
+      <div class="row pull-right">
+        <div class="col-sm-12">
+          <input type="button" value="Send" class="btn btn-info" id="btn-send">
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    // Country information //chưa dùng đến
+    const gJSON_COUNTRY_DATA = `[
+      {"countryCode": "NC","countryName": "None", "Regions": []}, 
+      {"countryCode": "US","countryName": "United States", "regions": [
+          {"regionCode":"0", "regionName":"California"},
+          {"regionCode":"1","regionName":"New york"},
+          {"regionCode":"2","regionName":"Michigan"} 
+        ]
+      },
+      {"countryCode": "CA","countryName": "Canada", "regions": [
+          {"regionCode":"0","regionName":"Ottawa"},
+          {"regionCode":"1","regionName":"Montreal"},
+          {"regionCode":"2","regionName":"Quebec"}
+        ]
+      },
+      {"countryCode": "VN","countryName": "Vietnam", "regions": [
+          {"regionCode":"0","regionName":"Hanoi"},
+          {"regionCode":"1","regionName":"HCMC"},
+          {"regionCode":"2","regionName":"Danang"}
+        ]
+      }
+    ]`;
+
+    //load brand information
+    const gJSON_CAR_DATA = `[
+      {"brandId": "0","brandName": "None", "brandTypes": []}, 
+      {"brandId": "1","brandName": "Audi", "brandTypes": [
+          {"typeId":"0", "typeName":"Q3"},
+          {"typeId":"1","typeName":"Q5"},
+          {"typeId":"2","typeName":"A4"}
+        ]
+      },
+      {"brandId": "2","brandName": "BMW", "brandTypes": [
+          {"typeId":"0","typeName":"1 series"},
+          {"typeId":"1","typeName":"X series"},
+          {"typeId":"2","typeName":"Z series"}
+        ]
+      },
+      {"brandId": "3","brandName": "Citroen", "brandTypes": [
+          {"typeId":"0","typeName":"new C3"},
+          {"typeId":"1","typeName":"C4"},
+          {"typeId":"2","typeName":"BERLINGO"}
+        ]
+      }
+    ]`;
+
+    var gObjectCarData = {};
+    var gObjectCountryData = {};
+
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    onPageLoading();
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    // hàm được gọi khi load trang
+    function onPageLoading() {
+      loadDataToSelectCar();
+      loadDataToSelectCountry();
+    }
+    // hàm dùng để load dữ liệu vào select car
+    function loadDataToSelectCar() {
+      "use strict";
+      // parsing JSOn to object
+      gObjectCarData = JSON.parse(gJSON_CAR_DATA);
+      //add options to select element
+      var vSelectCarElement = document.getElementById("select-car");
+      for (var bIterator = 0; bIterator < gObjectCarData.length; bIterator++) {
+        var vCarOptionElement = document.createElement("option");
+        vCarOptionElement.value = gObjectCarData[bIterator].brandId;
+        vCarOptionElement.text = gObjectCarData[bIterator].brandName;
+        vSelectCarElement.appendChild(vCarOptionElement);
+      }
+      //add eventlistenter; nếu có value mới thì phải đổ lại dữ liệu vào car type
+      vSelectCarElement.addEventListener("change", function () {
+        onSelectCarValueChange(this);
+      });
+    }
+
+    // event handler when car select change
+    // update select-car-type value
+    function onSelectCarValueChange(paramSelectCar) {
+      "user strict";
+      var vSelectCarBrandId = paramSelectCar.value;
+      var vCarTypesData = getBrandTypesByBrandID(vSelectCarBrandId);
+      // Truy xuất phần tử cartype select
+      var vSelectCarTypeElement = document.getElementById('select-car-type');
+      // Xoa bo cac option da co cua carType Select
+      vSelectCarTypeElement.innerHTML = "";
+      // nếu mảng CarType ko có phần tử nào thì sẽ disable carType Select đi
+      if (vCarTypesData.length == 0) {
+        vSelectCarTypeElement.disabled = true;
+      }
+      else { // nếu mảng carType có phần tử thì add phần tử option vào select
+        vSelectCarTypeElement.disabled = false;
+        //add options to types select element
+        for (var bIterator = 0; bIterator < vCarTypesData.length; bIterator++) {
+          var vCarTypeOptionElement = document.createElement("option");
+          vCarTypeOptionElement.value = vCarTypesData[bIterator].typeId;
+          vCarTypeOptionElement.text = vCarTypesData[bIterator].typeName;
+          vSelectCarTypeElement.appendChild(vCarTypeOptionElement);
+        }
+      }
+    }
+
+    // Hàm để load dữ liệu đổ vào select Country
+    function loadDataToSelectCountry() {
+      "use strict";
+      // parsing Json string to Obj
+      gObjectCountryData = JSON.parse(gJSON_COUNTRY_DATA);
+      // add options to select element
+      var vSelectCountryElement = document.getElementById("select-country");
+      for (var bI = 0; bI < gObjectCountryData.length; bI++) {
+        var bCountryOptionElement = document.createElement("option");
+        bCountryOptionElement.value = gObjectCountryData[bI].countryCode;
+        bCountryOptionElement.text = gObjectCountryData[bI].countryName;
+        vSelectCountryElement.appendChild(bCountryOptionElement);
+      }
+      // add eventListener, NẾU CÓ value mới (có nghĩa có sự thay đổi-CHANGE trong thẻ select) thì phải đổ lại dữ liệu
+      vSelectCountryElement.addEventListener("change", function () {
+        onSelectCountryValueChange(this);
+      });
+    }
+
+    // event handler process start when country select change
+    // update select region value
+    function onSelectCountryValueChange(paramSelectCountry) {
+      "use strict";
+      var vSelectCountryCode = paramSelectCountry.value;
+      var vRegionsData = getRegionsByCountryCode(vSelectCountryCode);
+      // truy xuất phần tử select rgion
+      var vSelectRegionElement = document.getElementById("select-region");
+      // Xóa các phần tử option đã có trong select region
+      vSelectRegionElement.innerHTML = "";
+      // nếu region không có phần tử nào thì disabled select region
+      if(vRegionsData.length == 0) {
+        vSelectRegionElement.disabled = true;
+      } else { // nếu có mảng region thì hiển thị thẻ select và đổ dữ liệu vào
+        vSelectRegionElement.disabled = false;
+        for( var bI = 0; bI < vRegionsData.length; bI++) {
+          var bRegionOptionElement = document.createElement("option");
+          bRegionOptionElement.value = vRegionsData[bI].regionCode;
+          bRegionOptionElement.text = vRegionsData[bI].regionName;
+          vSelectRegionElement.appendChild(bRegionOptionElement);
+        }
+      }
+    }
+
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+
+    //find brandtypes array by brandId
+    function getBrandTypesByBrandID(paramBrandId) {
+      "use strict";
+      var vBrandFound = false;
+      var vIterator = 0;
+      var vBrandTypesResult = null;
+      while (!vBrandFound && vIterator < gObjectCarData.length) {
+        if (gObjectCarData[vIterator].brandId === paramBrandId) {
+          vBrandFound = true;
+          vBrandTypesResult = gObjectCarData[vIterator].brandTypes;
+        }
+        else {
+          vIterator++;
+        }
+      }
+      return vBrandTypesResult;
+    }
+
+    //find regions Array in gObjectCountryData by countryCode
+    function getRegionsByCountryCode(paramCountryCode) {
+      "use strict";
+      var vCountryFound = false;
+      var vIterator = 0;
+      var vRegionsResult =null;
+      while(!vCountryFound && vIterator < gObjectCountryData.length) {
+        if(gObjectCountryData[vIterator].countryCode === paramCountryCode) {
+          vCountryFound = true;
+          vRegionsResult = gObjectCountryData[vIterator].regions;
+        } else {
+          vIterator++;
+        }
+      }
+      return vRegionsResult;
+    }
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Sample Task 12.35 </title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <p>Ấn nút để insert row mới vào bảng</p>
+
+    <table id="table-person" class="table table-bordered">
+      <thead>
+        <!-- phần head, dòng tiêu đề  của bảng -->
+        <tr>
+          <td> First Name </td>
+          <td> Last Name </td>
+          <td> Age </td>
+        </tr>
+        <thead>
+        <tbody>
+          <!-- phần dữ liệu của bảng -->
+          <tr>
+            <td>Joe</td>
+            <td>Doe</td>
+            <td>28</td>
+          </tr>
+          <tr>
+            <td>Dun</td>
+            <td>Zent</td>
+            <td>19</td>
+          </tr>
+      <tbody>
+    </table>
+    <button type="button" class="btn btn-info" onclick="onBtnInsertNewRowToTableClick()">thêm hàng mới vào bảng</button>
+  </div>
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    function onBtnInsertNewRowToTableClick() {
+      "use strict";
+      const vEND_OF_TABLE = -1;
+      var vPersonTable = document.getElementById("table-person");
+      // insert to the end of table, thêm row mới vào bảng( <tr> </tr>)
+      var vNewRow = vPersonTable.insertRow(vEND_OF_TABLE);
+      // them moi 03 cell (03 ô) (<td> </td> 
+      var vCellFirstName = vNewRow.insertCell(0);
+      var vCellLastName = vNewRow.insertCell(1);
+      var vCellAge = vNewRow.insertCell(2);
+      //gán giá trị cho các ô
+      vCellFirstName.innerHTML = "Mol";
+      vCellLastName.innerHTML = "Ann";
+      vCellAge.innerHTML = "18";
+    }
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+
+  </script>
+
+</body>
+
+</html>

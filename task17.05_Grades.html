@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="container jumbotron p-4 my-3">
+      <h3>F500 - QUẢN LÝ BẢNG ĐIỂM</h3>
+      <div class="row form-group">
+        <label class="col-md-2 col-form-label">Sinh viêns<span class="text-danger">(*)</span></label>
+        <select class="col-md-2 col-form-label" name="" id="select-student" >
+          <option value="">Chọn một sinh viên...</option>
+        </select>
+      </div>
+      <div class="row form-group">
+        <label class="col-md-2 col-form-label">Điểm<span class="text-danger">(*)</span></label>
+        <input class="col-md-2 col-form-label" type="text" id="input-mark" placeholder="Nhập điểm...">
+      </div>
+      <div class="row form-group">
+        <label class="col-md-2 col-form-label">Môn học<span class="text-danger">(*)</span></label>
+        <select class="col-md-2 col-form-label" name="" id="select-subject" >
+          <option value="">Chọn một môn học...</option>
+        </select>
+      </div>
+      <div class="row form-group">
+        <label class="col-md-2 col-form-label">Ngày thi<spanc class="text-danger">(*)</span></label>
+        <input class="col-md-2 col-form-label" type="text" id="input-test-day" placeholder="Nhập ngày thi...">
+      </div>
+      <div class="col-sm-2">
+        <button type="button" class="btn btn-info" id="btn-save-data" onclick="onBtnSaveDataClick()">Save data</button>
+      </div>
+    </div>
+    <div>
+      <p id="paragraph" style="display:none; text-align: center;"></p>
+    </div>
+    
+  </body>
+  <script>
+  "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    // Json chứa danh sách sinh viên
+    var gJsonStudents = `[
+      {
+        "id": 1,
+        "studentCode": 20071750,
+        "username": "linhdh",
+        "firstname": "Linh",
+        "lastname": "Dinh",
+        "birthday": "25/09/1990",
+        "email": "linh.dinh@gmail.com",
+        "studyYear": 2015
+      },
+      {
+        "id": 2,
+        "studentCode": 20102345,
+        "username": "namdh",
+        "firstname": "Do",
+        "lastname": "Nam",
+        "birthday": "12/10/1990",
+        "email": "nam.d@gmail.com",
+        "studyYear": 2016
+      },
+      {
+        "id": 3,
+        "studentCode": 20071850,
+        "username": "longtt",
+        "firstname": "Tran",
+        "lastname": "Long",
+        "birthday": "04/07/1991",
+        "email": "long@gmail.com",
+        "studyYear": 2015
+      },
+      {
+        "id": 4,
+        "studentCode": 20101234,
+        "username": "dungnp",
+        "firstname": "Ngo",
+        "lastname": "Phuong Dung",
+        "birthday": "10/12/1990",
+        "email": "dung.ngo@hotmail.com",
+        "studyYear": 2017
+      },
+      {
+        "id": 5,
+        "studentCode": 20082850,
+        "username": "minhvd",
+        "firstname": "Vu",
+        "lastname": "Minh",
+        "birthday": "12/12/1992",
+        "email": "minhvu@yahoo.com",
+        "studyYear": 2015
+      },
+      {
+        "id": 6,
+        "studentCode": 20091234,
+        "username": "trungtt",
+        "firstname": "Tran",
+        "lastname": "Trung",
+        "birthday": "05/07/1990",
+        "email": "trungthanh@gmail.com",
+        "studyYear": 2018
+      },
+      {
+        "id": 7,
+        "studentCode": 20077001,
+        "username": "nganp",
+        "firstname": "Ngo Phuong",
+        "lastname": "Nga",
+        "birthday": "04/10/1991",
+        "email": "nganp.mail@yahoo.com",
+        "studyYear": 2014
+      },
+      {
+        "id": 8,
+        "studentCode": 20077002,
+        "username": "kienpc",
+        "firstname": "Pham",
+        "lastname": "Kien",
+        "birthday": "08/10/1990",
+        "email": "kienp@hotmail.com",
+        "studyYear": 2015
+      },
+      {
+        "id": 9,
+        "studentCode": 20077003,
+        "username": "longnp",
+        "firstname": "Ngo",
+        "lastname": "Long",
+        "birthday": "03/11/1990",
+        "email": "longngo@gmail.com",
+        "studyYear": 2014
+      },
+      {
+        "id": 10,
+        "studentCode": 20078750,
+        "username": "minhnt",
+        "firstname": "Nguyen",
+        "lastname": "Minh",
+        "birthday": "12/01/1991",
+        "email": "minhnguyen@yahoo.com",
+        "studyYear": 2016
+      }
+    ]`;
+    
+    // JSON chứa danh sách môn học
+    var gSubjects = `[
+      {
+        "id": 1,
+        "subjectCode": "MAT101",
+        "subjectName": "Toán cao cấp",
+        "credit": 4
+      },
+      {
+        "id": 2,
+        "subjectCode": "PHY101",
+        "subjectName": "Vật lý đại cương",
+        "credit": 3
+      },
+      {
+        "id": 3,
+        "subjectCode": "MAT102",
+        "subjectName": "Giải tích 1",
+        "credit": 4
+      },
+      {
+        "id": 4,
+        "subjectCode": "MAT103",
+        "subjectName": "Toán rời rạc",
+        "credit": 4
+      },
+      {
+        "id": 5,
+        "subjectCode": "PHY103",
+        "subjectName": "Vật lý nguyên tử",
+        "credit": 5
+      },
+      {
+        "id": 6,
+        "subjectCode": "PHY401",
+        "subjectName": "Vật lý chuyên ngành 1",
+        "credit": 2
+      },
+      {
+        "id": 7,
+        "subjectCode": "CHEM301",
+        "subjectName": "Hóa học hữu cơ",
+        "credit": 3
+      },
+      {
+        "id": 8,
+        "subjectCode": "ENG403",
+        "subjectName": "Tiếng Anh chuyên ngành 1",
+        "credit": 3
+      },
+      {
+        "id": 9,
+        "subjectCode": "ENG101",
+        "subjectName": "Tiếng Anh đại cương",
+        "credit": 3
+      },
+      {
+        "id": 10,
+        "subjectCode": "ECO101",
+        "subjectName": "Kinh tế học đại cương",
+        "credit": 3
+      }
+    ]`;
+    
+    /*** REGION 2 - Vùng gán / gọi các hàm xử lý sự kiện cho các elements */
+    onPageLoading();  
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    function onPageLoading() {
+      // gọi hàm dữ liệu vào select học sinh
+      loadDataToSelectStudent();
+      // gọi hàm dữ liệu vào select môn học
+      loadDataToSelectSubject(); 
+    }
+    
+    function onBtnSaveDataClick() {
+      "use strict";
+      //truy xuất phần tử
+      var vSelectStudentElement = document.getElementById("select-student");
+      var vMarkElement = document.getElementById("input-mark");
+      var vSelectSubjectElement = document.getElementById("select-subject");
+      var vTestDayElement = document.getElementById("input-test-day");
+      var vParagraphElement = document.getElementById("paragraph");
+      vParagraphElement.style.display = "block"; //hiển thị vùng thông tin
+      // gán các giá trị ra vùng thông tin
+      vParagraphElement.innerHTML = 
+      "Sinh viên: " + vSelectStudentElement.options[vSelectStudentElement.selectedIndex].text +
+      "<br>Môn học: " + vSelectSubjectElement.options[vSelectSubjectElement.selectedIndex].text + 
+      "<br>Điểm: " + vMarkElement.value + 
+      "<br>Ngày thi: " + vTestDayElement.value;
+    }
+    /*** REGION 4 - Common funtions - Vùng khai báo các hàm dùng chung trong toàn bộ chương trình */
+    // hàm lấy dữ liệu từ JSON và đổ vào Select Student
+    function loadDataToSelectStudent() {
+      "use strict";
+      // parse JSON string ve obj
+      var vDataStudentObj = JSON.parse(gJsonStudents);
+      // put data JSON obj into html select student
+      var vSelectStudentElement = document.getElementById("select-student");
+      for(var bIterator = 0; bIterator < vDataStudentObj.length; bIterator ++) {
+        var bStudentOptionElement = document.createElement("option");
+        bStudentOptionElement.value = vDataStudentObj[bIterator].studentCode;
+        bStudentOptionElement.text = vDataStudentObj[bIterator].lastname + " " + vDataStudentObj[bIterator].firstname;
+        vSelectStudentElement.appendChild(bStudentOptionElement);
+      }
+    }
+    // hàm lấy dữ liệu từ JSON và đổ vào Select Subject
+    function loadDataToSelectSubject() {
+      "use strict";
+      // parse JSON string ve obj
+      var vDataSubjectObj = JSON.parse(gSubjects);
+      // put data JSON obj into html select subject
+      var vSelectSubjectElement = document.getElementById("select-subject");
+      for(var bIterator = 0; bIterator < vDataSubjectObj.length; bIterator ++) {
+        var bSubjectOptionElement = document.createElement("option");
+        bSubjectOptionElement.value = vDataSubjectObj[bIterator].subjectCode;
+        bSubjectOptionElement.text = vDataSubjectObj[bIterator].subjectName;
+        vSelectSubjectElement.appendChild(bSubjectOptionElement);
+      }
+    }
+    
+  </script>
+
+</html>

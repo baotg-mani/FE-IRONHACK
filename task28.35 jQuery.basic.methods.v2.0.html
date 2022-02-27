@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+      /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+      $("#button-1").on("click", showVoucher1);
+      $("#button-2").on("click", showVoucher2);
+      $("#red-button").on("click", changeToRedColor);
+      $("#yellow-button").on("click", changeToYellowColor);
+
+      /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+      function showVoucher1() {
+        // debugger;
+        var vInputVoucher1Element = $("#voucher-01");
+        var vVoucher1 = vInputVoucher1Element.val();
+        var vDivVoucher1Element = $("#ma-giam-gia-01");
+        vDivVoucher1Element.html(vVoucher1);
+      }
+
+      function showVoucher2() {
+        var vTextElement = $("#voucher-02");
+        vTextElement.val($("#ma-giam-gia-02").text()); // ở đây dùng .text() hay .html() đều được
+      }
+
+      function changeToRedColor() {
+        var vDivContentElement = $("#content-div");
+        vDivContentElement.css("color", "red");
+      }
+
+      function changeToYellowColor() {
+        var vDivContentElement = $("#content-div");
+        vDivContentElement.css("color", "yellow");
+      }
+      /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+
+    });
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <h3>jQUERY BASIC METHODS</h3>
+    <!-- Form voucher 01 -->
+    <form id="voucher-form-01" class="row jumbotron">
+      <div class="row form-group">
+        1) Khi ấn nút Kiểm tra 01, lấy giá trị ở ô Mã giảm giá và cho vào thẻ div id = "ma-giam-gia-01" <br>
+        Gợi ý: sử dụng phương thức <span style="color: red;">.val() </span> để lấy giá trị của ô Text; <span
+          style="color: red;">.html() </span> để thay đổi giá trị innerHTML
+      </div>
+      <div class="row form-group align-middle">
+        <div class="col-sm-6 form-inline">
+          <label for="fname">Mã giảm giá</label>
+          <input type="text" id="voucher-01" name="voucher" placeholder="Nhập mã giảm giá.." class="form-control">
+        </div>
+        <div class="col-sm-6 form-inline">
+          <div id="ma-giam-gia-01">ma-giam-gia-01</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <input id="button-1" type="button" value="Kiểm tra 01" class="btn btn-success">
+      </div>
+    </form>
+
+    <!-- Form voucher 02 -->
+    <form id="voucher-form-02" class="row jumbotron">
+      <div class="row form-group">
+        2) Khi ấn nút Kiểm tra 02, lấy giá trị ở trong thẻ div "ma-giam-gia-02" và cho vào ô text id = "voucher-02" <br>
+        Gợi ý: sử dụng phương thức <span style="color: red;">.html() </span> hoặc <span style="color: red;">.text()
+        </span> để lấy giá trị của thẻ div; <span style="color: red;">.val() </span> để thay đổi giá trị ô Text
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-6">
+          <div id="ma-giam-gia-02">24864</div>
+        </div>
+        <div class="col-sm-6 form-inline">
+          <label for="fname">Mã giảm giá</label>
+          <input type="text" id="voucher-02" name="voucher" placeholder="mã giảm giá.." class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <input id="button-2" type="button" value="Kiểm tra 02" class="btn btn-success">
+      </div>
+    </form>
+
+    <!-- Form 2 button -->
+    <form id="content-form" class="row jumbotron">
+      <div class="row form-group">
+        3) Khi ấn 2 nút bên dưới, đổi màu chữ thẻ div có id = "content-div" tương ứng với màu nút<br>
+      </div>
+      <div class="row form-group">
+        <div id="content-div">Nội dung bên trong thẻ div cần đổi màu</div>
+      </div>
+      <div class="form-group">
+        <input id="red-button" type="button" value="Màu đỏ" class="btn btn-danger">
+        <input id="yellow-button" type="button" value="Màu vàng" class="btn btn-warning">
+      </div>
+    </form>
+  </div>
+
+</body>
+
+</html>

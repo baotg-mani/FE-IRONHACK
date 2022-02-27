@@ -1,0 +1,197 @@
+<!-- Bài tập Master-detail -->
+<!-- Task 22.60: trang nguồn -->
+<!-- Task 22.70-22.80: trang đích -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 22.70 & 22.80</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>  
+</head>
+<body>
+    <div class="mt-2 container bg-light rounded">
+        <div class="">
+            <h4>Thông tin người dùng</h4>
+        </div>
+        <div class="">
+            <div class="form-group">
+                <label for="">First Name</label>
+                <div>
+                    <input id="input-firstname" class="form-control" type="text">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="">Last Name</label>
+                <div>
+                    <input id="input-lastname" class="form-control" type="text">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="">Country</label>
+                <div>
+                    <input id="input-country" class="form-control" type="text">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="">Subject</label>
+                <div>
+                    <textarea id="input-subject" class="form-control" type="text" rows="5"></textarea>
+                </div>    
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10" >
+                <button onclick="onEditBtnClick()" class="btn btn-success">Sửa</button>
+            </div>
+            <div class="col-sm-2 text-right" >
+                <a href="Task22.60_Master_Detail.html" class="text-primary text-decoration-underline">Quay lại</a>
+            </div>        
+        </div>
+    </div>
+
+    <script>
+        "use strict";
+        /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+        const gREQUEST_STATUS_OK = 200;
+        const gREQUEST_READY_STATUS_FINISH_AND_OK = 4;
+        const gBASE_URL = "http://42.115.221.44:8080/devcamp-register-java-api/users"
+
+        var gId = null;
+
+        var gDataResponseObj = {
+            firstname: "",
+            lastname: "",
+            country: "",
+            subject: ""
+        }
+        /*** REGION 2 - Vùng gán / thực thi hàm xử lý sự kiện cho các elements */
+        onPageLoading();
+        /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+        function onPageLoading(){
+            // get data from query string
+            var vUrlString = window.location.href; //đường đẫn gọi đến trang
+            console.log(vUrlString);
+            var vUrl = new URL(vUrlString);
+
+            // B1: get parameters ( thu thập dữ liệu - lấy tham số id)
+            gId = vUrl.searchParams.get("id");
+            
+            // B2: validate, nếu không tồn tại id thì alert và trở lại trang nguồn
+            if(gId === null) {
+                alert("Giá trị id bị thiếu"); // đây chính là bước validate yêu cầu phải có id
+                window.location.href = "Task22.60_Master_Detail.html"; // nếu thiếu sẽ Quay trở lại trang nguồn index
+            }
+            else {
+                // B3: send request to get user data
+                var vXmlHttpRequest = new XMLHttpRequest();
+                sendRequestToGetUserData(gId, vXmlHttpRequest);
+                vXmlHttpRequest.onreadystatechange = function () {
+                    if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
+                        console.log(vXmlHttpRequest.responseText);  // xem trên console.log để biết cấu trúc
+                        // B4: xử lý Front-end, đổ dữ liệu vào form
+                        gDataResponseObj = JSON.parse(vXmlHttpRequest.responseText); //parse về Obj
+                        console.log(gDataResponseObj);
+                        handleUserDataResponse(vXmlHttpRequest);
+                    }
+                };
+            }
+        }
+
+        // Hàm xử lý sự kiện click cho nút Sửa
+        function onEditBtnClick() {
+            // B1: thu thập dữ liệu
+            /* obj lưu dữ liệu sau khi sửa để gửi request */
+            var vObjRequestData = {
+                firstname: "",
+                lastname: "",
+                country: "",
+                subject: ""
+            };
+            getEditedData(vObjRequestData);
+            // B2: validate dữ liệu sau khi user chỉnh sửa
+            var vIsDataValidate = validateEditedData(vObjRequestData);
+            if(vIsDataValidate) {
+                // B3: gửi request tới server yêu cầu sửa thông tin và update mới ở trang nguồn 
+                var vXmlHttp = new XMLHttpRequest();   // new HttpRequest instance 
+                var vUrlUpdateInfo = gBASE_URL + "/" + gId;
+                vXmlHttp.open("PUT", vUrlUpdateInfo);
+                // B4: xử lý sự kiện trên front-end
+                vXmlHttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                vXmlHttp.onreadystatechange = function () {
+                    if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
+                        alert("Cập nhật thông tin thành công: " + this.responseText);
+                    }
+                };
+                vXmlHttp.send(JSON.stringify(vObjRequestData)); //send request
+            }
+            
+
+        }
+        /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+        // hàm Send Rquest để lấy data
+        function sendRequestToGetUserData(paramId, paramXmlHttp) {
+            paramXmlHttp.open("GET", gBASE_URL + "/" + paramId, true);
+            paramXmlHttp.send();
+        }
+
+        // hàm xử lý sự kiện hiển thị lên form
+        function handleUserDataResponse(paramXmlHttp) {
+            // truy xuất các elements
+            var vInputFirstnameElement = document.getElementById("input-firstname");
+            var vInputLastnameElement = document.getElementById("input-lastname");
+            var vInputCountryElement = document.getElementById("input-country");
+            var vInputSubjectElement = document.getElementById("input-subject");
+            // gán dữ liệu vào các elements (hiển thị ra form)
+            vInputFirstnameElement.value = gDataResponseObj.firstname;
+            vInputLastnameElement.value = gDataResponseObj.lastname;
+            vInputCountryElement.value = gDataResponseObj.country;
+            vInputSubjectElement.value = gDataResponseObj.subject;
+        }
+        
+        // thu thập lại dữ liệu sau khi sửa
+        function getEditedData(paramObjRequestData) {
+            // truy xuất elements
+            var vInputFirstnameElement = document.getElementById("input-firstname");
+            var vInputLastnameElement = document.getElementById("input-lastname");
+            var vInputCountryElement = document.getElementById("input-country");
+            var vInputSubjectElement = document.getElementById("input-subject");
+            // thu thập dữ liệu
+            paramObjRequestData.firstname = vInputFirstnameElement.value.trim();
+            paramObjRequestData.lastname = vInputLastnameElement.value.trim();
+            paramObjRequestData.country = vInputCountryElement.value.trim();
+            paramObjRequestData.subject = vInputSubjectElement.value.trim();
+        }
+
+        // hàm validate data sau khi sửa
+        function validateEditedData(paramObjRequestData) {
+            if(paramObjRequestData.firstname === "") {
+                alert("firstname not found!");
+                return false;
+            }
+            if(paramObjRequestData.lastname === "") {
+                alert("lastname not found!");
+                return false;
+            }
+            if(paramObjRequestData.country === "") {
+                alert("country not found!");
+                return false;
+            }
+            if(paramObjRequestData.subject === "") {
+                alert("subject not found!");
+                return false;
+            }
+
+            return true;
+        }
+
+    </script>
+</body>
+</html>

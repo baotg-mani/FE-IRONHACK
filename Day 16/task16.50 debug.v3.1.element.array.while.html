@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 14.50</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<html>
+<script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    // carsdb: database of cars
+    // vID: vehicle identification number
+    const gCAR_DB = [
+        { make: "Ford", model: "Explorer", year: 2017, color: "white", vID: "AB-10111" },
+        { make: "Toyota", model: "Corolla", year: 2018, color: "silver", vID: "DN-23218" },
+        { make: "Mazda", model: "Mazda 6", year: 2020, color: "red", vID: "TZ-23212" },
+        { make: "Toyota", model: "Fortuna", year: 2016, color: "black", vID: "IN-91925" },
+        { make: "Mazda", model: "Mazda 3", year: 2019, color: "silver", vID: "MN-44593" }
+    ];
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    onLoadPaging();
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    function onLoadPaging() {
+        "use strict";
+        //đây là code chay thử của function getCarByVID
+        var vMyCar = getCarByVID("MN-44593");
+        if (vMyCar !== null) {
+            console.log(vMyCar);
+        }
+        else {
+            // console.log("Car Not found");
+            throw ("404: Car not found!");
+        }
+    }
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    //return a car bay vID
+    function getCarByVID(paramCarVID) {
+        "use strict";
+        debugger;
+        var vCarFound = false;
+        var vIterator = 0;
+        var vCarResult = null;
+        while (!vCarFound & vIterator < gCAR_DB.length) {
+            if (gCAR_DB[vIterator].vID === paramCarVID) {
+                vCarFound = true;
+                vCarResult = gCAR_DB[vIterator];
+                
+            }
+            else {
+                vIterator++;
+                console.assert(false, "not true yet!");
+            }
+        }
+        return vCarResult;
+    }
+
+</script>
+
+<body class="bg-light">
+    <div class="container">
+        <h1> Test Page for Devcamp Javascrip Tasks </h1>
+        <p> Press F5 to run code. Don't forget to Save your code before running. (Ctrl+S). </p>
+    </div>
+</body>
+
+</html>

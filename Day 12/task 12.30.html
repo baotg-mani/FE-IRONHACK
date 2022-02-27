@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> Task 12.30 </title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head> 
+
+<body>
+  <!-- Bắt đầu vùng form màu xám -->
+  <div class="container jumbotron p-4 my-3">
+    <div class="row form-group">
+      <label id="label-ma-mon" class="col-md-2 col-form-label">Mã môn học <span class="text-danger">(*)</span></label>
+      <div class="col-md-4">
+        <input type="text" class="form-control" placeholder="Nhập mã môn ..." id="input-ma-mon">
+      </div>
+    </div>
+    <div class="row form-group">
+      <label id="label-ten-mon" class="col-md-2 col-form-label">Tên môn <span class="text-danger">(*)</span></label>
+      <div class="col-md-4">
+        <input type="text" class="form-control" placeholder="Nhập tên môn ..." id="input-ten-mon">
+      </div>
+    </div>
+    <div class="row form-group">
+      <label id="label-so-tin-chi" class="col-md-2 col-form-label">Số tín chỉ <span class="text-danger">(*)</span></label>
+      <div class="col-md-4">
+        <input type="text" class="form-control" placeholder="Nhập số tín chỉ ..." id="input-tin-chi">
+      </div>
+      <div class="col-sm-2">
+        <button type="button" class="btn btn-info" id="btn-save-data" onclick="onBtnSaveDataClick()">Save data</button>
+      </div>
+    </div>
+  </div>
+  <!-- Kết thúc vùng form màu xám -->
+
+  <!-- vùng hiển thị thông tin môn học -->
+  <div id="div-container-subject" class="container bg-info" style="display: none;">
+    <div id="div-subject-infor" class="text-white p-3">...</div>
+  </div>
+
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    //goi hàm load trang
+    onPageLoading();
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+
+    // Hàm xử lý sự kiện load trang
+    function onPageLoading() {
+      var vInputMaMonElement = document.getElementById("input-ma-mon");
+      var vInputTenMonElement = document.getElementById("input-ten-mon");
+      var vInputTinChiElement = document.getElementById("input-tin-chi");
+      var vBtnSaveDataElement = document.getElementById("btn-save-data");
+      //debugger;
+    }
+
+    function onBtnSaveDataClick() {
+      //console.log("Lưu dữ liệu môn học");
+      //debugger;
+      // khai báo đối tượng môn học chứa dữ liệu
+      var vMonHoc = {
+        maMon: "",
+        tenMon: "",
+        soTinChi: 0
+      }
+      // B1: thu thập dữ liệu
+      getFormData(vMonHoc);
+
+      // B2: kiểm tra dữ liệu
+      var vIsValidData = validateData(vMonHoc);
+             
+      if (vIsValidData) {
+        // B3: ghi dữ liệu vào vùng màu vàng
+        showDataMonHoc(vMonHoc);
+      }
+    }
+    
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    //Hàm thu thập dữ liệu
+    //Input: biến chứa dữ liệu môn học
+    //Output: biến chứa các giá trị nhập trên form
+    function getFormData(paramMonHoc) {
+      //truy suất phần tử
+      var vInputMaMonElement = document.getElementById("input-ma-mon");
+      var vInputTenMonElement = document.getElementById("input-ten-mon");
+      var vInputTinChiElement = document.getElementById("input-tin-chi");
+      
+      //gán giá trị cho tham số môn học
+      paramMonHoc.maMon = vInputMaMonElement.value.trim();
+      paramMonHoc.tenMon = vInputTenMonElement.value.trim();
+      paramMonHoc.soTinChi = parseInt(vInputTinChiElement.value.trim());
+    }
+
+    //Hàm kiểm tra dữ liệu trên form
+    function validateData(paramMonHoc) {
+      if (paramMonHoc.maMon === "") {
+        alert("Phải nhập vào mã môn học");
+        return false;
+      }
+      if (paramMonHoc.tenMon === "") {
+        alert("Phải nhập vào tên môn học");
+        return false;
+      }
+      if (paramMonHoc.soTinChi === 0 || isNaN(paramMonHoc.soTinChi)) {
+        alert("Phải nhập vào số tín chỉ");
+        return false;
+      }
+      return true;
+    }
+
+    //Hàm hiển thị thông tin môn học
+    function showDataMonHoc(paramMonHoc) {
+      var vDivContainerSubjectElement = document.getElementById("div-container-subject");//vùng chứa màu xanh
+      var vDivSubjectInforElement = document.getElementById("div-subject-infor");//vùng hiển thị nội dung môn học
+      //hiển thị vùng chứa màu xanh
+      vDivContainerSubjectElement.style.display = 'block';
+
+      //hiển thị dữ liệu
+      vDivSubjectInforElement.innerHTML = "Mã môn học: " + paramMonHoc.maMon;
+      vDivSubjectInforElement.innerHTML += "<br/>Tên môn học: " + paramMonHoc.tenMon;
+      vDivSubjectInforElement.innerHTML += "<br/>Số tín chỉ: " + paramMonHoc.soTinChi;
+    }
+  </script>
+</body>
+
+</html>

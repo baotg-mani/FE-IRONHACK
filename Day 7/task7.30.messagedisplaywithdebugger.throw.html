@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+
+<script>
+  "use strict";
+  /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+  /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+
+  /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+  // bước 1: bỏ comment các dòng t10 - để kích hoạt throw khi có bất thường, muốn STOP ngay
+  // bước 2: bỏ comment các dòng t15 - bật debugger và đi từng dòng (F9), chú ý watch
+  // bước 3: bỏ commnet các dòng console.log để theo dõi quá trình
+  function onBtnWriteMessageBClick() {
+    "use strict";
+    // debugger;   //t15
+    var vElementInputText = document.getElementById("input-message");  //dùng DOM để truy cập element message
+    // khẳng định vElementInputText ko phải null, và stop ngay nếu việc đó xảy ra 
+    if (!vElementInputText) { throw("310: vElementInputText Not found"  ); }  //t10
+
+    // thử viết giá trị ra console.log để theo dõi
+    console.log("320: element Input Text" + vElementInputText.value); //t20
+
+    var vElementParagraphDisplay = document.getElementById("log-result-display");
+    // khẳng định vElementParagraphDisplay ko phải null, và stop ngay nếu việc đó xảy ra 
+    if (!vElementParagraphDisplay) { throw("330: vElementParagraphDisplay Not found"  ); }  //t10
+
+    // thử viết giá trị ra console.log để theo dõi
+    console.log("340: element Paragraph Display" + vElementParagraphDisplay.innerHTML); //t20
+    vElementParagraphDisplay.innerHTML = vElementInputText.value;
+  }
+
+  /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+
+</script>
+
+<body>
+  <div class="container jumbotron">
+    <form id="sample-form">
+      <div class="form-group"> 
+        <label for="inputmsg">Input text</label>
+      </div>
+      <div class="form-group">
+        <input type="text" id="input-message" name="inputmsg" placeholder="...">
+      </div>
+      <div class="form-group">
+        <input type="button" class="btn btn-primary" onclick="onBtnWriteMessageBClick()" value="B: Viết thông điệp xuống dưới với throw and debugger">
+      </div>
+    </form>
+    <div>
+      <p id="log-result-display" style="color:green"> ...message come here... </p>
+    </div>
+  </div>
+
+</body>
+
+</html>

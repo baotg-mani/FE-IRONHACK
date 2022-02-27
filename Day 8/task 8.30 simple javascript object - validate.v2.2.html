@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <title> simple javascript object</title>
+</head>
+<script>
+  "use strict";
+  /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+
+  /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+
+  /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+  // hàm xử lý sự kiện clear HTMLLog
+  function onBtnMyClearHTMLLogClick() {
+    var vElementInputParagraph = document.getElementById("p-inner-html-log");
+    vElementInputParagraph.innerHTML = ">";
+  }
+
+  // hàm xử lý sự kiện submit persondata
+  function onBtnSubmitPersonDataClick() {
+    // đối tượng personInput có các properties firstName, LastName, Age
+    // có các method: fullName() và displayInHTMLLog();
+    var vPersonInput = {
+      firstName: "...",
+      lastName: "...",
+      age: -1,
+      //method fullName
+      fullName: function () {
+        return this.firstName + " " + this.lastName;
+      },
+      //method displayInHTMLLog -- hiện thị ra luôn trên web (tiện hơn cho bạn so với console log)
+      displayInHTMLLog: function () {
+        //write to HTML log
+        writeToHTMLLog("firstName: " + this.firstName);
+        writeToHTMLLog("lastName: " + this.lastName);
+        writeToHTMLLog("age: " + this.age);
+      }
+
+    }
+    //get firstName
+    var vFirstNameInputElement = document.getElementById("inp-first-name");
+    vPersonInput.firstName = vFirstNameInputElement.value;
+    //get last name
+    var vLastNameInputElement = document.getElementById("inp-last-name");
+    vPersonInput.lastName = vLastNameInputElement.value;
+    // debugger;
+    //getAge là function để lấy age và có check dữ liệu đầu vào
+    var vAge = getAge();
+    if (vAge === -1) {
+      writeToHTMLLog("Tuổi nhập vào không hợp lệ!")
+    }
+    else {
+      vPersonInput.age = vAge;
+      // display in HTML Log
+      vPersonInput.displayInHTMLLog();
+    }
+  }
+  
+  /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+  //write to HTML Log instead of to console.log
+  function writeToHTMLLog(paramStrToWrite) {
+    var vElementInputParagraph = document.getElementById("p-inner-html-log");
+    vElementInputParagraph.innerHTML += paramStrToWrite + "<br>" + ">";
+  }
+
+  //get and check age value in the input field
+  function getAge() {
+    var vAgeElement = document.getElementById("inp-age");
+    var vInputStr = vAgeElement.value.trim(); // đọc text ở ô input
+    
+    if(vInputStr === "") {
+      console.assert(false, 'Age must be filled');
+      return -1;
+    }
+
+    // Kiểm tra giá trị đầu vào: nếu KHÔNG phải là số thì sẽ assert cảnh báo và return giá trị -1
+    if (isNaN(vInputStr)) {
+      console.assert(false, " Age input  is not a number !!! ");
+      return -1;
+    }
+    
+    // chuyển giá trị tuổi sang dạng số, hệ cơ số 10
+    var vAgeNumber = parseInt(vInputStr, 10);
+    // Kiểm tra tuổi: nếu < 0 hoặc > 150 thì sẽ assert cảnh báo và return giá trị -1
+    if (vAgeNumber < 0 || vAgeNumber > 220) { // bạn có thể sửa dòng code này để tăng tuổi thọ lên 220 
+      console.log(vAgeNumber);
+      console.assert(false, " Age input  is not in provided range !!! ");
+      return -1;
+    }
+
+    return vAgeNumber;
+  }
+
+</script>
+
+<body>
+  <div class="container jumbotron p-4">
+    <div class="form-group">
+      <p id="cmt2dev">
+        Test Page for Javascript Tasks. Press F5 to run code.
+        Don't forget to Save your code before running. (Ctrl+S). </p>
+    </div>
+    <label id="firstnamelabel"> FirstName: </label>
+    <div class="form-group">
+      <input class="form-control w-25" type="text" id="inp-first-name" placeholder="FirstName ...">
+    </div>
+    <label id="lastnamelabel"> LastName: </label>
+    <div class="form-group">
+      <input class="form-control w-25" type="text" id="inp-last-name" placeholder="LastName ...">
+    </div>
+    <label id="agelabel"> Age: </label>
+    <div class="form-group">
+      <input class="form-control w-25" type="text" id="inp-age" placeholder="Age ...">
+    </div>
+    <div class="form-group">
+      <button type="button" class="btn btn-primary w-25" onclick="onBtnSubmitPersonDataClick()"> Submit Data </button>
+    </div>
+    <hr>
+    <div class="form-group">
+      <button type="button" class="btn btn-success w-25" onclick="onBtnMyClearHTMLLogClick()"> Clear HTML Log </button>
+    </div>
+    <div class="form-group">
+      <p id="p-inner-html-log"> > </p>
+    </div>
+  </div>
+</body>
+
+</html>

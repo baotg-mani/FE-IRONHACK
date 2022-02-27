@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Registration Car Form</h2>
+
+    <form id="inputform01" class="jumbotron container">
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="input-fname">First Name</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="text" id="input-fname" name="firstname" placeholder="Your first name ..." class="form-control">
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="input-lname">Last Name</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="text" id="input-lname" name="lastname" placeholder="Your last name ..." class="form-control">
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="country-select">Country</label>
+        </div>
+        <div class="col-sm-3">
+          <select id="country-select" name="country" class="form-control">
+          </select>
+        </div>
+        <div class="col-sm-3">
+          <label for="region-type-select">Region</label>
+        </div>
+        <div class="col-sm-3">
+          <select id="region-type-select" name="region" class="form-control">
+          </select>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="car-select">Car</label>
+        </div>
+        <div class="col-sm-3">
+          <select id="car-select" name="car" class="form-control">
+          </select>
+        </div>
+        <div class="col-sm-3">
+          <label for="car-type-select">Car type</label>
+        </div>
+        <div class="col-sm-3">
+          <select id="car-type-select" name="car-type" disabled class="form-control">
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12" style="text-align: right;">
+          <input type="button" value="Send" class="btn btn-info" id="btn-send">
+        </div>
+      </div>
+    </form>
+  </div>
+  <script>
+    "use strict";
+    /*** REGION 1 - Global variables - Vùng khai báo biến, hằng số, tham số TOÀN CỤC */
+    // car brand information
+    var gJsonCarData = `[
+                          {"brandId": "0","brandName": "None", "brandTypes": []}, 
+                          {"brandId": "1","brandName": "Audi", "brandTypes": [{"typeId":"0", "typeName":"Q3"},{"typeId":"1","typeName":"Q5"},{"typeId":"2","typeName":"A4"}]},
+                          {"brandId": "2","brandName": "BMW", "brandTypes": [{"typeId":"0","typeName":"1 series"},{"typeId":"1","typeName":"X series"},{"typeId":"2","typeName":"Z series"}]},
+                          {"brandId": "3","brandName": "Citroen", "brandTypes": [{"typeId":"0","typeName":"new C3"},{"typeId":"1","typeName":"C4"},{"typeId":"2","typeName":"BERLINGO"}]}
+                        ]`;
+
+    // country information
+    var gJsonCountryData = `[
+                            {"countryId": "0","countryName": "None", "regionTypes": []}, 
+                            {"countryId": "1","countryName": "Việt nam", "regionTypes": 
+                                                                        [
+                                                                          {"regionId":"0", "regionName":"Hà Nội"},
+                                                                          {"regionId":"1","regionName":"Hồ Chí Minh"},
+                                                                          {"regionId":"2","regionName":"Đà Nẵng"}]},
+                            {"countryId": "2","countryName": "Mỹ", "regionTypes": 
+                                                                        [
+                                                                          {"regionId":"0","regionName":"Atlanta"},
+                                                                          {"regionId":"1","regionName":"New York"},
+                                                                          {"regionId":"2","regionName":"Boston"}
+                                                                        ]},
+                            {"countryId": "3","countryName": "Phần lan", "regionTypes": 
+                                                                        [
+                                                                          {"regionId":"0","regionName":"Nam Phần Lan"},
+                                                                          {"regionId":"1","regionName":"Tây Phần Lan"},
+                                                                          {"regionId":"2","regionName":"Đông Phần Lan"}
+                                                                        ]}
+                          ]`;
+
+    var gObjectCarData = JSON.parse(gJsonCarData);
+
+    /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
+    $(document).ready(function () {
+      loadDataToCarSelect();
+      // gán sự kiện change cho select car
+      $("#car-select").on("change", function () {
+        onSelectCarChange(this);
+      });
+      //debugger;
+      $("#btn-send").on("click", function () {
+        onBtnSendClick();
+      });
+
+    });
+
+    /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+    // hàm thực thi sự kiện change của select car
+    function onSelectCarChange(paramCarSelect) {
+      //debugger;
+      var vBrandId = $(paramCarSelect).val();
+      loadDataToCarTypeSelect(vBrandId);
+    }
+    //hàm thực hiện sự kiện click của button send
+    function onBtnSendClick() {
+      // khai báo đối tượng chứa dữ liệu
+      var vRegisterCarObj = {
+        firstName: "",
+        lastName: "",
+        carBrandId: "",
+        carBrandName: "",
+        carTypeId: "",
+        carTypeName: ""
+      };
+      sendObjToConsole(vRegisterCarObj);
+      // B1: thu thập dữ liệu
+      getFormData(vRegisterCarObj);
+      // B2: validate (ko có)
+      // B3: send dữ liệu
+      sendObjToConsole(vRegisterCarObj);
+    }
+    // hàm thu thập dữ liệu
+    function getFormData(paramFormObj) {
+      //debugger;
+      paramFormObj.firstName = $("#input-fname").val().trim();
+      paramFormObj.lastName = $("#input-lname").val().trim();
+      paramFormObj.carBrandId = $("#car-select").val();
+      paramFormObj.carBrandName = $("#car-select option:selected").text();
+      paramFormObj.carTypeId = $("#car-type-select").val();
+      paramFormObj.carTypeName = $("#car-type-select option:selected").text();
+    }
+    // send data vào console
+    function sendObjToConsole(paraFormObj) {
+      console.log(paraFormObj);
+    }
+
+    /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
+    /**
+     * get brandType by brandId
+     * input: brandId of a car
+     * output: brandType name of found car. If not found, it returns null
+     */
+    function getBrandTypeByBrandID(paramBrandId) {
+      var vBrandFound = false;
+      var vBrandTypesResult = null;
+      var vIterator = 0;
+      while (!vBrandFound && vIterator < gObjectCarData.length) {
+        if (gObjectCarData[vIterator].brandId === paramBrandId) {
+          vBrandFound = true;
+          vBrandTypesResult = gObjectCarData[vIterator].brandTypes;
+        }
+        else {
+          vIterator++;
+        }
+      }
+      return vBrandTypesResult;
+    }
+
+    // hàm load dữ liệu vào car type dựa vào brandId
+    function loadDataToCarTypeSelect(paramBrandId) {
+      //debugger;
+      var vBrandTypeArr = getBrandTypeByBrandID(paramBrandId);
+      var vCarTypeSelect = $("#car-type-select");
+      // xóa trắng dữ liệu ở select car type
+      vCarTypeSelect.html("");
+      // kiểm tra xem mảng brandType có dữ liệu ko?
+      if (vBrandTypeArr.length === 0) {
+        vCarTypeSelect.prop("disabled", true);
+      }
+      else {
+        // load dữ liệu vào select car type
+        for (var bI = 0; bI < vBrandTypeArr.length; bI++) {
+          var bCarTypeOption = $("<option/>", {
+            text: vBrandTypeArr[bI].typeName,
+            value: vBrandTypeArr[bI].typeId
+          }).appendTo(vCarTypeSelect);
+        }
+        vCarTypeSelect.prop("disabled", false);
+      }
+    }
+
+    // hàm thực hiện việc load dữ liệu vào select car
+    function loadDataToCarSelect() {
+      for (var bI = 0; bI < gObjectCarData.length; bI++) {
+        // C2:
+        var bCarOption = $("<option/>", {
+          text: gObjectCarData[bI].brandName,
+          value: gObjectCarData[bI].brandId
+        }).appendTo($("#car-select"));
+      }
+    }
+
+  </script>
+
+
+  <script>
+
+
+  </script>
+
+</body>
+
+</html>
